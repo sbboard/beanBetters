@@ -25,7 +25,7 @@ const calcWidth = computed(() => {
     background-color: var(--black);
     text-wrap: nowrap;
     width: 100%;
-    color: white;
+    color: var(--black);
     flex-direction: row;
     justify-content: space-between;
     padding: 5px;

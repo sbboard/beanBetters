@@ -15,7 +15,7 @@ const toggleOpen = () => (isOpen.value = !isOpen.value);
             <RouterLink v-if="isLoggedIn" to="/profile/">My Profile</RouterLink>
             <RouterLink v-else to="/login/">Register / Login</RouterLink>
             <RouterLink to="/bets">Make Bets</RouterLink>
-            <RouterLink to="/leaderboards">Leaderboards</RouterLink>
+            <!-- <RouterLink to="/leaderboards">Leaderboards</RouterLink> -->
             <RouterLink to="/earn">Earn Beans</RouterLink>
         </nav>
     </div>
@@ -35,7 +35,7 @@ nav {
     position: fixed;
     right: 0px;
     top: 50px;
-    background-color: white;
+    background-color: var(--black);
     border: 1px solid var(--themeColor);
     padding: 15px;
     font-size: 1.25em;

@@ -18,24 +18,65 @@ const regCopy = computed(() =>
 
 <template>
     <div class="login">
-        <div v-if="!isLogin">
-            TIP: Use a password that's easy to remember like 123456 or password
+        <div class="alert" v-if="!isLogin">
+            <b>TIP:</b> Use a password that's easy to remember like 123456 or
+            password
         </div>
         <form>
+            <label for="username">Username</label>
             <input type="text" v-model="username" placeholder="Username" />
+            <label for="password">Password</label>
             <input type="password" v-model="password" placeholder="Password" />
-            <input
-                type="passConfirm"
-                v-model="passConfirm"
-                placeholder="Confirm Password"
-            />
+            <template v-if="!isLogin">
+                <label for="passConfirm">Confirm Password</label>
+                <input
+                    type="passConfirm"
+                    v-model="passConfirm"
+                    placeholder="Confirm Password"
+                />
 
-            <input type="email" v-model="email" placeholder="Email" required />
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    v-model="email"
+                    placeholder="Email"
+                    required
+                />
+            </template>
 
             <button type="submit">{{ submitCopy }}</button>
         </form>
-        <div @click="() => (isLogin = !isLogin)">{{ regCopy }}</div>
+        <div class="swap" @click="() => (isLogin = !isLogin)">
+            {{ regCopy }}
+        </div>
     </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.alert {
+    border: 1px solid var(--themeColor);
+    padding: 1em;
+    margin-bottom: 1em;
+    b {
+        font-weight: bold;
+    }
+}
+.swap {
+    cursor: pointer;
+    color: var(--themeColor);
+    text-decoration: underline;
+    text-align: center;
+}
+
+form {
+    margin: 0 auto;
+    width: 100%;
+    input {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.5em;
+        box-sizing: border-box;
+    }
+    margin-bottom: 1em;
+}
+</style>

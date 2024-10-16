@@ -16,11 +16,17 @@ import Nav from './components/Nav.vue';
 
 <style lang="scss">
 html {
-    --themeColor: #8278d0;
-    --black: #1a1a1a;
+    --themeColor: #30ff8c;
+    --black: #141414;
     font-family: 'Nunito', sans-serif;
-    color: var(--black);
+    color: white;
     font-size: 18px;
+    min-height: 100vh;
+}
+
+body {
+    height: 100%;
+    background: linear-gradient(180deg, var(--black) 0%, black 100%);
 }
 header {
     position: fixed;
@@ -32,19 +38,25 @@ header {
     border-bottom: var(--themeColor) 1px solid;
     padding: 10px;
     z-index: 5000;
-    background-color: white;
+    background-color: var(--black);
     a {
         margin: auto 0;
         img {
             max-width: calc(100% - 2em);
             height: auto;
             max-height: 45px;
+            filter: hue-rotate(260deg) saturate(2.5);
         }
     }
 }
 main {
-    margin-top: 60px;
-    padding: 10px;
+    margin: 70px auto 0;
+    max-width: 500px;
+    width: 100%;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 a {
