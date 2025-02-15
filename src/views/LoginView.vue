@@ -1,53 +1,93 @@
-<script setup lang="ts">
-import { computed, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { useFetch } from '@vueuse/core';
 
-const isLogin = ref(true);
-const username = ref('');
-const password = ref('');
-const passConfirm = ref('');
-const email = ref('');
+const newUser = ref({
+    name: '',
+    password: '',
+});
 
-const submitCopy = computed(() => (isLogin.value ? 'Login' : 'Register'));
+const loginCredentials = ref({
+    name: '',
+    password: '',
+});
 
-const regCopy = computed(() =>
-    isLogin.value
-        ? "Don't Have An Account? Register"
-        : 'Already Have An Account? Login'
-);
+const userInfo = ref<any>(null); // Using any for the response type
+const loginError = ref<string | null>(null);
+
+const api = import.meta.env.VITE_API;
+const registerUser = async () => {
+    const { data, error } = await useFetch(`${api}/user/register`, {
+        method: 'POST',
+        body: JSON.stringify(newUser.value),
+        headers: { 'Content-Type': 'application/json' },
+    }).json();
+
+    console.log('Register Data:', data);
+    console.log('Register Error:', error);
+
+    if (error) {
+        console.error('Registration error:', error);
+    } else {
+        console.log('Registration successful:', data);
+    }
+};
+
+const loginUser = async () => {
+    const { data, error } = await useFetch(`${api}/user/login`, {
+        method: 'POST',
+        body: JSON.stringify(loginCredentials.value),
+        headers: { 'Content-Type': 'application/json' },
+    }).json();
+
+    console.log('Login Data:', data);
+    console.log('Login Error:', error);
+
+    if (error) {
+        loginError.value = 'Login failed. Please check your credentials.';
+        console.error('Login error:', error);
+    } else {
+        userInfo.value = data;
+        console.log('Login successful:', data);
+    }
+};
 </script>
 
 <template>
-    <div class="login">
-        <div class="alert" v-if="!isLogin">
-            <b>TIP:</b> Use a password that's easy to remember like 123456 or
-            password
-        </div>
-        <form>
-            <label for="username">Username</label>
-            <input type="text" v-model="username" placeholder="Username" />
-            <label for="password">Password</label>
-            <input type="password" v-model="password" placeholder="Password" />
-            <template v-if="!isLogin">
-                <label for="passConfirm">Confirm Password</label>
-                <input
-                    type="passConfirm"
-                    v-model="passConfirm"
-                    placeholder="Confirm Password"
-                />
-
-                <label for="email">Email</label>
-                <input
-                    type="email"
-                    v-model="email"
-                    placeholder="Email"
-                    required
-                />
-            </template>
-
-            <button type="submit">{{ submitCopy }}</button>
+    <div>
+        <h1>Register</h1>
+        <form @submit.prevent="registerUser">
+            <input v-model="newUser.name" placeholder="Name" required />
+            <input
+                type="password"
+                v-model="newUser.password"
+                placeholder="Password"
+                required
+            />
+            <button type="submit">Register</button>
         </form>
-        <div class="swap" @click="() => (isLogin = !isLogin)">
-            {{ regCopy }}
+
+        <h1>Login</h1>
+        <form @submit.prevent="loginUser">
+            <input
+                v-model="loginCredentials.name"
+                placeholder="Name"
+                required
+            />
+            <input
+                type="password"
+                v-model="loginCredentials.password"
+                placeholder="Password"
+                required
+            />
+            <button type="submit">Login</button>
+        </form>
+
+        <div v-if="userInfo">
+            <p>Welcome, {{ userInfo.name }}!</p>
+        </div>
+        <div v-if="loginError" class="error">
+            <p>{{ loginError }}</p>
         </div>
     </div>
 </template>
