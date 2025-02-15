@@ -15,8 +15,8 @@ const toggleOpen = () => (isOpen.value = !isOpen.value);
             <RouterLink v-if="isLoggedIn" to="/profile/">My Profile</RouterLink>
             <RouterLink v-else to="/login/">Register / Login</RouterLink>
             <RouterLink to="/bets">Make Bets</RouterLink>
-            <!-- <RouterLink to="/leaderboards">Leaderboards</RouterLink> -->
-            <RouterLink to="/earn">Earn Beans</RouterLink>
+            <RouterLink to="/leaderboards">Leaderboards</RouterLink>
+            <RouterLink to="/test">Test</RouterLink>
         </nav>
     </div>
 </template>

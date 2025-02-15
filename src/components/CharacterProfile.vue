@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { transform } from 'typescript';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 const props = defineProps<{
@@ -20,7 +19,7 @@ const rightEye = ref({ x: 0, y: 0 });
 
 let interval: ReturnType<typeof setInterval>;
 
-const updateEye = (e: MouseEvent) => {
+const updateEye = () => {
     const RNG = 25;
     leftEye.value.x = Math.floor(Math.random() * RNG) - RNG / 2;
     leftEye.value.y = Math.floor(Math.random() * RNG) - RNG / 2;
@@ -60,7 +59,6 @@ onUnmounted(() => {
                 <div class="pupil"><div class="glow"></div></div>
             </div>
         </div>
-        <button disabled>Give Gift (No Gifts In Inventory)</button>
     </div>
 </template>
 
