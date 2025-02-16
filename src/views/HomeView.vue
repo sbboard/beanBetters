@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const random = Math.floor(Math.random() * 50) + 1 + 'px';
+const random = Math.floor(Math.random() * 10) + 1 + 'px';
 const flipped = `-${random}`;
 </script>
 
