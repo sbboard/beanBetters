@@ -62,7 +62,8 @@ const loginUser = async () => {
 </script>
 
 <template>
-    <div>
+    <div class="login">
+        <img src="/assets/happy.jpg" />
         <template v-if="registerTab">
             <h1>Register As a Gambler</h1>
             <form @submit.prevent="registerUser">
@@ -76,6 +77,7 @@ const loginUser = async () => {
                 <button type="submit">Register</button>
             </form>
         </template>
+
         <template v-else>
             <h1>Login To Continue Your Gambling Journey</h1>
             <form @submit.prevent="loginUser">
@@ -91,7 +93,11 @@ const loginUser = async () => {
                     required
                 />
                 <button type="submit">Login</button>
-                <div v-if="!forgotPassword" @click="forgotPassword = true">
+                <div
+                    class="forgot"
+                    v-if="!forgotPassword"
+                    @click="forgotPassword = true"
+                >
                     Forgot Password?
                 </div>
                 <div class="tooBad" v-else>Too bad idiot!</div>
@@ -101,7 +107,7 @@ const loginUser = async () => {
                 <p>{{ loginError }}</p>
             </div>
         </template>
-        <div @click="registerTab = !registerTab">
+        <div class="swap" @click="registerTab = !registerTab">
             {{
                 registerTab
                     ? 'Log in to an Existing Account'
@@ -112,10 +118,56 @@ const loginUser = async () => {
 </template>
 
 <style lang="scss" scoped>
-.tooBad {
-    pointer-events: none;
-    animation: fadeOut 1s forwards;
-    animation-delay: 2000ms;
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    width: fit-content;
+    margin: 0 auto;
+    width: 340px;
+    img {
+        width: 265px;
+    }
+    input {
+        display: block;
+    }
+    .forgot {
+        font-size: 0.75em;
+        text-align: center;
+        margin: 0.5em 0 0.75em;
+        cursor: pointer;
+    }
+    .tooBad {
+        @extend .forgot;
+        pointer-events: none;
+        animation: fadeOut 1s forwards;
+        animation-delay: 2000ms;
+    }
+    h1 {
+        margin-bottom: 1em;
+    }
+    form {
+        width: 100%;
+        input,
+        button {
+            margin-bottom: 0.5em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            outline: 0;
+            border: 0;
+            padding: 0.5em;
+            background-color: var(--themeColor);
+            cursor: pointer;
+        }
+    }
+    .swap {
+        cursor: pointer;
+        color: var(--themeColor);
+    }
 }
 
 @keyframes fadeOut {
