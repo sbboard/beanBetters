@@ -4,7 +4,7 @@ import { computed } from 'vue';
 const props = defineProps<{
     percent: string;
     option: string;
-    voters: User[];
+    voters: string[];
 }>();
 
 const calcWidth = computed(() => {

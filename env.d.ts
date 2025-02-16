@@ -8,11 +8,11 @@ interface PollOption {
 
 interface Poll {
     _id: number;
-    creatorId: string;
-    title: string;
-    description: string;
-    endDate: Date;
-    options: PollOption[];
+    creatorId?: string;
+    title?: string;
+    description?: string;
+    endDate?: Date;
+    options?: PollOption[];
 }
 
 interface User {

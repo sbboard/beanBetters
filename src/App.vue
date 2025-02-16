@@ -10,10 +10,10 @@ import { useUserStore } from './stores/user';
         <Nav v-if="useUserStore().isLoggedIn" />
     </header>
     <main>
-        <content>
+        <div class="content">
             <LoginView v-if="!useUserStore().isLoggedIn" />
             <RouterView v-else />
-        </content>
+        </div>
     </main>
     <footer>
         &copy; {{ new Date().getFullYear() + 15 }} The United Nations of
@@ -78,15 +78,18 @@ main {
     inset: 0;
     background-size: cover;
     z-index: 0;
-    content {
+    scrollbar-color: var(--themeColor) black;
+    scrollbar-width: thin;
+    .content {
         display: flex;
         max-width: 1000px;
         margin: 0 auto;
         box-sizing: border-box;
         flex-direction: column;
         padding: 20px;
-        height: 100%;
         backdrop-filter: brightness(0.5) blur(8px);
+        height: auto;
+        min-height: 100%;
     }
 }
 

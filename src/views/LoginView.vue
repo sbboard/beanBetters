@@ -22,7 +22,6 @@ const loginCredentials = ref({
 
 const loginError = ref<string | null>(null);
 
-// Set your API endpoint URL for the external server
 const api = 'https://www.gang-fight.com/api/beans';
 
 const registerUser = async () => {

@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import Bars from './Bars.vue';
+import Bars from './PollBars.vue';
 import { useUserStore } from '@/stores/user';
 
 const props = defineProps<{
     poll: Poll;
 }>();
 
-const totalVotes = props.poll.options.reduce(
-    (acc, option) => acc + option.betters.length,
-    0
-);
+const totalVotes =
+    props.poll.options?.reduce(
+        (acc, option) => acc + option.betters.length,
+        0
+    ) || 0;
 
 const { isLoggedIn } = useUserStore();
 const selectedOption = ref<number | null>(null);
@@ -22,7 +23,10 @@ const vote = (id: number) => {
     }
     selectedOption.value = id;
 };
-const getPercentage = (v: number) => ((v / totalVotes) * 100).toFixed(2);
+const getPercentage = (v: number) => {
+    if (!totalVotes || !v) return '0';
+    return ((v / totalVotes) * 100).toFixed(2);
+};
 
 const betCopy = computed(() => {
     if (!isLoggedIn) return 'Login to Bet';
@@ -61,12 +65,8 @@ const betCopy = computed(() => {
             </div>
         </div>
         <div class="footer">
-            <div>End Date: {{ props.poll.endDate.toString() }}</div>
-            <div>Payout: {{ totalVotes * 80 }} beans</div>
-            <div>
-                Managed by:
-                <a :href="props.poll.creatorId">{{ props.poll.creator }}</a>
-            </div>
+            <div>End Date: {{ props.poll.endDate?.toString() }}</div>
+            <div>Managed by: {{ props.poll.creatorId }}</div>
         </div>
     </div>
 </template>
