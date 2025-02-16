@@ -1,9 +1,17 @@
+<script setup lang="ts">
+const random = Math.floor(Math.random() * 50) + 1 + 'px';
+const flipped = `-${random}`;
+</script>
+
 <template>
     <div class="home">
         <img src="/assets/home.gif" />
         <hr />
         <div>
-            <img src="/assets/logo.jpg" />
+            <div class="left">
+                <img class="bean" src="/assets/bean.png" />
+                <img src="/assets/bg.jpg" />
+            </div>
             <div>
                 <RouterLink to="/bets"
                     ><img src="/assets/bets.gif"
@@ -44,6 +52,28 @@
                 }
             }
         }
+        .left {
+            position: relative;
+            img {
+                max-width: 100%;
+            }
+            .bean {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+                animation: mover 1ms infinite alternate linear;
+            }
+        }
+    }
+}
+
+@keyframes mover {
+    0% {
+        transform: translateX(v-bind(random));
+    }
+    100% {
+        transform: translateX(v-bind(flipped));
     }
 }
 </style>

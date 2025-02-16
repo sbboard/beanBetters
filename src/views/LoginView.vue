@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '../stores/user';
 
 const registerTab = ref(false);
 const forgotPassword = ref(false);
+const SECRET = 'itsbeantime';
+const code = ref('');
+
+const noMatch = computed(() => code.value !== SECRET);
 
 const newUser = ref({
     name: '',
@@ -74,7 +78,8 @@ const loginUser = async () => {
                     placeholder="Password"
                     required
                 />
-                <button type="submit">Register</button>
+                <input placeholder="Registration Code" v-model="code" />
+                <button type="submit" :disabled="noMatch">Register</button>
             </form>
         </template>
 
@@ -162,6 +167,10 @@ const loginUser = async () => {
             padding: 0.5em;
             background-color: var(--themeColor);
             cursor: pointer;
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
         }
     }
     .swap {
