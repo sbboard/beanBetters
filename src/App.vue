@@ -24,7 +24,6 @@ import { useUserStore } from './stores/user';
 <style lang="scss">
 html {
     --themeColor: #30ff8c;
-    --black: #141414;
     font-family: 'Nunito', sans-serif;
     color: white;
     font-size: 18px;
@@ -33,7 +32,7 @@ html {
 
 body {
     height: 100%;
-    background: linear-gradient(180deg, var(--black) 0%, black 100%);
+    background-color: black;
 }
 header {
     height: 40px;
@@ -43,7 +42,7 @@ header {
     justify-content: space-between;
     padding: 10px;
     z-index: 5000;
-    background-color: var(--black);
+    background-color: black;
     a {
         margin: auto 0;
         img {

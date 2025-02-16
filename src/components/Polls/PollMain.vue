@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import Bars from './PollBars.vue';
-import { useUserStore } from '@/stores/user';
 
 const props = defineProps<{
     poll: Poll;
@@ -13,7 +12,6 @@ const totalVotes =
         0
     ) || 0;
 
-const { isLoggedIn } = useUserStore();
 const selectedOption = ref<number | null>(null);
 
 const vote = (id: number) => {
@@ -29,9 +27,8 @@ const getPercentage = (v: number) => {
 };
 
 const betCopy = computed(() => {
-    if (!isLoggedIn) return 'Login to Bet';
     if (!selectedOption.value) return 'Select an Option';
-    return 'Bet 100 Beans';
+    return 'BET BET BET!';
 });
 </script>
 
@@ -56,11 +53,8 @@ const betCopy = computed(() => {
                     :voters="pollOption.betters"
                 />
             </div>
-            <div style="margin-top: 5px">Total Bets: {{ totalVotes }}</div>
-            <div
-                class="betButton"
-                :class="{ disabled: !selectedOption || !isLoggedIn }"
-            >
+            <div class="total">Total Bets: {{ totalVotes }}</div>
+            <div class="betButton" :class="{ disabled: !selectedOption }">
                 {{ betCopy }}
             </div>
         </div>
@@ -87,6 +81,12 @@ const betCopy = computed(() => {
     }
 }
 
+.total {
+    text-align: right;
+    font-size: .9em;
+    margin-top: 5px;
+}
+
 .main {
     border-bottom: 1px solid var(--themeColor);
     .description {
@@ -104,6 +104,8 @@ const betCopy = computed(() => {
     .selector {
         height: 20px;
         width: 20px;
+        border: 1px solid var(--themeColor);
+        cursor: pointer;
         &.selected {
             background-color: var(--themeColor);
         }
@@ -111,6 +113,8 @@ const betCopy = computed(() => {
 }
 
 .betButton {
+    cursor: pointer;
+    color: var(--themeColor);
     &.disabled {
         opacity: 0.5;
     }

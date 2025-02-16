@@ -22,20 +22,22 @@ const calcWidth = computed(() => {
 
 <style lang="scss" scoped>
 .bar {
-    background-color: var(--black);
     text-wrap: nowrap;
     width: 100%;
-    color: var(--black);
+    color: var(--themeColor);
     flex-direction: row;
     justify-content: space-between;
     padding: 5px;
     align-items: center;
-    height: 20px;
+    height: 22px;
+    font-size: .9em;
     display: inline-flex;
     position: relative;
     flex: 1;
+    box-sizing: border-box;
     .shade {
         background-color: var(--themeColor);
+        color: black;
         position: absolute;
         top: 0;
         left: 0;
