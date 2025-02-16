@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import Nav from './components/HeaderNav.vue';
+import LoginView from './views/LoginView.vue';
+import { useUserStore } from './stores/user';
 </script>
 
 <template>
-    <div>
-        <header>
-            <a href="/"><img src="@/assets/words.gif" /></a>
-            <Nav />
-        </header>
-        <main>
-            <RouterView />
-        </main>
-    </div>
+    <header>
+        <RouterLink to="/"><img src="@/assets/words.gif" /></RouterLink>
+        <Nav v-if="useUserStore().isLoggedIn" />
+    </header>
+    <main>
+        <LoginView v-if="!useUserStore().isLoggedIn" />
+        <RouterView v-else />
+    </main>
+    <footer>
+        &copy; {{ new Date().getFullYear() + 15 }} The United Nations of
+        Gamblers
+    </footer>
 </template>
 
 <style lang="scss">
@@ -29,13 +34,11 @@ body {
     background: linear-gradient(180deg, var(--black) 0%, black 100%);
 }
 header {
-    position: fixed;
-    inset: 0;
     height: 40px;
-    max-width: calc(100vw - 20px);
+    max-width: calc(1000px);
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    border-bottom: var(--themeColor) 1px solid;
     padding: 10px;
     z-index: 5000;
     background-color: var(--black);
@@ -49,14 +52,24 @@ header {
         }
     }
 }
-main {
-    margin: 70px auto 0;
-    max-width: 500px;
-    width: 100%;
-    min-height: calc(100vh - 70px);
+
+footer {
+    height: 15px;
+    text-align: right;
+    color: var(--themeColor);
+    font-size: 10px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 10px;
+    max-width: calc(1000px);
+    margin: 0 auto;
+}
+
+main {
+    height: calc(100vh - 81px);
+    position: relative;
+    overflow: auto;
 }
 
 a {

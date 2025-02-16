@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { useUserStore } from '../stores/user';
 import { ref } from 'vue';
+import { useUserStore } from '../stores/user';
 
-const { isLoggedIn } = useUserStore();
 const isOpen = ref(false);
 const toggleOpen = () => (isOpen.value = !isOpen.value);
 </script>
@@ -12,11 +11,11 @@ const toggleOpen = () => (isOpen.value = !isOpen.value);
     <div>
         <div class="toggle" @click="toggleOpen">{{ !isOpen ? '≡' : 'x' }}</div>
         <nav v-if="isOpen" @click="toggleOpen">
-            <RouterLink v-if="isLoggedIn" to="/profile/">My Profile</RouterLink>
-            <RouterLink v-else to="/login/">Register / Login</RouterLink>
+            <div>{{ useUserStore().username }}</div>
+            <div>wins: 0</div>
+            <hr />
             <RouterLink to="/bets">Make Bets</RouterLink>
-            <RouterLink to="/leaderboards">Leaderboards</RouterLink>
-            <RouterLink to="/test">Test</RouterLink>
+            <!-- <RouterLink to="/leaderboards">Charts</RouterLink> -->
         </nav>
     </div>
 </template>
@@ -33,16 +32,17 @@ const toggleOpen = () => (isOpen.value = !isOpen.value);
 }
 nav {
     position: fixed;
-    right: 0px;
     top: 50px;
-    background-color: var(--black);
+    margin-left: -115px;
+    backdrop-filter: brightness(0.5) blur(5px);
     border: 1px solid var(--themeColor);
     padding: 15px;
     font-size: 1.25em;
+    z-index: 100;
+    text-align: center;
     a {
         display: block;
         margin-top: 0.5em;
-        text-align: right;
         &:first-of-type {
             margin-top: 0;
         }
