@@ -2,6 +2,7 @@
 import Nav from './components/HeaderNav.vue';
 import LoginView from './views/LoginView.vue';
 import { useUserStore } from './stores/user';
+import SiteFooter from './components/SiteFooter.vue';
 </script>
 
 <template>
@@ -15,10 +16,7 @@ import { useUserStore } from './stores/user';
             <RouterView v-else />
         </div>
     </main>
-    <footer>
-        &copy; {{ new Date().getFullYear() + 15 }} The United Nations of
-        Gamblers
-    </footer>
+    <SiteFooter />
 </template>
 
 <style lang="scss">
@@ -54,21 +52,8 @@ header {
     }
 }
 
-footer {
-    height: 15px;
-    text-align: right;
-    color: var(--themeColor);
-    font-size: 10px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    padding-right: 10px;
-    max-width: calc(1000px);
-    margin: 0 auto;
-}
-
 main {
-    height: calc(100vh - 81px);
+    height: calc(100vh - 110px);
     position: relative;
     overflow: auto;
     background-image: url('/assets/casino.jpg');
