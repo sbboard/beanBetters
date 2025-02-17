@@ -6,19 +6,21 @@ import AdRoll from './components/AdRoll.vue';
 </script>
 
 <template>
-    <header>
-        <div>
-            <RouterLink to="/"><img src="@/assets/words.gif" /></RouterLink>
-        </div>
-        <AdRoll />
-    </header>
-    <main>
-        <div class="content">
-            <LoginView v-if="!useUserStore().isLoggedIn" />
-            <RouterView v-else />
-        </div>
-    </main>
-    <SiteFooter />
+    <div>
+        <header>
+            <div>
+                <RouterLink to="/"><img src="@/assets/words.gif" /></RouterLink>
+            </div>
+            <AdRoll />
+        </header>
+        <main>
+            <div class="content">
+                <LoginView v-if="!useUserStore().isLoggedIn" />
+                <RouterView v-else />
+            </div>
+        </main>
+        <SiteFooter />
+    </div>
 </template>
 
 <style lang="scss">
@@ -96,6 +98,9 @@ a {
     text-decoration: none;
     &:active {
         background-color: white;
+    }
+    &:hover {
+        text-decoration: underline;
     }
 }
 

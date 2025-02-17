@@ -28,7 +28,7 @@ const getPercentage = (v: number) => {
 
 const betCopy = computed(() => {
     if (!selectedOption.value) return 'Select an Option';
-    return 'BET BET BET!';
+    return 'BET NOW BET NOW BET NOW!!!!! $$$$$$$$$$';
 });
 </script>
 
@@ -83,7 +83,7 @@ const betCopy = computed(() => {
 
 .total {
     text-align: right;
-    font-size: .9em;
+    font-size: 0.9em;
     margin-top: 5px;
 }
 
@@ -114,9 +114,31 @@ const betCopy = computed(() => {
 
 .betButton {
     cursor: pointer;
-    color: var(--themeColor);
+    background-color: var(--themeColor);
+    color: black;
+    padding: 0.5em;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    animation: blink .25s linear infinite;
     &.disabled {
         opacity: 0.5;
+        animation: none;
+    }
+}
+
+@keyframes blink {
+    0% {
+        color: black;
+    }
+    49% {
+        color: black;
+    }
+    50% {
+        color: var(--themeColor);
+    }
+    100% {
+        color: var(--themeColor);
     }
 }
 </style>

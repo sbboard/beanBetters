@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/HomeView.vue';
 import Bets from '@/views/Polls/PollView.vue';
+import CreateBet from '@/views/Polls/PollCreate.vue';
+import LoginView from '@/views/LoginView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,6 +13,11 @@ const router = createRouter({
             component: Home,
         },
         {
+            path: '/bets/create',
+            name: 'create-bet',
+            component: CreateBet,
+        },
+        {
             path: '/bets',
             name: 'bets',
             component: Bets,
@@ -18,7 +25,7 @@ const router = createRouter({
         {
             path: '/login',
             name: 'login',
-            component: () => import('@/views/LoginView.vue'),
+            component: LoginView,
         },
     ],
 });

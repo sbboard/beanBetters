@@ -15,10 +15,19 @@ onMounted(async () => {
 <template>
     <div>
         <Character :character="'king'" />
+        <RouterLink class="new" to="/bets/create">$$ CREATE NEW WAGER $$</RouterLink>
         <template v-if="polls && polls.length">
             <Poll :key="poll._id" v-for="poll in polls" :poll="poll"
         /></template>
+        <div v-else>Loading bets...</div>
     </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.new {
+    margin: 1em auto;
+    display: block;
+    width: fit-content;
+    font-size: 1.5em;
+}
+</style>
