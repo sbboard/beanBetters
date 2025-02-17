@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Nav from './components/HeaderNav.vue';
 import LoginView from './views/LoginView.vue';
 import { useUserStore } from './stores/user';
 import SiteFooter from './components/SiteFooter.vue';
@@ -57,7 +56,7 @@ header {
         a {
             line-height: 0;
             width: fit-content;
-            margin-left: .5em;
+            margin: 0 auto;
             img {
                 max-width: calc(100% - 2em);
                 height: auto;
