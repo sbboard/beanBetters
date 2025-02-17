@@ -59,7 +59,6 @@ header {
             width: fit-content;
             margin: 0 auto;
             img {
-                max-width: calc(100% - 2em);
                 height: auto;
                 max-height: 45px;
                 filter: sepia(1) hue-rotate(29deg) contrast(2);
