@@ -97,7 +97,7 @@ const swapTab = () => {
     <div class="login">
         <img :src="currentGambler" />
         <template v-if="registerTab">
-            <h1>Register As a Gambler</h1>
+            <h1>Register As an official big bean Gambler $$</h1>
             <form @submit.prevent="registerUser">
                 <input v-model="newUser.name" placeholder="Name" required />
                 <input
@@ -107,12 +107,12 @@ const swapTab = () => {
                     required
                 />
                 <input placeholder="Registration Code" v-model="code" />
-                <button type="submit" :disabled="noMatch">Register</button>
+                <button type="submit" :disabled="noMatch">REGISTER!! WIN BIG!</button>
             </form>
         </template>
 
         <template v-else>
-            <h1>Login To Continue Your Gambling Journey</h1>
+            <h1>Login To Continue Your Gambling Journey $$</h1>
             <form @submit.prevent="loginUser">
                 <input
                     v-model="loginCredentials.name"
@@ -125,7 +125,7 @@ const swapTab = () => {
                     placeholder="Password"
                     required
                 />
-                <button type="submit">Login</button>
+                <button type="submit">LOGIN TO WIN!</button>
                 <div
                     class="forgot"
                     v-if="!forgotPassword"
@@ -133,7 +133,7 @@ const swapTab = () => {
                 >
                     Forgot Password?
                 </div>
-                <div class="tooBad" v-else>Too bad idiot!</div>
+                <div class="tooBad" v-else>TOO BAD STUPID!</div>
             </form>
 
             <div v-if="loginError" class="error">
@@ -181,7 +181,11 @@ const swapTab = () => {
         animation-delay: 2000ms;
     }
     h1 {
-        margin-bottom: 1em;
+        margin-bottom: 1rem;
+        font-size: 1.3em;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
     }
     form {
         width: 100%;
@@ -206,6 +210,7 @@ const swapTab = () => {
     .swap {
         cursor: pointer;
         color: var(--themeColor);
+        user-select: none;
     }
 }
 
