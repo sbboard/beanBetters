@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/HomeView.vue';
 import Bets from '@/views/Polls/PollView.vue';
 import CreateBet from '@/views/Polls/PollCreate.vue';
+import SettleBet from '@/views/Polls/PollSettle.vue';
 import LoginView from '@/views/LoginView.vue';
 
 const router = createRouter({
@@ -16,6 +17,11 @@ const router = createRouter({
             path: '/bets/create',
             name: 'create-bet',
             component: CreateBet,
+        },
+        {
+            path: '/bets/settle/:id',
+            name: 'settle-bet',
+            component: SettleBet,
         },
         {
             path: '/bets',

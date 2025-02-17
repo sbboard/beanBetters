@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import Bars from './PollBars.vue';
+import { useUserStore } from '@/stores/user';
 
 const props = defineProps<{
     poll: Poll;
 }>();
+
+const selectedOption = ref<number | null>(null);
 
 const totalVotes =
     props.poll.options?.reduce(
         (acc, option) => acc + option.betters.length,
         0
     ) || 0;
-
-const selectedOption = ref<number | null>(null);
 
 const vote = (id: number) => {
     if (id === selectedOption.value) {
@@ -27,8 +28,30 @@ const getPercentage = (v: number) => {
 };
 
 const betCopy = computed(() => {
-    if (!selectedOption.value) return 'Select an Option';
+    if (!selectedOption.value) return 'SELECT AN OPTION';
     return 'BET NOW BET NOW BET NOW!!!!! $$$$$$$$$$';
+});
+
+const isOwner = computed(() => props.poll.creatorId === useUserStore().userId);
+
+const isPastExpiration = computed(() => {
+    return true;
+    return new Date() > new Date(props.poll.endDate);
+});
+
+const timeLeft = computed(() => {
+    const now = new Date();
+    const end = new Date(props.poll.endDate);
+    const diff = end.getTime() - now.getTime();
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${days}d ${hours}h ${minutes}m`;
+});
+
+const settleCopy = computed(() => {
+    if (isPastExpiration.value) return '$$$ SETTLE BET $$$';
+    return `TIME LEFT: ${timeLeft.value}`;
 });
 </script>
 
@@ -56,6 +79,13 @@ const betCopy = computed(() => {
             <div class="total">Total Bets: {{ totalVotes }}</div>
             <div class="betButton" :class="{ disabled: !selectedOption }">
                 {{ betCopy }}
+            </div>
+            <div v-if="isOwner" class="ownerOptions">
+                <RouterLink
+                    :class="{ disabled: !isPastExpiration }"
+                    :to="`/bets/settle/${poll._id}`"
+                    >{{ settleCopy }}</RouterLink
+                >
             </div>
         </div>
         <div class="footer">
@@ -112,18 +142,35 @@ const betCopy = computed(() => {
     }
 }
 
-.betButton {
+.betButton,
+.ownerOptions > a {
     cursor: pointer;
+    display: block;
     background-color: var(--themeColor);
     color: black;
     padding: 0.5em;
     text-align: center;
     font-weight: bold;
     margin-top: 0.5rem;
-    animation: blink .25s linear infinite;
+    animation: blink 0.25s linear infinite;
     &.disabled {
         opacity: 0.5;
         animation: none;
+        cursor: not-allowed;
+    }
+}
+
+.ownerOptions > a {
+    color: var(--themeColor);
+    background-color: transparent;
+    border: 1px solid var(--themeColor);
+    animation: none;
+    text-decoration: none;
+    &.disabled {
+        opacity: 0.5;
+        animation: none;
+        cursor: not-allowed;
+        pointer-events: none;
     }
 }
 
