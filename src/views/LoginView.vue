@@ -159,11 +159,12 @@ const swapTab = () => {
     height: inherit;
     width: fit-content;
     margin: 0 auto;
-    width: 340px;
+    width: 400px;
     img {
-        width: 340px;
-        height: 300px;
+        width: 90%;
+        aspect-ratio: 1;
         margin-bottom: 1em;
+        border-radius: 10px;
     }
     input {
         display: block;
