@@ -1,23 +1,20 @@
 <script setup lang="ts">
-const images = Array.from({ length: 42 }, (_, i) => `${i}.gif`); //array containing the strings 0.gif to 9.gif
+const images = Array.from({ length: 99 }, (_, i) => `${i}.gif`);
 images.sort(() => Math.random() - 0.5);
-//trim the array to 10 images
-images.length = 10;
+images.length = 10; //trim the array to 10 images
 
-const { alt } = defineProps<{
-    alt?: boolean;
-}>();
+const { alt } = defineProps<{ alt?: boolean }>();
 </script>
 
 <template>
     <div :class="{ alt }">
         <img
-            :key="i"
+            :key="`${i}a`"
             v-for="(image, i) in images"
             :src="`/assets/footer/${image}`"
         />
         <img
-            :key="i"
+            :key="`${i}b`"
             v-for="(image, i) in images"
             :src="`/assets/footer/${image}`"
         />

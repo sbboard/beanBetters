@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import AdRoll from './AdRoll.vue';
-
-const images = Array.from({ length: 10 }, (_, i) => `${i}.gif`); //array containing the strings 0.gif to 9.gif
-images.sort(() => Math.random() - 0.5);
 </script>
 
 <template>
