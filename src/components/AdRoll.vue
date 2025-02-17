@@ -3,10 +3,14 @@ const images = Array.from({ length: 42 }, (_, i) => `${i}.gif`); //array contain
 images.sort(() => Math.random() - 0.5);
 //trim the array to 10 images
 images.length = 10;
+
+const { alt } = defineProps<{
+    alt?: boolean;
+}>();
 </script>
 
 <template>
-    <div>
+    <div :class="{ alt }">
         <img
             :key="i"
             v-for="(image, i) in images"
@@ -35,6 +39,9 @@ div {
     max-width: none;
     img {
         height: 50px;
+    }
+    &.alt {
+        animation: scroll 30s linear infinite reverse;
     }
 }
 

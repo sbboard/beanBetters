@@ -11,7 +11,7 @@ images.sort(() => Math.random() - 0.5);
             >&copy; {{ new Date().getFullYear() + 15 }} The United Nations of
             Soda Enjoyers</span
         >
-        <AdRoll />
+        <AdRoll :alt="true" />
     </footer>
 </template>
 
