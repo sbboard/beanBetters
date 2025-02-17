@@ -3,12 +3,16 @@ import Nav from './components/HeaderNav.vue';
 import LoginView from './views/LoginView.vue';
 import { useUserStore } from './stores/user';
 import SiteFooter from './components/SiteFooter.vue';
+import AdRoll from './components/AdRoll.vue';
 </script>
 
 <template>
     <header>
-        <RouterLink to="/"><img src="@/assets/words.gif" /></RouterLink>
-        <Nav v-if="useUserStore().isLoggedIn" />
+        <div>
+            <RouterLink to="/"><img src="@/assets/words.gif" /></RouterLink>
+            <Nav v-if="useUserStore().isLoggedIn" />
+        </div>
+        <AdRoll />
     </header>
     <main>
         <div class="content">
@@ -33,27 +37,39 @@ body {
     background-color: black;
 }
 header {
-    height: 40px;
-    max-width: calc(1000px);
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
+    height: 50px;
     z-index: 5000;
     background-color: black;
-    a {
-        margin: auto 0;
-        img {
-            max-width: calc(100% - 2em);
-            height: auto;
-            max-height: 45px;
-            filter: sepia(1) hue-rotate(29deg) contrast(2);
+    position: relative;
+    overflow: hidden;
+    & > div {
+        max-width: 1000px;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5019607843);
+        backdrop-filter: blur(3px);
+        flex-direction: row;
+        align-items: end;
+        a {
+            line-height: 0;
+            width: fit-content;
+            margin-left: .5em;
+            img {
+                max-width: calc(100% - 2em);
+                height: auto;
+                max-height: 45px;
+                filter: sepia(1) hue-rotate(29deg) contrast(2);
+            }
         }
     }
 }
 
 main {
-    height: calc(100vh - 110px);
+    height: calc(100vh - 100px);
     position: relative;
     overflow: auto;
     background-image: url('/assets/casino.jpg');
