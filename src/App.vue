@@ -9,7 +9,6 @@ import AdRoll from './components/AdRoll.vue';
     <header>
         <div>
             <RouterLink to="/"><img src="@/assets/words.gif" /></RouterLink>
-            <Nav v-if="useUserStore().isLoggedIn" />
         </div>
         <AdRoll />
     </header>

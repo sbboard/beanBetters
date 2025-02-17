@@ -75,9 +75,9 @@ const loginUser = async () => {
                 headers: { 'Content-Type': 'application/json' },
             }
         );
-        if (response.data.userId) {
-            useUserStore().userId = response.data.userId;
-            useUserStore().username = loginCredentials.value.name;
+        if (response.data.user) {
+            useUserStore().userId = response.data.user._id;
+            useUserStore().username = response.data.user.name;
         }
     } catch (error) {
         loginError.value = 'Login failed.';
@@ -107,7 +107,9 @@ const swapTab = () => {
                     required
                 />
                 <input placeholder="Registration Code" v-model="code" />
-                <button type="submit" :disabled="noMatch">REGISTER!! WIN BIG!</button>
+                <button type="submit" :disabled="noMatch">
+                    REGISTER!! WIN BIG!
+                </button>
             </form>
         </template>
 
