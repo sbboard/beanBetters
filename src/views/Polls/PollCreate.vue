@@ -2,7 +2,9 @@
 import { ref, computed } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const title = ref('');
 const description = ref('');
 const endDate = ref('');
@@ -65,6 +67,9 @@ const createPoll = async () => {
 
         const response = await axios.post(`${api}/polls/create`, pollData);
         message.value = response.data.message;
+        if (message.value === 'Poll created successfully') {
+            router.push({ path: '/bets' });
+        }
     } catch (error) {
         message.value = 'Failed to create poll: ' + error;
     } finally {
@@ -175,6 +180,10 @@ const createPoll = async () => {
         font-weight: bold;
         font-size: 1.1em;
         cursor: pointer;
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     }
     .addOption {
         background: none;

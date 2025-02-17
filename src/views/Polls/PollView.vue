@@ -6,16 +6,15 @@ import { getAllPolls } from '@/composables/usePolls';
 
 const polls = ref<Poll[] | null>(null);
 
-onMounted(async () => {
-    polls.value = await getAllPolls();
-    console.log(polls);
-});
+onMounted(async () => (polls.value = await getAllPolls()));
 </script>
 
 <template>
     <div>
         <Character :character="'king'" />
-        <RouterLink class="new" to="/bets/create">$$ CREATE NEW WAGER $$</RouterLink>
+        <RouterLink class="new" to="/bets/create"
+            >$$ CREATE NEW WAGER $$</RouterLink
+        >
         <template v-if="polls && polls.length">
             <Poll :key="poll._id" v-for="poll in polls" :poll="poll"
         /></template>
