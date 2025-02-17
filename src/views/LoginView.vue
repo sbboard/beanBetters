@@ -8,6 +8,28 @@ const forgotPassword = ref(false);
 const SECRET = 'itsbeantime';
 const code = ref('');
 
+const gamblers = [
+    'gambler1.jpg',
+    'gambler2.jpg',
+    'gambler3.jpg',
+    'gambler4.jpg',
+    'gambler5.jpg',
+    'gambler6.jpg',
+];
+const currentGambler = ref('');
+
+const getRandomGambler = () => {
+    let newGambler;
+    do {
+        newGambler = `/assets/${
+            gamblers[Math.floor(Math.random() * gamblers.length)]
+        }`;
+    } while (newGambler === currentGambler.value);
+    return newGambler;
+};
+
+currentGambler.value = getRandomGambler();
+
 const noMatch = computed(() => code.value !== SECRET);
 
 const newUser = ref({
@@ -62,11 +84,18 @@ const loginUser = async () => {
         console.error('Login error:', error);
     }
 };
+
+const swapTab = () => {
+    registerTab.value = !registerTab.value;
+    loginError.value = null;
+    forgotPassword.value = false;
+    currentGambler.value = getRandomGambler();
+};
 </script>
 
 <template>
     <div class="login">
-        <img src="/assets/happy.jpg" />
+        <img :src="currentGambler" />
         <template v-if="registerTab">
             <h1>Register As a Gambler</h1>
             <form @submit.prevent="registerUser">
@@ -111,7 +140,7 @@ const loginUser = async () => {
                 <p>{{ loginError }}</p>
             </div>
         </template>
-        <div class="swap" @click="registerTab = !registerTab">
+        <div class="swap" @click="swapTab">
             {{
                 registerTab
                     ? 'Log in to an Existing Account'
@@ -132,7 +161,9 @@ const loginUser = async () => {
     margin: 0 auto;
     width: 340px;
     img {
-        width: 265px;
+        width: 340px;
+        height: 300px;
+        margin-bottom: 1em;
     }
     input {
         display: block;

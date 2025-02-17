@@ -7,7 +7,7 @@ images.sort(() => Math.random() - 0.5);
     <footer>
         <span
             >&copy; {{ new Date().getFullYear() + 15 }} The United Nations of
-            Gamblers</span
+            Soda Enjoyers</span
         >
         <div>
             <img
