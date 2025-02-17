@@ -7,13 +7,15 @@ interface PollOption {
 }
 
 interface Poll {
-    _id: number;
-    creatorId: string;
-    title: string;
-    description: string;
+    contentType: 'poll';
     creationDate: Date;
+    creatorId: string;
+    description: string;
     endDate: Date;
     options: PollOption[];
+    title: string;
+    winner: null | string;
+    _id: number;
 }
 
 interface User {
@@ -22,4 +24,5 @@ interface User {
     password: string;
     wins: number;
     registrationDate: Date;
+    contentType: 'user';
 }

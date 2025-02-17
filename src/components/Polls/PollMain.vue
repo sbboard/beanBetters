@@ -35,7 +35,7 @@ const betCopy = computed(() => {
 const isOwner = computed(() => props.poll.creatorId === useUserStore().userId);
 
 const isPastExpiration = computed(() => {
-    return true;
+    // return true;
     return new Date() > new Date(props.poll.endDate);
 });
 
