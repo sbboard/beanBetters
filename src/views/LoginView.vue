@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '../stores/user';
 
@@ -46,6 +46,17 @@ const loginError = ref<string | null>(null);
 
 const api = 'https://www.gang-fight.com/api/beans';
 
+function setInfo(id: string, name: string) {
+    useUserStore().userId = id;
+    useUserStore().username = name;
+    try {
+        localStorage.setItem('userId', id);
+        localStorage.setItem('username', name);
+    } catch (error) {
+        console.error('Local storage error:', error);
+    }
+}
+
 const registerUser = async () => {
     try {
         // Registering user with axios
@@ -57,8 +68,7 @@ const registerUser = async () => {
             }
         );
         if (response.data.user) {
-            useUserStore().userId = response.data.user._id;
-            useUserStore().username = response.data.user.name;
+            setInfo(response.data.user._id, response.data.user.name);
         }
     } catch (error) {
         console.error('Registration error:', error);
@@ -76,8 +86,7 @@ const loginUser = async () => {
             }
         );
         if (response.data.user) {
-            useUserStore().userId = response.data.user._id;
-            useUserStore().username = response.data.user.name;
+            setInfo(response.data.user._id, response.data.user.name);
         }
     } catch (error) {
         loginError.value = 'Login failed.';
@@ -91,6 +100,16 @@ const swapTab = () => {
     forgotPassword.value = false;
     currentGambler.value = getRandomGambler();
 };
+
+onMounted(() => {
+    try {
+        const userId = localStorage.getItem('userId');
+        const username = localStorage.getItem('username');
+        if (userId && username) setInfo(userId, username);
+    } catch (error) {
+        console.error('Local storage error:', error);
+    }
+});
 </script>
 
 <template>
