@@ -26,6 +26,9 @@ const flipped = `-${random}`;
 
 <style lang="scss" scoped>
 .home {
+    img {
+        filter: sepia(1) hue-rotate(29deg) contrast(2);
+    }
     & > img {
         max-width: 100%;
     }
@@ -56,6 +59,7 @@ const flipped = `-${random}`;
             position: relative;
             img {
                 max-width: 100%;
+                filter: none;
             }
             .bean {
                 position: absolute;

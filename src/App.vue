@@ -21,7 +21,7 @@ import SiteFooter from './components/SiteFooter.vue';
 
 <style lang="scss">
 html {
-    --themeColor: #30ff8c;
+    --themeColor: #daff3c;
     font-family: 'Nunito', sans-serif;
     color: white;
     font-size: 18px;
@@ -47,7 +47,7 @@ header {
             max-width: calc(100% - 2em);
             height: auto;
             max-height: 45px;
-            filter: hue-rotate(260deg) saturate(2.5);
+            filter: sepia(1) hue-rotate(29deg) contrast(2);
         }
     }
 }
