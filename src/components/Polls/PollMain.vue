@@ -8,16 +8,12 @@ const { poll } = defineProps<{ poll: Poll }>();
 const virtualPoll = ref(poll);
 
 const selectedOption = ref<string | null>(null);
-const hasVoted = ref(false);
 const userStore = useUserStore();
 const userId = userStore.userId;
 
-const isOwner = computed(() => poll.creatorId === userId);
+const isOwner = computed(() => poll.creatorId === userId && !poll.winner);
 const isPastExpiration = computed(() => new Date() > new Date(poll.endDate));
-const betCopy = computed(() => {
-    if (!selectedOption.value) return 'SELECT AN OPTION';
-    return 'BET NOW BET NOW BET NOW!!!!! $$$$$$$$$$';
-});
+const hasVoted = ref(isPastExpiration.value);
 
 const timeLeft = computed(() => {
     const now = new Date();
@@ -28,16 +24,6 @@ const timeLeft = computed(() => {
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     return `${days}d ${hours}h ${minutes}m`;
 });
-
-const settleCopy = computed(() => {
-    if (isPastExpiration.value) return '$$$ SETTLE BET $$$';
-    return `TIME LEFT: ${timeLeft.value}`;
-});
-
-const formatDate = (date: string) => {
-    const d = new Date(date);
-    return `${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}`;
-};
 
 const totalVotes = computed(() =>
     virtualPoll.value.options.reduce(
@@ -88,13 +74,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="poll" :class="{ hasVoted }">
+    <div class="poll" :class="{ hasVoted, hasWinner: poll.winner }">
         <h1>{{ poll.title }}</h1>
         <div class="main">
             <div class="description">{{ poll.description }}</div>
             <div
                 class="option"
                 v-for="pollOption in virtualPoll.options"
+                :class="{ isWinner: poll.winner === pollOption._id }"
                 :key="pollOption._id"
             >
                 <div
@@ -111,27 +98,33 @@ onMounted(() => {
                     :percent="getPercentage(pollOption.betters.length)"
                     :option="pollOption.text"
                     :voters="pollOption.betters"
+                    :is-winner="poll.winner === pollOption._id"
                 />
             </div>
             <div class="total">Total Bets: {{ totalVotes }}</div>
             <div
-                v-if="!hasVoted || isPastExpiration"
+                v-if="!hasVoted && !isPastExpiration && selectedOption"
                 @click="placeBet"
                 class="betButton"
-                :class="{ disabled: !selectedOption }"
             >
-                {{ betCopy }}
+                'BET NOW BET NOW BET NOW!!!!! $$$$$$$$$$'
             </div>
-            <div v-if="isOwner" class="ownerOptions">
+            <div v-if="isOwner && isPastExpiration" class="ownerOptions">
                 <RouterLink
                     :class="{ disabled: !isPastExpiration }"
                     :to="`/bets/settle/${poll._id}`"
-                    >{{ settleCopy }}</RouterLink
+                    >$$$ SETTLE BET $$$</RouterLink
                 >
             </div>
         </div>
         <div class="footer">
-            <div>Ends {{ formatDate(poll.endDate.toString()) }}</div>
+            <div>
+                {{
+                    timeLeft
+                        ? `TIME LEFT: ${timeLeft}`
+                        : `ENDED ${poll.endDate}`
+                }}
+            </div>
         </div>
     </div>
 </template>
@@ -150,6 +143,21 @@ onMounted(() => {
     }
     .option {
         margin-bottom: 10px;
+        display: flex;
+        .selector {
+            height: 20px;
+            width: 20px;
+            border: 1px solid var(--themeColor);
+            box-sizing: border-box;
+            overflow: hidden;
+            cursor: pointer;
+            user-select: none;
+            &.selected {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
     }
 
     .total {
@@ -171,24 +179,6 @@ onMounted(() => {
 
     .footer {
         font-size: 0.9em;
-    }
-
-    .option {
-        display: flex;
-        .selector {
-            height: 20px;
-            width: 20px;
-            border: 1px solid var(--themeColor);
-            box-sizing: border-box;
-            overflow: hidden;
-            cursor: pointer;
-            user-select: none;
-            &.selected {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-        }
     }
 
     .betButton,
@@ -225,6 +215,14 @@ onMounted(() => {
         .selector {
             pointer-events: none;
             border: 1px solid transparent;
+        }
+    }
+    &.hasWinner {
+        .option {
+            opacity: 0.35;
+            &.isWinner {
+                opacity: 1;
+            }
         }
     }
 }

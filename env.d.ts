@@ -22,7 +22,7 @@ interface User {
     _id: string;
     name: string;
     password: string;
-    wins: number;
+    wins: string[];
     registrationDate: Date;
     contentType: 'user';
 }

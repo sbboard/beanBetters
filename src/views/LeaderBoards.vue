@@ -1,36 +1,63 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+
+const users = ref<User[]>([]);
+
+function getRank(rank: number) {
+    let rankString = '';
+    switch (rank) {
+        case 1:
+            rankString = 'King Bean 🫅🏾';
+            break;
+        case 2:
+            rankString = 'Queen Bean 👸';
+            break;
+        case 3:
+            rankString = 'Kidney Bean 👶';
+            break;
+        default:
+            rankString = '';
+            break;
+    }
+    return rankString;
+}
+
+onMounted(async () => {
+    try {
+        const response = await axios.get(
+            `https://www.gang-fight.com/api/beans/user/winners`
+        );
+        users.value = response.data;
+    } catch (error) {
+        console.error('Error fetching polls:', error);
+        throw error;
+    }
+});
+</script>
 
 <template>
     <div class="leaderboards">
         <h1>BEAN RANKS</h1>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Better</th>
-                    <th>Wins</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>King Bean 🫅🏾</td>
-                    <td class="wins"></td>
-                </tr>
-                <tr>
-                    <td>Queen Bean 👸</td>
-                    <td class="wins"></td>
-                </tr>
-                <tr>
-                    <td>Kidney Bean 👶</td>
-                    <td class="wins"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td class="wins"></td>
-                </tr>
-            </tbody>
-        </table>
+        <div v-if="users.length === 0">Loading...</div>
+        <template v-else>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Better</th>
+                        <th>Wins</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(user, index) in users" :key="index">
+                        <td>{{ getRank(index + 1) }}</td>
+                        <td>{{ user.name }}</td>
+                        <td class="wins">{{ user.wins.length }}</td>
+                    </tr>
+                </tbody>
+            </table></template
+        >
 
         <h2>UNCLAIMED WINS</h2>
         <p>
@@ -94,8 +121,11 @@
     p {
         margin-bottom: 1em;
     }
-    .wins {
-        text-align: right;
+    table {
+        margin-bottom: 1em;
+        .wins {
+            text-align: right;
+        }
     }
 }
 </style>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-const { percent, option } = defineProps<{
+const { percent, option, isWinner } = defineProps<{
     percent: number;
     option: string;
     voters: string[];
+    isWinner?: boolean;
 }>();
 
 const darkInnerWidth = ref(0);
@@ -22,12 +23,14 @@ onMounted(() => {
 <template>
     <div class="barWrap">
         <div class="light-layer" ref="baseLayer">
-            <div class="title">{{ option }}</div>
+            <div class="title">{{ option }} {{ isWinner ? '★' : null }}</div>
             <div class="percentage">{{ percent }}%</div>
         </div>
         <div class="dark-layer" :style="{ width: `${optionInnerWidths}px` }">
             <div class="inner" :style="{ width: `${darkInnerWidth}px` }">
-                <div class="title">{{ option }}</div>
+                <div class="title">
+                    {{ option }} {{ isWinner ? '★' : null }}
+                </div>
                 <div class="percentage">{{ percent }}%</div>
             </div>
         </div>

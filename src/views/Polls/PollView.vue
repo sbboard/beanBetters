@@ -6,7 +6,15 @@ import { getAllPolls } from '@/composables/usePolls';
 
 const polls = ref<Poll[] | null>(null);
 
-onMounted(async () => (polls.value = await getAllPolls()));
+onMounted(async () => {
+    const fetchedPolls = await getAllPolls();
+    //move all polls with winner to the bottom
+    polls.value = fetchedPolls.sort((a, b) => {
+        if (a.winner && !b.winner) return 1;
+        if (!a.winner && b.winner) return -1;
+        return 0;
+    });
+});
 </script>
 
 <template>
