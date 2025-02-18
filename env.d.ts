@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface PollOption {
-    _id: number;
+    _id: string;
     text: string;
     betters: string[];
 }
@@ -15,11 +15,11 @@ interface Poll {
     options: PollOption[];
     title: string;
     winner: null | string;
-    _id: number;
+    _id: string;
 }
 
 interface User {
-    _id: number;
+    _id: string;
     name: string;
     password: string;
     wins: number;

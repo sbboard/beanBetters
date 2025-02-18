@@ -10,46 +10,50 @@
             wins retroactively added to your profile. Liars will be BANNED.
         </p>
         <table>
-            <tr>
-                <th>Better</th>
-                <th>Wins</th>
-            </tr>
-            <tr>
-                <td>Dr Meow</td>
-                <td class="wins">3</td>
-            </tr>
-            <tr>
-                <td>lack</td>
-                <td class="wins">2</td>
-            </tr>
-            <tr>
-                <td>darkthankful 2</td>
-                <td class="wins">2</td>
-            </tr>
-            <tr>
-                <td>Nick</td>
-                <td class="wins">2</td>
-            </tr>
-            <tr>
-                <td>Itsmekidney</td>
-                <td class="wins">1</td>
-            </tr>
-            <tr>
-                <td>chibiGodzilla</td>
-                <td class="wins">1</td>
-            </tr>
-            <tr>
-                <td>Brian</td>
-                <td class="wins">1</td>
-            </tr>
-            <tr>
-                <td>Rockel</td>
-                <td class="wins">1</td>
-            </tr>
-            <tr>
-                <td>bigdrog</td>
-                <td class="wins">1</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Better</th>
+                    <th>Wins</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Dr Meow</td>
+                    <td class="wins">3</td>
+                </tr>
+                <tr>
+                    <td>lack</td>
+                    <td class="wins">2</td>
+                </tr>
+                <tr>
+                    <td>darkthankful 2</td>
+                    <td class="wins">2</td>
+                </tr>
+                <tr>
+                    <td>Nick</td>
+                    <td class="wins">2</td>
+                </tr>
+                <tr>
+                    <td>Itsmekidney</td>
+                    <td class="wins">1</td>
+                </tr>
+                <tr>
+                    <td>chibiGodzilla</td>
+                    <td class="wins">1</td>
+                </tr>
+                <tr>
+                    <td>Brian</td>
+                    <td class="wins">1</td>
+                </tr>
+                <tr>
+                    <td>Rockel</td>
+                    <td class="wins">1</td>
+                </tr>
+                <tr>
+                    <td>bigdrog</td>
+                    <td class="wins">1</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </template>
