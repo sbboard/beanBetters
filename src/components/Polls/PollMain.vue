@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import Bars from './PollBars.vue';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
@@ -7,8 +7,11 @@ import axios from 'axios';
 const { poll } = defineProps<{ poll: Poll }>();
 
 const selectedOption = ref<string | null>(null);
+const hasVoted = ref(false);
+const userStore = useUserStore();
+const userId = userStore.userId;
 
-const isOwner = computed(() => poll.creatorId === useUserStore().userId);
+const isOwner = computed(() => poll.creatorId === userId);
 const isPastExpiration = computed(() => new Date() > new Date(poll.endDate));
 const betCopy = computed(() => {
     if (!selectedOption.value) return 'SELECT AN OPTION';
@@ -35,40 +38,49 @@ const formatDate = (date: string) => {
     return `${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}`;
 };
 
-const totalVotes = poll.options
-    .map(o => o.betters.length)
-    .reduce((a, b) => a + b, 0);
-
+const totalVotes = computed(() =>
+    poll.options.reduce((sum, option) => sum + option.betters.length, 0)
+);
 const selectOption = (id: string) => {
-    if (id === selectedOption.value) return (selectedOption.value = null);
-    selectedOption.value = id;
+    if (hasVoted.value) return; // Prevent re-voting
+    selectedOption.value = selectedOption.value === id ? null : id;
 };
 
 const getPercentage = (v: number) => {
-    if (!totalVotes || !v) return 0;
-    return (v / totalVotes) * 100;
+    if (!totalVotes.value || !v) return 0;
+    return (v / totalVotes.value) * 100;
 };
 
 async function placeBet() {
-    if (!selectedOption.value) return;
+    if (!selectedOption.value || hasVoted.value) return; // Prevent multiple votes
 
     try {
-        const { userId } = useUserStore();
         await axios.post('https://www.gang-fight.com/api/beans/polls/bet', {
             pollId: poll._id,
             optionId: selectedOption.value,
             userId,
         });
 
+        hasVoted.value = true; // Mark user as having voted
         console.log('Bet placed successfully');
     } catch (error) {
         console.error('Error placing bet:', error);
     }
 }
+
+onMounted(() => {
+    if (!userId) return;
+    poll.options.forEach(option => {
+        if (option.betters.includes(userId)) {
+            selectedOption.value = option._id;
+            hasVoted.value = true;
+        }
+    });
+});
 </script>
 
 <template>
-    <div class="poll">
+    <div class="poll" :class="{ hasVoted }">
         <h1>{{ poll.title }}</h1>
         <div class="main">
             <div class="description">{{ poll.description }}</div>
@@ -81,7 +93,11 @@ async function placeBet() {
                     class="selector"
                     :class="{ selected: selectedOption === pollOption._id }"
                     @click="selectOption(pollOption._id)"
-                ></div>
+                >
+                    <template v-if="selectedOption === pollOption._id"
+                        >🫘</template
+                    >
+                </div>
                 <Bars
                     :percent="getPercentage(pollOption.betters.length)"
                     :option="pollOption.text"
@@ -90,6 +106,7 @@ async function placeBet() {
             </div>
             <div class="total">Total Bets: {{ totalVotes }}</div>
             <div
+                v-if="!hasVoted || isPastExpiration"
                 @click="placeBet"
                 class="betButton"
                 :class="{ disabled: !selectedOption }"
@@ -105,7 +122,7 @@ async function placeBet() {
             </div>
         </div>
         <div class="footer">
-            <div>End Date: {{ formatDate(poll.endDate.toString()) }}</div>
+            <div>Ends {{ formatDate(poll.endDate.toString()) }}</div>
         </div>
     </div>
 </template>
@@ -125,66 +142,81 @@ async function placeBet() {
     .option {
         margin-bottom: 10px;
     }
-}
 
-.total {
-    text-align: right;
-    font-size: 0.9em;
-    margin-top: 5px;
-}
-
-.footer,
-.main {
-    padding: 10px;
-}
-.main {
-    border-bottom: 1px solid var(--themeColor);
-    .description {
-        margin-bottom: 20px;
+    .total {
+        text-align: right;
+        font-size: 0.9em;
+        margin-top: 5px;
     }
-}
 
-.option {
-    display: flex;
-    .selector {
-        height: 20px;
-        width: 20px;
-        border: 1px solid var(--themeColor);
-        cursor: pointer;
-        &.selected {
-            background-color: var(--themeColor);
+    .footer,
+    .main {
+        padding: 10px;
+    }
+    .main {
+        border-bottom: 1px solid var(--themeColor);
+        .description {
+            margin-bottom: 20px;
         }
     }
-}
 
-.betButton,
-.ownerOptions > a {
-    cursor: pointer;
-    display: block;
-    background-color: var(--themeColor);
-    color: black;
-    padding: 0.5em;
-    text-align: center;
-    font-weight: bold;
-    margin-top: 0.5rem;
-    animation: blink 0.25s linear infinite;
-    &.disabled {
-        opacity: 0.5;
-        animation: none;
-        pointer-events: none;
+    .footer {
+        font-size: 0.9em;
     }
-}
 
-.ownerOptions > a {
-    color: var(--themeColor);
-    background-color: transparent;
-    border: 1px solid var(--themeColor);
-    animation: none;
-    text-decoration: none;
-    &.disabled {
-        opacity: 0.5;
+    .option {
+        display: flex;
+        .selector {
+            height: 20px;
+            width: 20px;
+            border: 1px solid var(--themeColor);
+            box-sizing: border-box;
+            overflow: hidden;
+            cursor: pointer;
+            user-select: none;
+            &.selected {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    .betButton,
+    .ownerOptions > a {
+        cursor: pointer;
+        display: block;
+        background-color: var(--themeColor);
+        color: black;
+        padding: 0.5em;
+        text-align: center;
+        font-weight: bold;
+        margin-top: 0.5rem;
+        animation: blink 0.25s linear infinite;
+        &.disabled {
+            opacity: 0.5;
+            animation: none;
+            pointer-events: none;
+        }
+    }
+
+    .ownerOptions > a {
+        color: var(--themeColor);
+        background-color: transparent;
+        border: 1px solid var(--themeColor);
         animation: none;
-        pointer-events: none;
+        text-decoration: none;
+        &.disabled {
+            opacity: 0.5;
+            animation: none;
+            pointer-events: none;
+        }
+    }
+    &.hasVoted {
+        .selector {
+            pointer-events: none;
+            border: 1px solid transparent;
+        }
     }
 }
 
