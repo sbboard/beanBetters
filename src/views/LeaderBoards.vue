@@ -39,7 +39,9 @@ onMounted(async () => {
 <template>
     <div class="leaderboards">
         <h1>BEAN RANKS</h1>
-        <div v-if="users.length === 0">Loading...</div>
+        <div v-if="users.length === 0" style="margin-bottom: 1em">
+            Loading...
+        </div>
         <template v-else>
             <table>
                 <thead>
@@ -60,7 +62,7 @@ onMounted(async () => {
         >
 
         <h2>UNCLAIMED WINS</h2>
-        <p>
+        <p style="font-size: 0.9em">
             Below is a list of unclaimed wins from previous betting pools. If
             you are one of the people listed below contact admin to have your
             wins retroactively added to your profile. Liars will be BANNED.
@@ -83,7 +85,7 @@ onMounted(async () => {
                 </tr>
                 <tr>
                     <td>darkthankful 2</td>
-                    <td class="wins">2</td>
+                    <td class="wins">CLAIMED</td>
                 </tr>
                 <tr>
                     <td>Nick</td>

@@ -26,7 +26,7 @@ onMounted(async () => {
         <template v-if="polls && polls.length">
             <Poll :key="poll._id" v-for="poll in polls" :poll="poll"
         /></template>
-        <div v-else>Loading bets...</div>
+        <div v-else>No ongoing bets... a shameful day in beandom</div>
     </div>
 </template>
 
