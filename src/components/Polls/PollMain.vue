@@ -106,9 +106,7 @@ const settleCopy = computed(() => {
     h1 {
         border-bottom: 1px solid var(--themeColor);
         padding: 10px;
-        font-weight: bold;
-        text-align: center;
-        text-transform: uppercase;
+        margin-bottom: 0;
     }
     & > div {
         display: block;
@@ -124,16 +122,15 @@ const settleCopy = computed(() => {
     margin-top: 5px;
 }
 
-.main {
-    border-bottom: 1px solid var(--themeColor);
-    .description {
-        margin-bottom: 10px;
-    }
-}
-
 .footer,
 .main {
     padding: 10px;
+}
+.main {
+    border-bottom: 1px solid var(--themeColor);
+    .description {
+        margin-bottom: 20px;
+    }
 }
 
 .option {
