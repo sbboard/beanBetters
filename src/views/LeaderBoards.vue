@@ -3,6 +3,35 @@
 <template>
     <div class="leaderboards">
         <h1>BEAN RANKS</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Better</th>
+                    <th>Wins</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>King Bean 🫅🏾</td>
+                    <td class="wins"></td>
+                </tr>
+                <tr>
+                    <td>Queen Bean 👸</td>
+                    <td class="wins"></td>
+                </tr>
+                <tr>
+                    <td>Kidney Bean 👶</td>
+                    <td class="wins"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="wins"></td>
+                </tr>
+            </tbody>
+        </table>
+
         <h2>UNCLAIMED WINS</h2>
         <p>
             Below is a list of unclaimed wins from previous betting pools. If
