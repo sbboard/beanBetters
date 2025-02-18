@@ -133,4 +133,58 @@ figure {
         }
     }
 }
+
+h1 {
+    margin-bottom: 1rem;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--themeColor);
+}
+
+h2 {
+    @extend h1;
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+h3 {
+    @extend h2;
+    color: white;
+    margin-bottom: 0;
+    text-align: center;
+}
+h4 {
+    @extend h2;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+p {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    tbody,
+    tr,
+    th,
+    td {
+        border: 1px solid var(--themeColor);
+    }
+    th {
+        background-color: var(--themeColor);
+        color: black;
+        font-weight: bold;
+    }
+    td,
+    th {
+        padding: 0.25em;
+    }
+}
 </style>

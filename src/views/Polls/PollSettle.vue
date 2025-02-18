@@ -88,31 +88,6 @@ onMounted(() => fetchPoll());
     & > * {
         box-sizing: border-box;
     }
-    h2 {
-        color: var(--themeColor);
-        font-size: 1.2em;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    h3 {
-        @extend h2;
-        color: white;
-        margin-bottom: 0;
-        text-align: center;
-    }
-    h4 {
-        @extend h2;
-        font-size: 1.1rem;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
-        text-align: left;
-    }
-    p {
-        display: block;
-        margin-bottom: 0.25rem;
-        font-size: 1.1rem;
-        text-align: center;
-    }
     .submit {
         width: 100%;
         margin-top: 1em;

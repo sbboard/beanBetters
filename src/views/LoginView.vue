@@ -202,13 +202,6 @@ onMounted(() => {
         animation: fadeOut 1s forwards;
         animation-delay: 2000ms;
     }
-    h1 {
-        margin-bottom: 1rem;
-        font-size: 1.3em;
-        font-weight: bold;
-        text-transform: uppercase;
-        text-align: center;
-    }
     form {
         width: 100%;
         input,

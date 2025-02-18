@@ -9,18 +9,60 @@
             you are one of the people listed below contact admin to have your
             wins retroactively added to your profile. Liars will be BANNED.
         </p>
-        <ul>
-            <li>Dr Meow - 3 Wins</li>
-            <li>lack - 2 Wins</li>
-            <li>darkthankful 2 - 2 Wins</li>
-            <li>Nick - 2 Wins</li>
-            <li>Itsmekidney - 1 Wins</li>
-            <li>chibiGodzilla - 1 Wins</li>
-            <li>Brian - 1 Wins</li>
-            <li>Rockel - 1 Wins</li>
-            <li>bigdrog - 1 Wins</li>
-        </ul>
+        <table>
+            <tr>
+                <th>Better</th>
+                <th>Wins</th>
+            </tr>
+            <tr>
+                <td>Dr Meow</td>
+                <td class="wins">3</td>
+            </tr>
+            <tr>
+                <td>lack</td>
+                <td class="wins">2</td>
+            </tr>
+            <tr>
+                <td>darkthankful 2</td>
+                <td class="wins">2</td>
+            </tr>
+            <tr>
+                <td>Nick</td>
+                <td class="wins">2</td>
+            </tr>
+            <tr>
+                <td>Itsmekidney</td>
+                <td class="wins">1</td>
+            </tr>
+            <tr>
+                <td>chibiGodzilla</td>
+                <td class="wins">1</td>
+            </tr>
+            <tr>
+                <td>Brian</td>
+                <td class="wins">1</td>
+            </tr>
+            <tr>
+                <td>Rockel</td>
+                <td class="wins">1</td>
+            </tr>
+            <tr>
+                <td>bigdrog</td>
+                <td class="wins">1</td>
+            </tr>
+        </table>
     </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.leaderboards {
+    width: 400px;
+    margin: 0 auto;
+    p {
+        margin-bottom: 1em;
+    }
+    .wins {
+        text-align: right;
+    }
+}
+</style>
