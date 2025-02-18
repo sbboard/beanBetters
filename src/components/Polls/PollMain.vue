@@ -49,6 +49,11 @@ const timeLeft = computed(() => {
     return `${days}d ${hours}h ${minutes}m`;
 });
 
+const formatDate = (date: string) => {
+    const d = new Date(date);
+    return `${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}`;
+};
+
 const settleCopy = computed(() => {
     if (isPastExpiration.value) return '$$$ SETTLE BET $$$';
     return `TIME LEFT: ${timeLeft.value}`;
@@ -89,8 +94,7 @@ const settleCopy = computed(() => {
             </div>
         </div>
         <div class="footer">
-            <div>End Date: {{ props.poll.endDate?.toString() }}</div>
-            <div>Managed by: {{ props.poll.creatorId }}</div>
+            <div>End Date: {{ formatDate(props.poll.endDate.toString()) }}</div>
         </div>
     </div>
 </template>
@@ -108,6 +112,9 @@ const settleCopy = computed(() => {
     }
     & > div {
         display: block;
+    }
+    .option {
+        margin-bottom: 10px;
     }
 }
 
