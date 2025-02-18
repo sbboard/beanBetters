@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 
 const { poll } = defineProps<{ poll: Poll }>();
+const virtualPoll = ref(poll);
 
 const selectedOption = ref<string | null>(null);
 const hasVoted = ref(false);
@@ -39,7 +40,10 @@ const formatDate = (date: string) => {
 };
 
 const totalVotes = computed(() =>
-    poll.options.reduce((sum, option) => sum + option.betters.length, 0)
+    virtualPoll.value.options.reduce(
+        (sum, option) => sum + option.betters.length,
+        0
+    )
 );
 const selectOption = (id: string) => {
     if (hasVoted.value) return; // Prevent re-voting
@@ -60,9 +64,13 @@ async function placeBet() {
             optionId: selectedOption.value,
             userId,
         });
-
         hasVoted.value = true; // Mark user as having voted
-        console.log('Bet placed successfully');
+        virtualPoll.value.options = virtualPoll.value.options.map(option => {
+            if (option._id === selectedOption.value) {
+                option.betters.push(userId as string);
+            }
+            return option;
+        });
     } catch (error) {
         console.error('Error placing bet:', error);
     }
@@ -86,7 +94,7 @@ onMounted(() => {
             <div class="description">{{ poll.description }}</div>
             <div
                 class="option"
-                v-for="pollOption in poll.options"
+                v-for="pollOption in virtualPoll.options"
                 :key="pollOption._id"
             >
                 <div
@@ -99,6 +107,7 @@ onMounted(() => {
                     >
                 </div>
                 <Bars
+                    :key="totalVotes"
                     :percent="getPercentage(pollOption.betters.length)"
                     :option="pollOption.text"
                     :voters="pollOption.betters"
