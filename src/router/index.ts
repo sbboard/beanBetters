@@ -3,6 +3,7 @@ import Home from '@/views/HomeView.vue';
 import Bets from '@/views/Polls/PollView.vue';
 import CreateBet from '@/views/Polls/PollCreate.vue';
 import SettleBet from '@/views/Polls/PollSettle.vue';
+import Leaderboards from '@/views/LeaderBoards.vue';
 import LoginView from '@/views/LoginView.vue';
 
 const router = createRouter({
@@ -32,6 +33,11 @@ const router = createRouter({
             path: '/login',
             name: 'login',
             component: LoginView,
+        },
+        {
+            path: '/leaderboards',
+            name: 'leaderboards',
+            component: Leaderboards,
         },
     ],
 });
