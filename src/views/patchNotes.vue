@@ -5,6 +5,11 @@
         <h1>PATCH NOTES</h1>
         <h2>2/18/25</h2>
         <ul>
+            <li>Max decimal point to 2 in vote percentage</li>
+            <li>
+                fixed issue where beans were getting cut off in the selector
+            </li>
+            <li>Added timezone disclaimer to end date</li>
             <li>User 'Bigfrog' claimed wins from PSHM</li>
             <li>Added patch notes</li>
             <li>Fixed copy on bet CTA</li>
@@ -17,8 +22,8 @@
 .notes {
     width: 400px;
     margin: 0 auto;
-    h2{
-        margin-bottom: .5em;
+    h2 {
+        margin-bottom: 0.5em;
     }
     ul {
         font-size: 0.9em;

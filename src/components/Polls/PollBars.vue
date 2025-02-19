@@ -24,14 +24,16 @@ onMounted(() => {
     <div class="barWrap">
         <div class="light-layer" ref="baseLayer">
             <div class="title">{{ option }} {{ isWinner ? '★' : null }}</div>
-            <div class="percentage">{{ percent }}%</div>
+            <div class="percentage">{{ parseFloat(percent.toFixed(2)) }}%</div>
         </div>
         <div class="dark-layer" :style="{ width: `${optionInnerWidths}px` }">
             <div class="inner" :style="{ width: `${darkInnerWidth}px` }">
                 <div class="title">
                     {{ option }} {{ isWinner ? '★' : null }}
                 </div>
-                <div class="percentage">{{ percent }}%</div>
+                <div class="percentage">
+                    {{ parseFloat(percent.toFixed(2)) }}%
+                </div>
             </div>
         </div>
     </div>

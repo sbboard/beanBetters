@@ -89,9 +89,7 @@ onMounted(() => {
                     :class="{ selected: selectedOption === pollOption._id }"
                     @click="selectOption(pollOption._id)"
                 >
-                    <template v-if="selectedOption === pollOption._id"
-                        >🫘</template
-                    >
+                    <span v-if="selectedOption === pollOption._id">🫘</span>
                 </div>
                 <Bars
                     :key="totalVotes"
@@ -149,13 +147,22 @@ onMounted(() => {
             width: 20px;
             border: 1px solid var(--themeColor);
             box-sizing: border-box;
-            overflow: hidden;
             cursor: pointer;
             user-select: none;
+            position: relative;
+            overflow: visible;
             &.selected {
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                line-height: 0;
+                position: relative;
+                overflow: visible;
+                span {
+                    position: absolute;
+                    top: 50%;
+                    bottom: 0;
+                }
             }
         }
     }

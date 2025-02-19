@@ -93,7 +93,7 @@ const createPoll = async () => {
         <textarea v-model="description" placeholder="Description"></textarea>
 
         <label for="endDate">End Date</label>
-        <p>Specify when the last day to place a bet is.</p>
+        <p>Specify what date betting will end. No more votes will be allowed on this day (UTC timezone).</p>
         <input type="date" v-model="endDate" />
         <p v-if="!isEndDateValid && endDate">
             End date must be at least tomorrow and within the next year.
