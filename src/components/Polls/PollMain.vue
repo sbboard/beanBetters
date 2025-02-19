@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import Bars from './PollBars.vue';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
+import { getUserInfo } from '@/composables/useGetUserInfo';
 
 const { poll } = defineProps<{ poll: Poll }>();
 const virtualPoll = ref(poll);
@@ -41,6 +42,8 @@ const getPercentage = (v: number) => {
     return (v / totalVotes.value) * 100;
 };
 
+const creator = ref('');
+
 async function placeBet() {
     if (!selectedOption.value || hasVoted.value) return; // Prevent multiple votes
 
@@ -62,7 +65,7 @@ async function placeBet() {
     }
 }
 
-onMounted(() => {
+onMounted(async () => {
     if (!userId) return;
     poll.options.forEach(option => {
         if (option.betters.includes(userId)) {
@@ -70,14 +73,24 @@ onMounted(() => {
             hasVoted.value = true;
         }
     });
+    creator.value = (await getUserInfo(poll.creatorId)).name;
 });
 </script>
 
 <template>
     <div class="poll" :class="{ hasVoted, hasWinner: poll.winner }">
         <h1>{{ poll.title }}</h1>
+        <div class="details">
+            <div>
+                <span><strong>MANAGED BY:</strong> {{ creator }}</span>
+                <span
+                    ><strong>{{ timeLeft ? `TIME LEFT` : `CLOSED` }}</strong>
+                    {{ timeLeft ? timeLeft : poll.endDate }}</span
+                >
+            </div>
+            <span class="description">{{ poll.description }}</span>
+        </div>
         <div class="main">
-            <div class="description">{{ poll.description }}</div>
             <div
                 class="option"
                 v-for="pollOption in virtualPoll.options"
@@ -115,15 +128,6 @@ onMounted(() => {
                 >
             </div>
         </div>
-        <div class="footer">
-            <div>
-                {{
-                    timeLeft
-                        ? `TIME LEFT: ${timeLeft}`
-                        : `ENDED ${poll.endDate}`
-                }}
-            </div>
-        </div>
     </div>
 </template>
 
@@ -132,9 +136,27 @@ onMounted(() => {
     border: 1px solid var(--themeColor);
     margin-bottom: 15px;
     h1 {
+        color: var(--themeColor);
         border-bottom: 1px solid var(--themeColor);
         padding: 10px;
         margin-bottom: 0;
+        text-align: left;
+    }
+    .details {
+        padding: 10px;
+        border-bottom: 1px solid var(--themeColor);
+        font-size: 0.9em;
+        span {
+            display: block;
+        }
+        strong {
+            font-weight: bold;
+        }
+        & > div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
     }
     & > div {
         display: block;
@@ -173,19 +195,10 @@ onMounted(() => {
         margin-top: 5px;
     }
 
-    .footer,
     .main {
         padding: 10px;
-    }
-    .main {
+        padding-top: 27px;
         border-bottom: 1px solid var(--themeColor);
-        .description {
-            margin-bottom: 20px;
-        }
-    }
-
-    .footer {
-        font-size: 0.9em;
     }
 
     .betButton,
