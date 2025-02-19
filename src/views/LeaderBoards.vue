@@ -14,7 +14,7 @@ function getRank(rank: number) {
             rankString = 'Queen Bean 👸';
             break;
         case 3:
-            rankString = 'Kidney Bean 🧑‍🦱';
+            rankString = 'Kidney Bean 👶';
             break;
         case 4:
             rankString = 'Mr Bean 🤥';
@@ -23,7 +23,7 @@ function getRank(rank: number) {
             rankString = 'Human Bean 🚶';
             break;
         case 6:
-            rankString = 'Jelly Bean 👶';
+            rankString = 'Jelly Bean 👻';
             break;
         case 7:
             rankString = 'Garbanzo Bean 🧑‍🍳';
