@@ -70,22 +70,14 @@ onMounted(async () => {
         <table>
             <thead>
                 <tr>
-                    <th>Better</th>
+                    <th>PSHM Better</th>
                     <th>Wins</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Dr Meow</td>
-                    <td class="wins">CLAIMED</td>
-                </tr>
-                <tr>
                     <td>lack</td>
                     <td class="wins">2</td>
-                </tr>
-                <tr>
-                    <td>darkthankful 2</td>
-                    <td class="wins">CLAIMED</td>
                 </tr>
                 <tr>
                     <td>Nick</td>
@@ -107,10 +99,6 @@ onMounted(async () => {
                     <td>Rockel</td>
                     <td class="wins">1</td>
                 </tr>
-                <tr>
-                    <td>bigdrog</td>
-                    <td class="wins">CLAIMED</td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -122,6 +110,7 @@ onMounted(async () => {
     margin: 0 auto;
     p {
         margin-bottom: 1em;
+        text-align: left;
     }
     table {
         margin-bottom: 1em;
