@@ -70,7 +70,7 @@ const swapTab = () => {
     <div class="login">
         <img :src="currentGambler" />
         <template v-if="registerTab">
-            <h1>Register As an official big bean Gambler $$</h1>
+            <h1>Register As an official big bean bettor $$</h1>
             <form @submit.prevent="registerUser">
                 <input
                     v-model="newUser.name"

@@ -60,6 +60,20 @@ onMounted(async () => {
 <template>
     <div class="leaderboards">
         <h1>LEADERBOARD</h1>
+        <p style="font-size: 0.9em">
+            Ranks 1-4 are sacred and are considered
+            <strong>"The Bean Royal Family"</strong>. They are worthy of your
+            respect and admiration. They are the ones who have proven themselves
+            to be the best of the best. No bettors in the world are as good at
+            betting as them.<br /><br />
+            Ranks 5-10 are the <strong>"Bean Elite"</strong>. They are the ones
+            who have proven themselves to be worthy of the title of bean. The
+            Bean Royal Family sometimes allows them to sit at the table with
+            them.<br /><br />
+            All other ranks are just your average bettor. At the moment they are
+            destined for a pauper's grave. But with enough wins, they too can
+            become something greater.
+        </p>
         <div v-if="users.length === 0" style="margin-bottom: 1em">
             Loading...
         </div>
