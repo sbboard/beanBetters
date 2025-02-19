@@ -89,6 +89,10 @@ onMounted(async () => {
             Below is a list of unclaimed wins from previous betting pools. If
             you are one of the people listed below contact admin to have your
             wins retroactively added to your profile. Liars will be BANNED.
+            <br />
+            <br />
+            Unclaimed bets will be <strong>ERASED</strong> if not claimed by
+            March 1st, 2025.
         </p>
         <table>
             <thead>
@@ -133,6 +137,10 @@ onMounted(async () => {
             text-align: right;
         }
     }
+}
+
+strong {
+    font-weight: bold;
 }
 
 .ranks {

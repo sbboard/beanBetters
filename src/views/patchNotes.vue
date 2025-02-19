@@ -5,6 +5,7 @@
         <h1>PATCH NOTES</h1>
         <h2>2/19/25</h2>
         <ul>
+            <li>Added disclaimer unclaimed bets will be erased on 3/1/25</li>
             <li>Increased with of leaderboard</li>
             <li>Added more bean ranks</li>
             <li>Paid GreenGun PSHM wins</li>
