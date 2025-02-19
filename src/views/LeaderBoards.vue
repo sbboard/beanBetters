@@ -95,10 +95,6 @@ onMounted(async () => {
                     <td>Brian</td>
                     <td class="wins">1</td>
                 </tr>
-                <tr>
-                    <td>Rockel</td>
-                    <td class="wins">1</td>
-                </tr>
             </tbody>
         </table>
     </div>
