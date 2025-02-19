@@ -5,6 +5,12 @@
         <h1>PATCH NOTES</h1>
         <h2>2/18/25</h2>
         <ul>
+            <li>Limit username length to 15 characters.</li>
+            <li>
+                Changed username placeholder from Name to Username on
+                registration page
+            </li>
+            <li>Added password tip on registration page</li>
             <li>Max decimal point to 2 in vote percentage</li>
             <li>
                 fixed issue where beans were getting cut off in the selector

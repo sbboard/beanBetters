@@ -118,13 +118,14 @@ onMounted(() => {
         <template v-if="registerTab">
             <h1>Register As an official big bean Gambler $$</h1>
             <form @submit.prevent="registerUser">
-                <input v-model="newUser.name" placeholder="Name" required />
+                <input v-model="newUser.name" maxlength="15" placeholder="Username" required />
                 <input
                     type="password"
                     v-model="newUser.password"
                     placeholder="Password"
                     required
                 />
+                <p>TIP: Use a password that's easy to remember like '123456'</p>
                 <input placeholder="Registration Code" v-model="code" />
                 <button type="submit" :disabled="noMatch">
                     REGISTER!! WIN BIG!
@@ -181,6 +182,11 @@ onMounted(() => {
     width: fit-content;
     margin: 0 auto;
     width: 400px;
+    p{
+        font-size:.8em;
+        text-align: left;
+        margin-bottom: 1em;
+    }
     img {
         width: 90%;
         aspect-ratio: 1;
