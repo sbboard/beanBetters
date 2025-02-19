@@ -14,7 +14,28 @@ function getRank(rank: number) {
             rankString = 'Queen Bean 👸';
             break;
         case 3:
-            rankString = 'Kidney Bean 👶';
+            rankString = 'Kidney Bean 🧑‍🦱';
+            break;
+        case 4:
+            rankString = 'Jelly Bean 👶';
+            break;
+        case 5:
+            rankString = 'Human Bean 🚶';
+            break;
+        case 6:
+            rankString = 'Garbanzo Bean 🧑‍🍳';
+            break;
+        case 7:
+            rankString = 'Baked Bean 😮‍💨';
+            break;
+        case 8:
+            rankString = 'Refried Bean 🧟‍♂️';
+            break;
+        case 9:
+            rankString = 'Mr Bean 🤥';
+            break;
+        case 10:
+            rankString = 'Soy Bean 😱';
             break;
         default:
             rankString = '';
@@ -38,7 +59,7 @@ onMounted(async () => {
 
 <template>
     <div class="leaderboards">
-        <h1>BEAN RANKS</h1>
+        <h1>LEADERBOARD</h1>
         <div v-if="users.length === 0" style="margin-bottom: 1em">
             Loading...
         </div>
@@ -46,13 +67,15 @@ onMounted(async () => {
             <table>
                 <thead>
                     <tr>
+                        <th>No.</th>
                         <th>Rank</th>
-                        <th>Bettor</th>
+                        <th style="width: 60%">Bettor</th>
                         <th>Wins</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="ranks">
                     <tr v-for="(user, index) in users" :key="index">
+                        <td>{{ index + 1 }}</td>
                         <td>{{ getRank(index + 1) }}</td>
                         <td>{{ user.name }}</td>
                         <td class="wins">{{ user.wins.length }}</td>
@@ -70,7 +93,7 @@ onMounted(async () => {
         <table>
             <thead>
                 <tr>
-                    <th>PSHM Bettor</th>
+                    <th>PSHM User</th>
                     <th>Wins</th>
                 </tr>
             </thead>
@@ -91,10 +114,6 @@ onMounted(async () => {
                     <td>chibiGodzilla</td>
                     <td class="wins">1</td>
                 </tr>
-                <tr>
-                    <td>Brian</td>
-                    <td class="wins">1</td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -102,7 +121,7 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .leaderboards {
-    width: 400px;
+    width: 750px;
     margin: 0 auto;
     p {
         margin-bottom: 1em;
@@ -113,6 +132,15 @@ onMounted(async () => {
         .wins {
             text-align: right;
         }
+    }
+}
+
+.ranks {
+    tr:nth-of-type(4) {
+        border-bottom: 5px solid var(--themeColor);
+    }
+    tr:nth-of-type(10) {
+        border-bottom: 5px solid var(--themeColor);
     }
 }
 </style>

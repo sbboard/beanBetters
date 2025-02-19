@@ -5,6 +5,9 @@
         <h1>PATCH NOTES</h1>
         <h2>2/19/25</h2>
         <ul>
+            <li>Increased with of leaderboard</li>
+            <li>Added more bean ranks</li>
+            <li>Paid GreenGun PSHM wins</li>
             <li>Paid rockel PSHM wins</li>
             <li>changed bet description to bet rules</li>
             <li>Moved expiration date to top of poll</li>
