@@ -47,7 +47,7 @@ onMounted(async () => {
                 <thead>
                     <tr>
                         <th>Rank</th>
-                        <th>Better</th>
+                        <th>Bettor</th>
                         <th>Wins</th>
                     </tr>
                 </thead>
@@ -70,7 +70,7 @@ onMounted(async () => {
         <table>
             <thead>
                 <tr>
-                    <th>PSHM Better</th>
+                    <th>PSHM Bettor</th>
                     <th>Wins</th>
                 </tr>
             </thead>

@@ -87,7 +87,7 @@ const createPoll = async () => {
 
         <label for="description">Description</label>
         <p>
-            Describe the bet in detail. Expect your betters to be idiots and be
+            Describe the bet in detail. Expect your bettors to be idiots and be
             as clear as possible. They WILL misinterpret your bet.
         </p>
         <textarea v-model="description" placeholder="Description"></textarea>

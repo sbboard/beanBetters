@@ -5,6 +5,10 @@
         <h1>PATCH NOTES</h1>
         <h2>2/18/25</h2>
         <ul>
+            <li>
+                Clicking option selects option, not just specific to checkbox
+            </li>
+            <li>Fix all instances of "bettor" mispelled as "better"</li>
             <li>remove claimed bets from unclaimed wins table</li>
             <li>Shorten farthest poll expiration date from 12 to 6 months</li>
             <li>Limit username length to 15 characters.</li>

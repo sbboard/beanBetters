@@ -83,11 +83,11 @@ onMounted(() => {
                 v-for="pollOption in virtualPoll.options"
                 :class="{ isWinner: poll.winner === pollOption._id }"
                 :key="pollOption._id"
+                @click="selectOption(pollOption._id)"
             >
                 <div
                     class="selector"
                     :class="{ selected: selectedOption === pollOption._id }"
-                    @click="selectOption(pollOption._id)"
                 >
                     <span v-if="selectedOption === pollOption._id">🫘</span>
                 </div>
@@ -142,12 +142,12 @@ onMounted(() => {
     .option {
         margin-bottom: 10px;
         display: flex;
+        cursor: pointer;
         .selector {
             height: 20px;
             width: 20px;
             border: 1px solid var(--themeColor);
             box-sizing: border-box;
-            cursor: pointer;
             user-select: none;
             position: relative;
             overflow: visible;
@@ -219,6 +219,9 @@ onMounted(() => {
         }
     }
     &.hasVoted {
+        .option {
+            cursor: unset;
+        }
         .selector {
             pointer-events: none;
             border: 1px solid transparent;
@@ -226,6 +229,7 @@ onMounted(() => {
     }
     &.hasWinner {
         .option {
+            cursor: unset;
             opacity: 0.35;
             &.isWinner {
                 opacity: 1;
