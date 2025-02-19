@@ -17,22 +17,22 @@ function getRank(rank: number) {
             rankString = 'Kidney Bean 🧑‍🦱';
             break;
         case 4:
-            rankString = 'Jelly Bean 👶';
+            rankString = 'Mr Bean 🤥';
             break;
         case 5:
             rankString = 'Human Bean 🚶';
             break;
         case 6:
-            rankString = 'Garbanzo Bean 🧑‍🍳';
+            rankString = 'Jelly Bean 👶';
             break;
         case 7:
-            rankString = 'Baked Bean 😮‍💨';
+            rankString = 'Garbanzo Bean 🧑‍🍳';
             break;
         case 8:
-            rankString = 'Refried Bean 🧟‍♂️';
+            rankString = 'Baked Bean 😮‍💨';
             break;
         case 9:
-            rankString = 'Mr Bean 🤥';
+            rankString = 'Refried Bean 🧟‍♂️';
             break;
         case 10:
             rankString = 'Soy Bean 😱';
@@ -68,8 +68,7 @@ onMounted(async () => {
             betting as them.<br /><br />
             Ranks 5-10 are the <strong>"Bean Elite"</strong>. They are the ones
             who have proven themselves to be worthy of the title of bean. The
-            Bean Royal Family sometimes allows them to sit at the table with
-            them.<br /><br />
+            Bean Royal Family sometimes goes to them for counsel.<br /><br />
             All other ranks are just your average bettor. At the moment they are
             destined for a pauper's grave. But with enough wins, they too can
             become something greater.
