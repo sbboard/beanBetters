@@ -3,6 +3,15 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>2/19/25</h2>
+        <ul>
+            <li>improve login security</li>
+            <li>
+                Replace link gifs with more readable / unwatermarked versions
+            </li>
+            <li>Change "MAKE BETS" copy to "GAMBLE!!"</li>
+            <li>Add welcome bar with logout button</li>
+        </ul>
         <h2>2/18/25</h2>
         <ul>
             <li>
@@ -40,6 +49,7 @@
     ul {
         font-size: 0.9em;
         list-style-type: disc;
+        margin-bottom: 1rem;
     }
 }
 </style>

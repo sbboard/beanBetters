@@ -3,6 +3,21 @@ import LoginView from './views/LoginView.vue';
 import { useUserStore } from './stores/user';
 import SiteFooter from './components/SiteFooter.vue';
 import AdRoll from './components/AdRoll.vue';
+import { onMounted } from 'vue';
+import { readScrambledId } from './composables/useLogin';
+
+const userStore = useUserStore();
+
+onMounted(async () => {
+    try {
+        const beanId = localStorage.getItem('bean_id');
+        if (!beanId) return userStore.resetUser();
+        await readScrambledId(beanId);
+    } catch (error) {
+        userStore.resetUser();
+        console.error('Error during login:', error);
+    }
+});
 </script>
 
 <template>
@@ -15,8 +30,8 @@ import AdRoll from './components/AdRoll.vue';
         </header>
         <main>
             <div class="content">
-                <LoginView v-if="!useUserStore().isLoggedIn" />
-                <RouterView v-else />
+                <LoginView v-if="userStore.showLogin" />
+                <RouterView v-else-if="userStore.user" />
             </div>
         </main>
         <SiteFooter />
@@ -61,7 +76,7 @@ header {
             img {
                 height: auto;
                 max-height: 45px;
-                filter: sepia(1) hue-rotate(29deg) contrast(2);
+                filter: sepia(1) hue-rotate(33deg) saturate(3.5) contrast(1.5);
             }
         }
     }

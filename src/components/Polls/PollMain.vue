@@ -9,7 +9,7 @@ const virtualPoll = ref(poll);
 
 const selectedOption = ref<string | null>(null);
 const userStore = useUserStore();
-const userId = userStore.userId;
+const userId = userStore.user?._id;
 
 const isOwner = computed(() => poll.creatorId === userId && !poll.winner);
 const isPastExpiration = computed(() => new Date() > new Date(poll.endDate));

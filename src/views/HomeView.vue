@@ -1,11 +1,25 @@
 <script setup lang="ts">
+import { useUserStore } from '../stores/user';
+import { useLogout } from '@/composables/useLogin';
+const userStore = useUserStore();
+
 const random = Math.floor(Math.random() * 10) + 1 + 'px';
 const flipped = `-${random}`;
 </script>
 
 <template>
     <div class="home">
-        <img src="/assets/home.gif" />
+        <div class="welcome">
+            <div>
+                Welcome home,
+                <strong
+                    >{{ userStore.user?.name }}
+                    {{ userStore.user?._id }}</strong
+                >. Ready to gamble?<br />
+                Current Wins: <strong>{{ userStore.user?.wins.length }}</strong>
+            </div>
+            <div @click="useLogout()" class="logout">Logout</div>
+        </div>
         <hr />
         <div>
             <div class="left">
@@ -13,6 +27,7 @@ const flipped = `-${random}`;
                 <img src="/assets/bg.jpg" />
             </div>
             <div>
+                <!-- https://picasion.com/glitter-maker/ -->
                 <RouterLink to="/bets"
                     ><img src="/assets/bets.gif"
                 /></RouterLink>
@@ -29,15 +44,34 @@ const flipped = `-${random}`;
 
 <style lang="scss" scoped>
 .home {
+    .welcome {
+        display: flex;
+        margin-top: 10px;
+        flex-direction: row;
+        font-size: 1.1em;
+        align-items: end;
+        & > div {
+            display: block;
+        }
+        strong {
+            font-weight: bold;
+        }
+        .logout {
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
     img {
-        filter: sepia(1) hue-rotate(29deg) contrast(2);
+        filter: sepia(1) hue-rotate(33deg) saturate(3.5) contrast(1.5);
     }
     & > img {
         max-width: 100%;
     }
     hr {
         width: 100%;
-        margin: 25px 0 50px 0;
+        margin: 5px0 50px 0;
     }
     & > div {
         display: flex;
@@ -53,6 +87,8 @@ const flipped = `-${random}`;
             & > a {
                 min-width: 100%;
                 display: block;
+                margin-bottom: 1em;
+                text-align: center;
                 & > img {
                     max-width: 100%;
                 }

@@ -1,10 +1,14 @@
-import { computed, ref, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import { defineStore } from 'pinia';
 
 export const useUserStore = defineStore('user', () => {
-    const userId: Ref<string | null> = ref(null);
-    const username: Ref<string | null> = ref(null);
-    const isLoggedIn = computed(() => !!userId.value && !!username.value);
+    const user: Ref<User | null> = ref(null);
+    const showLogin: Ref<boolean> = ref(false);
 
-    return { userId, username, isLoggedIn };
+    function resetUser() {
+        showLogin.value = true;
+        user.value = null;
+    }
+
+    return { user, showLogin, resetUser };
 });

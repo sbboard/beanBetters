@@ -58,7 +58,7 @@ const createPoll = async () => {
 
     try {
         const pollData = {
-            creatorId: useUserStore().userId,
+            creatorId: useUserStore().user?._id,
             title: title.value,
             description: description.value,
             endDate: new Date(endDate.value),

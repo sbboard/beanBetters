@@ -1,21 +1,18 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import axios from 'axios';
-import { useUserStore } from '../stores/user';
+import { setInfo } from '@/composables/useLogin';
+
+const api = 'https://www.gang-fight.com/api/beans';
+const gamblers = Array.from({ length: 6 }, (_, i) => `gambler${i + 1}.jpg`);
 
 const registerTab = ref(false);
 const forgotPassword = ref(false);
 const SECRET = 'itsbeantime';
 const code = ref('');
-
-const gamblers = [
-    'gambler1.jpg',
-    'gambler2.jpg',
-    'gambler3.jpg',
-    'gambler4.jpg',
-    'gambler5.jpg',
-    'gambler6.jpg',
-];
+const newUser = ref({ name: '', password: '' });
+const loginCredentials = ref({ name: '', password: '' });
+const loginError = ref<string | null>(null);
 const currentGambler = ref('');
 
 const getRandomGambler = () => {
@@ -32,44 +29,15 @@ currentGambler.value = getRandomGambler();
 
 const noMatch = computed(() => code.value !== SECRET);
 
-const newUser = ref({
-    name: '',
-    password: '',
-});
-
-const loginCredentials = ref({
-    name: '',
-    password: '',
-});
-
-const loginError = ref<string | null>(null);
-
-const api = 'https://www.gang-fight.com/api/beans';
-
-function setInfo(id: string, name: string) {
-    useUserStore().userId = id;
-    useUserStore().username = name;
-    try {
-        localStorage.setItem('userId', id);
-        localStorage.setItem('username', name);
-    } catch (error) {
-        console.error('Local storage error:', error);
-    }
-}
-
 const registerUser = async () => {
     try {
         // Registering user with axios
         const response = await axios.post(
             `${api}/user/register`,
             newUser.value,
-            {
-                headers: { 'Content-Type': 'application/json' },
-            }
+            { headers: { 'Content-Type': 'application/json' } }
         );
-        if (response.data.user) {
-            setInfo(response.data.user._id, response.data.user.name);
-        }
+        if (response.data.user) setInfo(response.data.user);
     } catch (error) {
         console.error('Registration error:', error);
     }
@@ -81,13 +49,9 @@ const loginUser = async () => {
         const response = await axios.post(
             `${api}/user/login`,
             loginCredentials.value,
-            {
-                headers: { 'Content-Type': 'application/json' },
-            }
+            { headers: { 'Content-Type': 'application/json' } }
         );
-        if (response.data.user) {
-            setInfo(response.data.user._id, response.data.user.name);
-        }
+        if (response.data.user) setInfo(response.data.user);
     } catch (error) {
         loginError.value = 'Login failed.';
         console.error('Login error:', error);
@@ -100,16 +64,6 @@ const swapTab = () => {
     forgotPassword.value = false;
     currentGambler.value = getRandomGambler();
 };
-
-onMounted(() => {
-    try {
-        const userId = localStorage.getItem('userId');
-        const username = localStorage.getItem('username');
-        if (userId && username) setInfo(userId, username);
-    } catch (error) {
-        console.error('Local storage error:', error);
-    }
-});
 </script>
 
 <template>
@@ -118,7 +72,12 @@ onMounted(() => {
         <template v-if="registerTab">
             <h1>Register As an official big bean Gambler $$</h1>
             <form @submit.prevent="registerUser">
-                <input v-model="newUser.name" maxlength="15" placeholder="Username" required />
+                <input
+                    v-model="newUser.name"
+                    maxlength="15"
+                    placeholder="Username"
+                    required
+                />
                 <input
                     type="password"
                     v-model="newUser.password"
@@ -182,8 +141,8 @@ onMounted(() => {
     width: fit-content;
     margin: 0 auto;
     width: 400px;
-    p{
-        font-size:.8em;
+    p {
+        font-size: 0.8em;
         text-align: left;
         margin-bottom: 1em;
     }
