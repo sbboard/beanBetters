@@ -5,6 +5,7 @@
         <h1>PATCH NOTES</h1>
         <h2>2/18/25</h2>
         <ul>
+            <li>Shorten farthest poll expiration date from 12 to 6 months</li>
             <li>Limit username length to 15 characters.</li>
             <li>
                 Changed username placeholder from Name to Username on

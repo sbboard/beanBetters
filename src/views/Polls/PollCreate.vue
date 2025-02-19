@@ -23,7 +23,7 @@ const isEndDateValid = computed(() => {
     const minEndDate = new Date(today);
     minEndDate.setDate(today.getDate() + 1); // Must be at least tomorrow
     const maxEndDate = new Date(today);
-    maxEndDate.setFullYear(today.getFullYear() + 1); // Max is one year from today
+    maxEndDate.setMonth(today.getMonth() + 6); // Max is six months from today
 
     return selectedDate >= minEndDate && selectedDate <= maxEndDate;
 });
@@ -93,10 +93,13 @@ const createPoll = async () => {
         <textarea v-model="description" placeholder="Description"></textarea>
 
         <label for="endDate">End Date</label>
-        <p>Specify what date betting will end. No more votes will be allowed on this day (UTC timezone).</p>
+        <p>
+            Specify what date betting will end. No more votes will be allowed on
+            this day (UTC timezone).
+        </p>
         <input type="date" v-model="endDate" />
         <p v-if="!isEndDateValid && endDate">
-            End date must be at least tomorrow and within the next year.
+            End date must between tomorrow and 6 months from today.
         </p>
 
         <label for="options">Options</label>
@@ -167,6 +170,7 @@ const createPoll = async () => {
         display: block;
         font-size: 0.8em;
         margin-bottom: 0.25rem;
+        text-align: left;
     }
     .submit {
         width: 100%;
