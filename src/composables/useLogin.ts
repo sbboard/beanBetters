@@ -1,6 +1,6 @@
 const SECRET_KEY = Number(import.meta.env.VITE_KEY) || 0;
-import axios from 'axios';
 import { useUserStore } from '../stores/user';
+import { getUserInfo } from './useGetUserInfo';
 
 const transformations: Record<number, (str: string) => string> = {
     1: str => str.split('').reverse().join(''),
@@ -69,10 +69,7 @@ const unscrambleId = (scrambledId: string) =>
 export async function readScrambledId(scrambledId: string) {
     const id = unscrambleId(scrambledId);
     try {
-        const response = await axios.get(
-            `https://www.gang-fight.com/api/beans/user/${id}`
-        );
-        setInfo(response.data);
+        setInfo(await getUserInfo(id));
     } catch (error) {
         console.error('Error fetching polls:', error);
         throw error;

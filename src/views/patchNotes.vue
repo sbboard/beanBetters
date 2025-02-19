@@ -5,6 +5,9 @@
         <h1>PATCH NOTES</h1>
         <h2>2/19/25</h2>
         <ul>
+            <li>Moved expiration date to top of poll</li>
+            <li>Added poll attribution</li>
+            <li>increase footer font size</li>
             <li>improve login security</li>
             <li>
                 Replace link gifs with more readable / unwatermarked versions

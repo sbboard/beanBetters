@@ -12,10 +12,8 @@ const flipped = `-${random}`;
         <div class="welcome">
             <div>
                 Welcome home,
-                <strong
-                    >{{ userStore.user?.name }}
-                    {{ userStore.user?._id }}</strong
-                >. Ready to gamble?<br />
+                <strong>{{ userStore.user?.name }}</strong
+                >. Ready to WIN BIG?<br />
                 Current Wins: <strong>{{ userStore.user?.wins.length }}</strong>
             </div>
             <div @click="useLogout()" class="logout">Logout</div>

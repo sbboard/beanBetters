@@ -18,7 +18,7 @@ footer {
     height: 50px;
     text-align: right;
     color: var(--themeColor);
-    font-size: 10px;
+    font-size: 0.75em;
     overflow: hidden;
     span {
         max-width: 990px;
