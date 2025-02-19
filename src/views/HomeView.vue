@@ -19,6 +19,9 @@ const flipped = `-${random}`;
                 <RouterLink to="/leaderboards"
                     ><img src="/assets/leader.gif"
                 /></RouterLink>
+                <RouterLink to="/notes"
+                    ><img src="/assets/patch.gif"
+                /></RouterLink>
             </div>
         </div>
     </div>

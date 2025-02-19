@@ -107,7 +107,7 @@ onMounted(() => {
                 @click="placeBet"
                 class="betButton"
             >
-                'BET NOW BET NOW BET NOW!!!!! $$$$$$$$$$'
+                BET NOW BET NOW BET NOW!!!!! $$$$$
             </div>
             <div v-if="isOwner && isPastExpiration" class="ownerOptions">
                 <RouterLink
