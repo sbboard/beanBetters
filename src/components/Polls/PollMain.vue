@@ -28,7 +28,7 @@ const timeLeft = computed(() => {
 
 const totalVotes = computed(() =>
     virtualPoll.value.options.reduce(
-        (sum, option) => sum + option.betters.length,
+        (sum, option) => sum + option.bettors.length,
         0
     )
 );
@@ -56,7 +56,7 @@ async function placeBet() {
         hasVoted.value = true; // Mark user as having voted
         virtualPoll.value.options = virtualPoll.value.options.map(option => {
             if (option._id === selectedOption.value) {
-                option.betters.push(userId as string);
+                option.bettors.push(userId as string);
             }
             return option;
         });
@@ -68,7 +68,7 @@ async function placeBet() {
 onMounted(async () => {
     if (!userId) return;
     poll.options.forEach(option => {
-        if (option.betters.includes(userId)) {
+        if (option.bettors.includes(userId)) {
             selectedOption.value = option._id;
             hasVoted.value = true;
         }
@@ -106,9 +106,9 @@ onMounted(async () => {
                 </div>
                 <Bars
                     :key="totalVotes"
-                    :percent="getPercentage(pollOption.betters.length)"
+                    :percent="getPercentage(pollOption.bettors.length)"
                     :option="pollOption.text"
-                    :voters="pollOption.betters"
+                    :voters="pollOption.bettors"
                     :is-winner="poll.winner === pollOption._id"
                 />
             </div>
@@ -146,6 +146,7 @@ onMounted(async () => {
         padding: 10px;
         border-bottom: 1px solid var(--themeColor);
         font-size: 0.9em;
+        word-wrap: break-word;
         span {
             display: block;
         }

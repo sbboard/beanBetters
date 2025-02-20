@@ -3,7 +3,7 @@
 interface PollOption {
     _id: string;
     text: string;
-    betters: string[];
+    bettors: string[];
 }
 
 interface Poll {

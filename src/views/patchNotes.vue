@@ -3,6 +3,15 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>2/20/25</h2>
+        <ul>
+            <li>Change king emoji on leaderboard</li>
+            <li>mobile styles</li>
+            <li>style 'settle' page better</li>
+            <li>adjust scroll behavior on site</li>
+            <li>Change "GAMBE!!" to "BET!"</li>
+            <li>Convert all 'betters' to 'bettors' in API</li>
+        </ul>
         <h2>2/19/25</h2>
         <ul>
             <li>Added rank descriptions to leaderboard</li>

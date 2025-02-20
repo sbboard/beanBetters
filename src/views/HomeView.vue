@@ -27,13 +27,13 @@ const flipped = `-${random}`;
             <div>
                 <!-- https://picasion.com/glitter-maker/ -->
                 <RouterLink to="/bets"
-                    ><img src="/assets/bets.gif"
+                    ><img class="betBtn" src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
                 <RouterLink to="/leaderboards"
-                    ><img src="/assets/leader.gif"
+                    ><img src="/assets/leader.gif" alt="LEADERBOARDS"
                 /></RouterLink>
                 <RouterLink to="/notes"
-                    ><img src="/assets/patch.gif"
+                    ><img src="/assets/patch.gif" alt="patch notes"
                 /></RouterLink>
             </div>
         </div>
@@ -89,6 +89,10 @@ const flipped = `-${random}`;
                 text-align: center;
                 & > img {
                     max-width: 100%;
+                    image-rendering: pixelated;
+                    &.betBtn {
+                        height: 100px;
+                    }
                 }
             }
         }
