@@ -116,6 +116,10 @@ a {
     }
 }
 
+strong {
+    font-weight: bold;
+}
+
 figure {
     padding: 10px;
     border: 1px solid var(--themeColor);

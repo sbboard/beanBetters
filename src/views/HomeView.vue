@@ -29,6 +29,9 @@ const userStore = useUserStore();
                 <RouterLink to="/leaderboards"
                     ><img src="/assets/leader.gif" alt="LEADERBOARDS"
                 /></RouterLink>
+                <RouterLink to="/rules"
+                    ><img src="/assets/agree.gif" alt="BOOKIE AGREEMENT"
+                /></RouterLink>
                 <RouterLink to="/notes"
                     ><img src="/assets/patch.gif" alt="patch notes"
                 /></RouterLink>

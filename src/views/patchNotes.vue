@@ -5,6 +5,9 @@
         <h1>PATCH NOTES</h1>
         <h2>2/20/25</h2>
         <ul>
+            <li>Add Bookie Agreement link to homepage</li>
+            <li>Change all instances of "manager" to "bookie"</li>
+            <li>Rename Wager Rules & Guidelines to bookie agreement</li>
             <li>Wager rules & guidelines created</li>
             <li>Paid lack PSHM wins</li>
             <li>fixed bug where poll creators could settle bets early</li>

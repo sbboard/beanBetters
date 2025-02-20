@@ -86,8 +86,8 @@ const createPoll = async () => {
         <RouterLink to="/rules">
             <div class="alert">⚠️</div>
             <div>
-                BEWARE: Read The Wager Manager Agreement before becoming a wager
-                manager
+                <strong>BEWARE:</strong> Read The Bookie Agreement before
+                creating a wager and becoming a bookie.
             </div>
         </RouterLink>
         <label for="title">Title</label>

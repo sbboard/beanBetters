@@ -82,7 +82,7 @@ onMounted(async () => {
         <h1>{{ poll.title }}</h1>
         <div class="details">
             <div>
-                <span><strong>MANAGED BY:</strong> {{ creator }}</span>
+                <span><strong>BOOKIE:</strong> {{ creator }}</span>
                 <span
                     ><strong>{{ timeLeft ? `TIME LEFT` : `CLOSED` }}</strong>
                     {{ timeLeft ? timeLeft : poll.endDate }}</span

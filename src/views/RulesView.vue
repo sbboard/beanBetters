@@ -5,7 +5,12 @@ import CharacterPortraits from '@/components/CharacterPortraits.vue';
 <template>
     <div class="notes">
         <CharacterPortraits class="char" character="judge" />
-        <h1>WAGER MANAGER AGREEMENT</h1>
+        <h1>BOOKIE AGREEMENT</h1>
+        <p>
+            If you decide to become a bookie and create wagers, you must agree
+            to the rules and guidelines set forth in this agreement.
+        </p>
+        <hr />
         <ol>
             <li>
                 <strong>NO NONSENSICAL WAGERS.</strong>
