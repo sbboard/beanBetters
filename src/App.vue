@@ -45,6 +45,8 @@ html {
     color: white;
     font-size: 18px;
     min-height: 100vh;
+    scrollbar-color: var(--themeColor) black;
+    scrollbar-width: thin;
 }
 
 body {
@@ -83,17 +85,14 @@ header {
 }
 
 main {
-    height: calc(100vh - 100px);
     position: relative;
     overflow: auto;
     background-image: url('/assets/casino.jpg');
-    min-height: 100%;
+    min-height: calc(100vh - 100px);
     width: 100%;
     inset: 0;
     background-size: cover;
     z-index: 0;
-    scrollbar-color: var(--themeColor) black;
-    scrollbar-width: thin;
     .content {
         display: flex;
         max-width: 1000px;
@@ -103,7 +102,7 @@ main {
         padding: 20px;
         backdrop-filter: brightness(0.5) blur(8px);
         height: auto;
-        min-height: 100%;
+        min-height: inherit;
     }
 }
 
