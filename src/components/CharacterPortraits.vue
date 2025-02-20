@@ -14,6 +14,8 @@ const flipped = `-${random}`;
 
 <style lang="scss" scoped>
 .character {
+    border-radius: 10px;
+    overflow: hidden;
     position: relative;
     pointer-events: none;
     img {

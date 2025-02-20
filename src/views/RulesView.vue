@@ -5,7 +5,7 @@ import CharacterPortraits from '@/components/CharacterPortraits.vue';
 <template>
     <div class="notes">
         <CharacterPortraits class="char" character="judge" />
-        <h1>WAGER RULES & GUIDELINES</h1>
+        <h1>WAGER MANAGER AGREEMENT</h1>
         <ol>
             <li>
                 <strong>NO NONSENSICAL WAGERS.</strong>
