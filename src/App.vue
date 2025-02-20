@@ -45,8 +45,6 @@ html {
     color: white;
     font-size: 18px;
     min-height: 100vh;
-    scrollbar-color: var(--themeColor) black;
-    scrollbar-width: thin;
 }
 
 body {
@@ -88,6 +86,7 @@ main {
     position: relative;
     overflow: auto;
     background-image: url('/assets/casino.jpg');
+    background-attachment: fixed;
     min-height: calc(100vh - 100px);
     width: 100%;
     inset: 0;
