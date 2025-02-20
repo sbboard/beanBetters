@@ -1,10 +1,8 @@
 <script setup lang="ts">
+import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import { useUserStore } from '../stores/user';
 import { useLogout } from '@/composables/useLogin';
 const userStore = useUserStore();
-
-const random = Math.floor(Math.random() * 10) + 1 + 'px';
-const flipped = `-${random}`;
 </script>
 
 <template>
@@ -21,8 +19,7 @@ const flipped = `-${random}`;
         <hr />
         <div>
             <div class="left">
-                <img class="bean" src="/assets/bean.png" />
-                <img src="/assets/bg.jpg" />
+                <CharacterPortraits character="king" />
             </div>
             <div>
                 <!-- https://picasion.com/glitter-maker/ -->
@@ -105,17 +102,6 @@ const flipped = `-${random}`;
         .left {
             position: relative;
             margin-right: 10px;
-            img {
-                max-width: 100%;
-                filter: none;
-            }
-            .bean {
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 1;
-                animation: mover 1ms infinite alternate linear;
-            }
         }
     }
 }
@@ -133,15 +119,6 @@ const flipped = `-${random}`;
                 margin-bottom: 1em;
             }
         }
-    }
-}
-
-@keyframes mover {
-    0% {
-        transform: translateX(v-bind(random));
-    }
-    100% {
-        transform: translateX(v-bind(flipped));
     }
 }
 </style>

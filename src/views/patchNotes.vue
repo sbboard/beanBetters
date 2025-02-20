@@ -5,6 +5,7 @@
         <h1>PATCH NOTES</h1>
         <h2>2/20/25</h2>
         <ul>
+            <li>Wager rules & guidelines created</li>
             <li>Paid lack PSHM wins</li>
             <li>fixed bug where poll creators could settle bets early</li>
             <li>Change king emoji on leaderboard</li>

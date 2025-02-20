@@ -6,6 +6,7 @@ import SettleBet from '@/views/Polls/PollSettle.vue';
 import Leaderboards from '@/views/LeaderBoards.vue';
 import LoginView from '@/views/LoginView.vue';
 import patchNotes from '@/views/patchNotes.vue';
+import Rules from '@/views/RulesView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
             path: '/notes',
             name: 'patchnotes',
             component: patchNotes,
+        },
+        {
+            path: '/rules',
+            name: 'rules',
+            component: Rules,
         },
     ],
 });

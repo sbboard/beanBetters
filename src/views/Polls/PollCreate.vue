@@ -82,6 +82,14 @@ const createPoll = async () => {
     <div class="create">
         <img src="/assets/dealer.jpg" />
         <h2>CREATE A NEW WAGER</h2>
+
+        <RouterLink to="/rules">
+            <div class="alert">⚠️</div>
+            <div>
+                BEWARE: Read The Wager Rules & Guidelines Before Creating a
+                Wager
+            </div>
+        </RouterLink>
         <label for="title">Title</label>
         <input v-model="title" placeholder="Title" />
 
@@ -147,7 +155,7 @@ const createPoll = async () => {
         color: var(--themeColor);
         font-size: 1.2em;
         text-align: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
     }
     label {
         color: var(--themeColor);
@@ -220,6 +228,24 @@ const createPoll = async () => {
             cursor: pointer;
             padding: 0;
             text-align: right;
+        }
+    }
+    a {
+        flex-direction: row;
+        font-size: 0.8em;
+        text-align: center;
+        display: flex;
+        border: 1px solid var(--themeColor);
+        padding: 1em;
+        align-items: center;
+        &:hover {
+            text-decoration: none;
+        }
+        & > div {
+            display: block;
+        }
+        .alert {
+            font-size: 2em;
         }
     }
 }
