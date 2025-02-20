@@ -8,7 +8,7 @@ function getRank(rank: number) {
     let rankString = '';
     switch (rank) {
         case 1:
-            rankString = 'King Bean 🫅🏾';
+            rankString = 'King Bean 🫅';
             break;
         case 2:
             rankString = 'Queen Bean 👸';
