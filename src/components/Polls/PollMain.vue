@@ -120,10 +120,8 @@ onMounted(async () => {
             >
                 BET NOW BET NOW BET NOW!!!!! $$$$$
             </div>
-            <div v-if="isOwner && isPastExpiration" class="ownerOptions">
-                <RouterLink
-                    :class="{ disabled: !isPastExpiration }"
-                    :to="`/bets/settle/${poll._id}`"
+            <div v-if="isOwner && !isPastExpiration" class="ownerOptions">
+                <RouterLink :to="`/bets/settle/${poll._id}`"
                     >$$$ SETTLE BET $$$</RouterLink
                 >
             </div>
@@ -162,33 +160,6 @@ onMounted(async () => {
     & > div {
         display: block;
     }
-    .option {
-        margin-bottom: 10px;
-        display: flex;
-        cursor: pointer;
-        .selector {
-            height: 20px;
-            width: 20px;
-            border: 1px solid var(--themeColor);
-            box-sizing: border-box;
-            user-select: none;
-            position: relative;
-            overflow: visible;
-            &.selected {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                line-height: 0;
-                position: relative;
-                overflow: visible;
-                span {
-                    position: absolute;
-                    top: 50%;
-                    bottom: 0;
-                }
-            }
-        }
-    }
 
     .total {
         text-align: right;
@@ -213,11 +184,6 @@ onMounted(async () => {
         font-weight: bold;
         margin-top: 0.5rem;
         animation: blink 0.25s linear infinite;
-        &.disabled {
-            opacity: 0.5;
-            animation: none;
-            pointer-events: none;
-        }
     }
 
     .ownerOptions > a {

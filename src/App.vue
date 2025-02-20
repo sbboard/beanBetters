@@ -69,7 +69,7 @@ header {
         height: 100%;
         backdrop-filter: brightness(0.75) blur(5px);
         flex-direction: row;
-        align-items: end;
+        align-items: center;
         a {
             line-height: 0;
             width: fit-content;
@@ -78,6 +78,7 @@ header {
                 height: auto;
                 max-height: 45px;
                 filter: sepia(1) hue-rotate(33deg) saturate(3.5) contrast(1.5);
+                max-width: calc(100vw - 20px);
             }
         }
     }
@@ -198,6 +199,34 @@ table {
     td,
     th {
         padding: 0.25em;
+    }
+}
+
+.option {
+    margin-bottom: 10px;
+    display: flex;
+    cursor: pointer;
+    .selector {
+        height: 20px;
+        width: 20px;
+        border: 1px solid var(--themeColor);
+        box-sizing: border-box;
+        user-select: none;
+        position: relative;
+        overflow: visible;
+        &.selected {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 0;
+            position: relative;
+            overflow: visible;
+            span {
+                position: absolute;
+                top: 50%;
+                bottom: 0;
+            }
+        }
     }
 }
 </style>

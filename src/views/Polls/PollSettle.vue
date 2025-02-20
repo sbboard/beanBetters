@@ -11,6 +11,10 @@ const route = useRoute();
 const router = useRouter();
 const pollId = route.params.id as string;
 
+const selectOption = (id: string) => {
+    selectedOption.value = selectedOption.value === id ? null : id;
+};
+
 // Fetch poll data based on the poll ID
 const fetchPoll = async () => {
     try {
@@ -32,8 +36,8 @@ const settleBet = async () => {
         alert('Bet settled successfully');
         router.push({ name: 'bets' });
     } catch (error) {
-        console.error('Error settling bet:', error);
         alert('Error settling the bet');
+        console.error('Error settling bet:', error);
     }
 };
 
@@ -51,14 +55,25 @@ onMounted(() => fetchPoll());
             <div v-if="poll.options.length > 0">
                 <h4>Which was correct?</h4>
                 <ul>
-                    <li v-for="option in poll.options" :key="option._id">
-                        <input
-                            type="radio"
-                            :value="option._id"
-                            v-model="selectedOption"
-                        />
-                        <span>{{ option.text }}</span>
-                    </li>
+                    <div
+                        class="option"
+                        v-for="pollOption in poll.options"
+                        :class="{ isWinner: poll.winner === pollOption._id }"
+                        :key="pollOption._id"
+                        @click="selectOption(pollOption._id)"
+                    >
+                        <div
+                            class="selector"
+                            :class="{
+                                selected: selectedOption === pollOption._id,
+                            }"
+                        >
+                            <span v-if="selectedOption === pollOption._id"
+                                >🫘</span
+                            >
+                        </div>
+                        {{ pollOption.text }}
+                    </div>
                 </ul>
             </div>
 
@@ -87,6 +102,14 @@ onMounted(() => fetchPoll());
     margin: 0 auto;
     & > * {
         box-sizing: border-box;
+    }
+    h3 {
+        margin-bottom: 10px;
+    }
+    p {
+        text-align: left;
+        word-wrap: break-word;
+        font-size: 1em;
     }
     .submit {
         width: 100%;
@@ -118,5 +141,9 @@ onMounted(() => fetchPoll());
             width: calc(100% - 10px);
         }
     }
+}
+
+.option .selector {
+    margin-right: 10px;
 }
 </style>

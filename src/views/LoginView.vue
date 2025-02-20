@@ -70,7 +70,7 @@ const swapTab = () => {
     <div class="login">
         <img :src="currentGambler" />
         <template v-if="registerTab">
-            <h1>Register As an official big bean bettor $$</h1>
+            <h1>Register As an official big bean bettor</h1>
             <form @submit.prevent="registerUser">
                 <input
                     v-model="newUser.name"
@@ -93,7 +93,7 @@ const swapTab = () => {
         </template>
 
         <template v-else>
-            <h1>Login To Continue Your Gambling Journey $$</h1>
+            <h1>Login To Continue Your Betting Journey</h1>
             <form @submit.prevent="loginUser">
                 <input
                     v-model="loginCredentials.name"
@@ -141,6 +141,7 @@ const swapTab = () => {
     width: fit-content;
     margin: 0 auto;
     width: 400px;
+    max-width: 100%;
     p {
         font-size: 0.8em;
         text-align: left;
@@ -148,6 +149,7 @@ const swapTab = () => {
     }
     img {
         width: 90%;
+        max-width: 100%;
         aspect-ratio: 1;
         margin-bottom: 1em;
         border-radius: 10px;
