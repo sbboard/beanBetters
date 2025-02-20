@@ -134,6 +134,7 @@ const createPoll = async () => {
 .create {
     width: 400px;
     margin: 0 auto;
+    max-width: 100%;
     & > * {
         box-sizing: border-box;
     }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 const { percent, option, isWinner } = defineProps<{
     percent: number;
@@ -12,11 +12,20 @@ const darkInnerWidth = ref(0);
 const optionInnerWidths = ref<number>(0);
 const baseLayer = ref<HTMLDivElement | null>(null);
 
-onMounted(() => {
+function calculateBars() {
     if (!baseLayer.value) return;
     const width = baseLayer.value.getBoundingClientRect().width;
     darkInnerWidth.value = width;
     optionInnerWidths.value = width * (percent / 100);
+}
+
+onMounted(() => {
+    calculateBars();
+    addEventListener('resize', calculateBars);
+});
+
+onUnmounted(() => {
+    removeEventListener('resize', calculateBars);
 });
 </script>
 

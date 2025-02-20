@@ -139,6 +139,7 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .leaderboards {
     width: 750px;
+    max-width: 100%;
     margin: 0 auto;
     p {
         margin-bottom: 1em;

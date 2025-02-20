@@ -99,6 +99,7 @@ onMounted(() => fetchPoll());
 <style lang="scss" scoped>
 .settle-bet {
     width: 400px;
+    max-width: 100%;
     margin: 0 auto;
     & > * {
         box-sizing: border-box;

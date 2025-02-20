@@ -13,7 +13,7 @@ const flipped = `-${random}`;
             <div>
                 Welcome home,
                 <strong>{{ userStore.user?.name }}</strong
-                >. Ready to WIN BIG?<br />
+                ><br />
                 Current Wins: <strong>{{ userStore.user?.wins.length }}</strong>
             </div>
             <div @click="useLogout()" class="logout">Logout</div>
@@ -26,8 +26,8 @@ const flipped = `-${random}`;
             </div>
             <div>
                 <!-- https://picasion.com/glitter-maker/ -->
-                <RouterLink to="/bets"
-                    ><img class="betBtn" src="/assets/bet.gif" alt="BET!"
+                <RouterLink class="betBtn" to="/bets"
+                    ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
                 <RouterLink to="/leaderboards"
                     ><img src="/assets/leader.gif" alt="LEADERBOARDS"
@@ -50,11 +50,14 @@ const flipped = `-${random}`;
         align-items: end;
         & > div {
             display: block;
+            max-width: unset;
         }
         strong {
             font-weight: bold;
         }
         .logout {
+            text-align: right;
+            width: fit-content;
             cursor: pointer;
             &:hover {
                 text-decoration: underline;
@@ -82,22 +85,26 @@ const flipped = `-${random}`;
             vertical-align: text-top;
             align-items: flex-end;
             border-radius: 10px;
+            width: 700px;
             & > a {
                 min-width: 100%;
                 display: block;
                 margin-bottom: 1em;
                 text-align: center;
+                &.betBtn {
+                    img {
+                        width: 100%;
+                    }
+                }
                 & > img {
                     max-width: 100%;
                     image-rendering: pixelated;
-                    &.betBtn {
-                        height: 100px;
-                    }
                 }
             }
         }
         .left {
             position: relative;
+            margin-right: 10px;
             img {
                 max-width: 100%;
                 filter: none;
@@ -108,6 +115,22 @@ const flipped = `-${random}`;
                 left: 0;
                 z-index: 1;
                 animation: mover 1ms infinite alternate linear;
+            }
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    .home > div {
+        flex-direction: column;
+        align-items: center;
+        & div {
+            width: 500px;
+            max-width: 100%;
+            &.left {
+                width: 250px;
+                max-width: 100%;
+                margin-bottom: 1em;
             }
         }
     }

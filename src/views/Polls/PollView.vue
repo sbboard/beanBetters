@@ -21,7 +21,7 @@ onMounted(async () => {
     <div>
         <Character :character="'king'" />
         <RouterLink class="new" to="/bets/create"
-            >$$ CREATE NEW WAGER $$</RouterLink
+            >$$CREATE NEW WAGER$$</RouterLink
         >
         <template v-if="polls && polls.length">
             <Poll :key="poll._id" v-for="poll in polls" :poll="poll"
@@ -36,5 +36,6 @@ onMounted(async () => {
     display: block;
     width: fit-content;
     font-size: 1.5em;
+    text-align: center;
 }
 </style>

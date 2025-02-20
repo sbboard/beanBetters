@@ -61,7 +61,9 @@
 <style lang="scss" scoped>
 .notes {
     width: 400px;
+    max-width: 100%;
     margin: 0 auto;
+    padding: 10px;
     h2 {
         margin-bottom: 0.5em;
     }
