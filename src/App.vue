@@ -67,8 +67,7 @@ header {
         position: relative;
         z-index: 1;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5019607843);
-        backdrop-filter: blur(3px);
+        backdrop-filter: brightness(0.75) blur(5px);
         flex-direction: row;
         align-items: end;
         a {

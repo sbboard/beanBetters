@@ -29,7 +29,7 @@ footer {
         bottom: 0;
         left: 0;
         right: 0;
-        backdrop-filter: brightness(0.5) blur(5px);
+        backdrop-filter: brightness(0.75) blur(5px);
         padding: 5px;
         display: flex;
         justify-content: center;
