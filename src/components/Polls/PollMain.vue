@@ -120,7 +120,7 @@ onMounted(async () => {
             >
                 BET NOW BET NOW BET NOW!!!!! $$$$$
             </div>
-            <div v-if="isOwner && !isPastExpiration" class="ownerOptions">
+            <div v-if="isOwner && isPastExpiration" class="ownerOptions">
                 <RouterLink :to="`/bets/settle/${poll._id}`"
                     >$$$ SETTLE BET $$$</RouterLink
                 >
