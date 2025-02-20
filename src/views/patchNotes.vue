@@ -5,12 +5,13 @@
         <h1>PATCH NOTES</h1>
         <h2>2/20/25</h2>
         <ul>
+            <li>Paid lack PSHM wins</li>
             <li>fixed bug where poll creators could settle bets early</li>
             <li>Change king emoji on leaderboard</li>
             <li>mobile styles</li>
             <li>style 'settle' page better</li>
             <li>adjust scroll behavior on site</li>
-            <li>Change "GAMBE!!" to "BET!"</li>
+            <li>Change "GAMBLE!!" to "BET!"</li>
             <li>Convert all 'betters' to 'bettors' in API</li>
         </ul>
         <h2>2/19/25</h2>
@@ -19,7 +20,7 @@
             <li>Added disclaimer unclaimed bets will be erased on 3/1/25</li>
             <li>Increased with of leaderboard</li>
             <li>Added more bean ranks</li>
-            <li>Paid GreenGun PSHM wins</li>
+            <li>Paid GreenGus PSHM wins</li>
             <li>Paid rockel PSHM wins</li>
             <li>changed bet description to bet rules</li>
             <li>Moved expiration date to top of poll</li>
