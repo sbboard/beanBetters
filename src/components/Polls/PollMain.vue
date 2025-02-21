@@ -26,6 +26,11 @@ const timeLeft = computed(() => {
     return `${days}d ${hours}h ${minutes}m`;
 });
 
+const formatDate = (date: string) => {
+    const d = new Date(date);
+    return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+};
+
 const totalVotes = computed(() =>
     virtualPoll.value.options.reduce(
         (sum, option) => sum + option.bettors.length,
@@ -84,8 +89,14 @@ onMounted(async () => {
             <div>
                 <span><strong>BOOKIE:</strong> {{ creator }}</span>
                 <span
-                    ><strong>{{ timeLeft ? `TIME LEFT` : `CLOSED` }}</strong>
-                    {{ timeLeft ? timeLeft : poll.endDate }}</span
+                    ><strong>{{
+                        !isPastExpiration ? `TIME LEFT` : `CLOSED`
+                    }}</strong>
+                    {{
+                        !isPastExpiration
+                            ? timeLeft
+                            : formatDate(poll.endDate.toString())
+                    }}</span
                 >
             </div>
             <span class="description">{{ poll.description }}</span>

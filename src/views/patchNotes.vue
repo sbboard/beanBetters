@@ -5,6 +5,9 @@
         <h1>PATCH NOTES</h1>
         <h2>2/20/25</h2>
         <ul>
+            <li>
+                Fixed bug where closed dates weren't showing up on closed wagers
+            </li>
             <li>Add Bookie Agreement link to homepage</li>
             <li>Change all instances of "manager" to "bookie"</li>
             <li>Rename Wager Rules & Guidelines to bookie agreement</li>
