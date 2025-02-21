@@ -5,6 +5,11 @@ import { getAllPolls } from '@/composables/usePolls';
 
 const polls = ref<Poll[] | null>(null);
 
+const showHr = (index: number) => {
+    if (index === 0 || !polls.value) return false;
+    return !!polls.value[index].winner && !polls.value[index - 1].winner;
+};
+
 onMounted(async () => {
     const fetchedPolls = await getAllPolls();
     //move all polls with winner to the bottom
@@ -22,8 +27,10 @@ onMounted(async () => {
             >$$CREATE NEW WAGER$$</RouterLink
         >
         <template v-if="polls && polls.length">
-            <Poll :key="poll._id" v-for="poll in polls" :poll="poll"
-        /></template>
+            <template :key="poll._id" v-for="(poll, i) in polls">
+                <hr v-if="showHr(i)" />
+                <Poll :poll="poll" /> </template
+        ></template>
         <div v-else>No ongoing bets... a shameful day in beandom</div>
     </div>
 </template>
@@ -35,5 +42,8 @@ onMounted(async () => {
     width: fit-content;
     font-size: 1.5em;
     text-align: center;
+}
+hr {
+    margin: 15px 0;
 }
 </style>

@@ -1,10 +1,7 @@
-<script lang="ts" setup>
-import CharacterPortraits from '@/components/CharacterPortraits.vue';
-</script>
+<script lang="ts" setup></script>
 
 <template>
     <div class="notes">
-        <CharacterPortraits class="char" character="judge" />
         <h1>BOOKIE AGREEMENT</h1>
         <p>
             If you decide to become a bookie and create wagers, you must agree
