@@ -3,6 +3,9 @@ const { character } = defineProps<{ character: string }>();
 
 const random = Math.floor(Math.random() * 10) + 1 + 'px';
 const flipped = `-${random}`;
+
+//AI prompt
+//a man with a normal, human body is wearing a king's robe and fedora with a kidney bean for a head is sitting on a giant pial of money. He has massive bloodshot eyes, no nose, a mouth mouth screaming with excitement, and bushy eyebrows. Beautiful woman surround him. photo realistic
 </script>
 
 <template>
