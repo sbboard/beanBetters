@@ -4,7 +4,6 @@ import axios from 'axios';
 import { setInfo } from '@/composables/useLogin';
 
 const api = 'https://www.gang-fight.com/api/beans';
-const gamblers = Array.from({ length: 6 }, (_, i) => `gambler${i + 1}.jpg`);
 
 const registerTab = ref(false);
 const forgotPassword = ref(false);
@@ -13,19 +12,6 @@ const code = ref('');
 const newUser = ref({ name: '', password: '' });
 const loginCredentials = ref({ name: '', password: '' });
 const loginError = ref<string | null>(null);
-const currentGambler = ref('');
-
-const getRandomGambler = () => {
-    let newGambler;
-    do {
-        newGambler = `/assets/${
-            gamblers[Math.floor(Math.random() * gamblers.length)]
-        }`;
-    } while (newGambler === currentGambler.value);
-    return newGambler;
-};
-
-currentGambler.value = getRandomGambler();
 
 const noMatch = computed(() => code.value !== SECRET);
 
@@ -62,13 +48,11 @@ const swapTab = () => {
     registerTab.value = !registerTab.value;
     loginError.value = null;
     forgotPassword.value = false;
-    currentGambler.value = getRandomGambler();
 };
 </script>
 
 <template>
     <div class="login">
-        <img :src="currentGambler" />
         <template v-if="registerTab">
             <h1>Register As an official big bean bettor</h1>
             <form @submit.prevent="registerUser">
@@ -85,7 +69,7 @@ const swapTab = () => {
                     required
                 />
                 <p>TIP: Use a password that's easy to remember like '123456'</p>
-                <input placeholder="Registration Code" v-model="code" />
+                <input placeholder="Invite Code" v-model="code" />
                 <button type="submit" :disabled="noMatch">
                     REGISTER!! WIN BIG!
                 </button>
@@ -142,6 +126,7 @@ const swapTab = () => {
     margin: 0 auto;
     width: 400px;
     max-width: 100%;
+    flex: 1;
     p {
         font-size: 0.8em;
         text-align: left;

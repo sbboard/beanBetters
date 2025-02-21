@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Poll from '@/components/Polls/PollMain.vue';
-import Character from '@/components/CharacterProfile.vue';
 import { onMounted, ref } from 'vue';
 import { getAllPolls } from '@/composables/usePolls';
 
@@ -19,7 +18,6 @@ onMounted(async () => {
 
 <template>
     <div>
-        <Character :character="'king'" />
         <RouterLink class="new" to="/bets/create"
             >$$CREATE NEW WAGER$$</RouterLink
         >
