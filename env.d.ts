@@ -21,8 +21,9 @@ interface Poll {
 interface User {
     _id: string;
     name: string;
-    password?: string;
+    password: string;
     wins: string[];
     registrationDate: Date;
     contentType: 'user';
+    lastIP?: string;
 }

@@ -1,4 +1,5 @@
 const SECRET_KEY = Number(import.meta.env.VITE_KEY) || 0;
+import axios from 'axios';
 import { useUserStore } from '../stores/user';
 import { getUserInfo } from './useGetUserInfo';
 
@@ -76,10 +77,34 @@ export async function readScrambledId(scrambledId: string) {
     }
 }
 
-export function setInfo(user: User) {
+const updateLastIP = async (user: User, lastIP: string) => {
+    try {
+        await axios.put(
+            `https://www.gang-fight.com/api/beans/user/${user._id}`,
+            { lastIP }
+        );
+    } catch {
+        //empty
+    }
+};
+
+const getCurrentIP = async (lastIP?: string) => {
+    try {
+        const response = await axios.get('https://api64.ipify.org?format=json');
+        return response.data.ip;
+    } catch {
+        return lastIP;
+    }
+};
+
+export async function setInfo(user: User) {
     const userStore = useUserStore();
     userStore.user = user;
     userStore.showLogin = false;
+
+    const currentIP = await getCurrentIP(user.lastIP);
+    if (user.lastIP !== currentIP) updateLastIP(user, currentIP);
+
     try {
         localStorage.setItem('bean_id', scrambleId(user._id));
     } catch (error) {
