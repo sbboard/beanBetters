@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const users = ref<User[]>([]);
+
+const sortedUsers = computed(() =>
+    [...users.value].sort((a, b) => b.wins.length - a.wins.length)
+);
 
 function getRank(rank: number) {
     let rankString = '';
@@ -87,7 +91,7 @@ onMounted(async () => {
                     </tr>
                 </thead>
                 <tbody class="ranks">
-                    <tr v-for="(user, index) in users" :key="index">
+                    <tr v-for="(user, index) in sortedUsers" :key="index">
                         <td>{{ index + 1 }}</td>
                         <td>{{ getRank(index + 1) }}</td>
                         <td>{{ user.name }}</td>
