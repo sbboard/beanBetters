@@ -5,6 +5,12 @@
         <h1>PATCH NOTES</h1>
         <h2>2/22/25</h2>
         <ul>
+            <li>changed timezone from UTC to EST</li>
+            <li>fixed bug where IP wasn't logging on registration</li>
+            <li>
+                fixed bug where not all bet information was updating after
+                betting
+            </li>
             <li>Added role to leaderboard</li>
             <li>Add commas to bean amounts</li>
             <li>

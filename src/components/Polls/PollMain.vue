@@ -15,13 +15,17 @@ const userId = userStore.user?._id;
 
 const beans = computed(() => userStore.user?.beans || 0);
 
-const isOwner = computed(() => poll.creatorId === userId && !poll.winner);
-const isPastExpiration = computed(() => new Date() > new Date(poll.endDate));
+const isOwner = computed(
+    () => virtualPoll.value.creatorId === userId && !virtualPoll.value.winner
+);
+const isPastExpiration = computed(
+    () => new Date() > new Date(virtualPoll.value.endDate)
+);
 const hasVoted = ref(isPastExpiration.value);
 
 const timeLeft = computed(() => {
     const now = new Date();
-    const end = new Date(poll.endDate);
+    const end = new Date(virtualPoll.value.endDate);
     const diff = end.getTime() - now.getTime();
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -59,7 +63,7 @@ async function placeBet() {
         const response = await axios.post(
             'https://www.gang-fight.com/api/beans/polls/bet',
             {
-                pollId: poll._id,
+                pollId: virtualPoll.value._id,
                 optionId: selectedOption.value,
                 userId,
                 shares: 1,
@@ -75,26 +79,26 @@ async function placeBet() {
 
 onMounted(async () => {
     if (!userId) return;
-    poll.options.forEach(option => {
+    virtualPoll.value.options.forEach(option => {
         if (option.bettors.includes(userId)) {
             selectedOption.value = option._id;
             hasVoted.value = true;
         }
     });
-    creator.value = (await getUserInfo(poll.creatorId)).name;
+    creator.value = (await getUserInfo(virtualPoll.value.creatorId)).name;
 });
 </script>
 
 <template>
-    <div class="poll" :class="{ hasVoted, hasWinner: poll.winner }">
-        <h1>{{ poll.title }}</h1>
+    <div class="poll" :class="{ hasVoted, hasWinner: virtualPoll.winner }">
+        <h1>{{ virtualPoll.title }}</h1>
         <div class="details">
             <div>
                 <div>
                     <span><strong>BOOKIE:</strong> {{ creator }}</span>
                     <span
                         ><strong>PPS:</strong>
-                        {{ addCommas(poll.pricePerShare) }} BEANS</span
+                        {{ addCommas(virtualPoll.pricePerShare) }} BEANS</span
                     >
                 </div>
                 <span
@@ -104,11 +108,11 @@ onMounted(async () => {
                     {{
                         !isPastExpiration
                             ? timeLeft
-                            : formatDate(poll.endDate.toString())
+                            : formatDate(virtualPoll.endDate.toString())
                     }}</span
                 >
             </div>
-            <span class="description">{{ poll.description }}</span>
+            <span class="description">{{ virtualPoll.description }}</span>
         </div>
         <div class="main">
             <div
@@ -129,14 +133,16 @@ onMounted(async () => {
                     :percent="getPercentage(pollOption.bettors.length)"
                     :option="pollOption.text"
                     :voters="pollOption.bettors"
-                    :is-winner="poll.winner === pollOption._id"
-                    :price-per-share="poll.pricePerShare"
+                    :is-winner="virtualPoll.winner === pollOption._id"
+                    :price-per-share="virtualPoll.pricePerShare"
                 />
             </div>
-            <div class="total">TOTAL BEANS: {{ addCommas(poll.pot) }}</div>
+            <div class="total">
+                TOTAL BEANS: {{ addCommas(virtualPoll.pot) }}
+            </div>
             <template v-if="!hasVoted && !isPastExpiration && selectedOption">
                 <div
-                    v-if="beans < poll.pricePerShare"
+                    v-if="beans < virtualPoll.pricePerShare"
                     class="betButton noBeans"
                 >
                     NOT ENOUGH BEANS
@@ -146,7 +152,7 @@ onMounted(async () => {
                 </div>
             </template>
             <div v-if="isOwner && isPastExpiration" class="ownerOptions">
-                <RouterLink :to="`/bets/settle/${poll._id}`"
+                <RouterLink :to="`/bets/settle/${virtualPoll._id}`"
                     >$$$ SETTLE BET $$$</RouterLink
                 >
             </div>
