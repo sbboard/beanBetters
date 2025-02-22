@@ -3,7 +3,7 @@ import Poll from '@/components/Polls/PollMain.vue';
 import { computed, onMounted, ref } from 'vue';
 import { getAllPolls } from '@/composables/usePolls';
 import { useUserStore } from '@/stores/user';
-import { PRICE_OF_WAGER } from '@/composables/economy';
+import { PRICE_OF_WAGER } from '@/composables/useEconomy';
 const userStore = useUserStore();
 
 const beans = computed(() => userStore.user?.beans || 0);
@@ -43,7 +43,7 @@ onMounted(async () => {
                 <hr v-if="showHr(i)" />
                 <Poll :poll="poll" /> </template
         ></template>
-        <div v-else>No ongoing bets... a shameful day in beandom</div>
+        <div v-else>Loading wagers...</div>
     </div>
 </template>
 
