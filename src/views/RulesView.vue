@@ -8,6 +8,12 @@
             to the rules and guidelines set forth in this agreement.
         </p>
         <hr />
+        <h2>BOOKIE RULES & GUIDELINES</h2>
+        <p>
+            In order to create wagers and maintain wager creation privileges,
+            bookies must follow the following rules and guidelines:
+        </p>
+
         <ol>
             <li>
                 <strong>NO NONSENSICAL WAGERS.</strong>
@@ -36,9 +42,42 @@
                     creator will may be put on probation from creating wagers.
                 </p>
             </li>
+            <li>
+                <strong>WAGER CREATION FEE</strong>
+                <p>
+                    Wagers must have a creation fee of 2 beans. This is to
+                    ensure that bookies are invested in their wagers and are not
+                    creating wagers for the sake of creating wagers.
+                </p>
+            </li>
         </ol>
         <hr />
-        <ul>
+        <h2>BOOKIE BENEFITS</h2>
+        <p style="margin-bottom: 1em">
+            In return for following these rules, the following benefits are
+            promised to bookies by the King Bean:
+        </p>
+        <ol>
+            <li>
+                <strong>JACKPOT TAX</strong>
+                <p>
+                    Bookies will receive 10% of the jackpot for each wager they
+                    create. This is to incentivize bookies to create wagers and
+                    to reward them for their contributions to the betting
+                    ecosystem.
+                </p>
+            </li>
+            <li>
+                <strong>RESPECT</strong>
+                <p>
+                    Bookies will be respected and admired by the community for
+                    their contributions to the betting ecosystem.
+                </p>
+            </li>
+        </ol>
+        <hr />
+        <h2>DISCLAIMER</h2>
+        <ol>
             <li>
                 <strong>RULES & GUIDELINES ARE NOT RETROACTIVE.</strong>
                 <p>
@@ -56,14 +95,14 @@
                 </p>
             </li>
             <li>
-                <strong>DISCLAIMER</strong>
+                <strong>CHANGES</strong>
                 <p>
                     These rules are subject to change at any time. It is the
                     responsibility of the creator to stay up to date on the
                     rules and guidelines.
                 </p>
             </li>
-        </ul>
+        </ol>
     </div>
 </template>
 
@@ -79,9 +118,6 @@
     max-width: 100%;
     margin: 0 auto;
     padding: 10px;
-    h2 {
-        margin-bottom: 0.5em;
-    }
     ol {
         list-style: auto;
     }
@@ -89,13 +125,21 @@
         font-weight: bold;
         text-decoration: underline;
     }
+    h2 {
+        color: white;
+        text-align: left;
+    }
     p {
         margin: 0;
         text-align: left;
         font-size: 0.9em;
+        margin-bottom: 1em;
     }
     li {
         margin-bottom: 1em;
+    }
+    hr {
+        margin: 2em 0;
     }
 }
 </style>

@@ -12,6 +12,7 @@ const options = ref([{ text: '' }, { text: '' }]); // Start with 2 options
 const loading = ref(false);
 const message = ref('');
 const maxOptions = 5;
+const userStore = useUserStore();
 
 // **Validation for End Date**
 const isEndDateValid = computed(() => {
@@ -58,7 +59,7 @@ const createPoll = async () => {
 
     try {
         const pollData = {
-            creatorId: useUserStore().user?._id,
+            creatorId: userStore.user?._id,
             title: title.value,
             description: description.value,
             endDate: new Date(endDate.value),
@@ -68,6 +69,7 @@ const createPoll = async () => {
         const response = await axios.post(`${api}/polls/create`, pollData);
         message.value = response.data.message;
         if (message.value === 'Poll created successfully') {
+            userStore.updateBeanCount(response.data.newBeanAmt);
             router.push({ path: '/bets' });
         }
     } catch (error) {
@@ -90,51 +92,63 @@ const createPoll = async () => {
                 creating a wager and becoming a bookie.
             </div>
         </RouterLink>
-        <label for="title">Title</label>
-        <input v-model="title" placeholder="Title" />
-
-        <label for="description">Rules</label>
-        <p>
-            Describe the bet in detail. Expect your bettors to be idiots and be
-            as clear as possible. They WILL misinterpret your bet.
-        </p>
-        <textarea v-model="description" placeholder="Description"></textarea>
-
-        <label for="endDate">End Date</label>
-        <p>
-            Specify what date betting will end. No more votes will be allowed on
-            this day (UTC timezone).
-        </p>
-        <input type="date" v-model="endDate" />
-        <p v-if="!isEndDateValid && endDate">
-            End date must between tomorrow and 6 months from today.
-        </p>
-
-        <label for="options">Options</label>
-        <div class="options" v-for="(option, index) in options" :key="index">
-            <input v-model="option.text" placeholder="Option text" />
-            <button @click="removeOption(index)" v-if="options.length > 2">
-                ✖
-            </button>
+        <div v-if="(userStore.user?.beans || 0) < 2" class="noMoney">
+            <p>You need at least 2 BEANS to create a wager.</p>
         </div>
+        <div v-else>
+            <label for="title">Title</label>
+            <input v-model="title" placeholder="Title" />
 
-        <button
-            class="addOption"
-            @click="addOption"
-            :disabled="options.length >= maxOptions"
-        >
-            + Add Option
-        </button>
+            <label for="description">Rules</label>
+            <p>
+                Describe the bet in detail. Expect your bettors to be idiots and
+                be as clear as possible. They WILL misinterpret your bet.
+            </p>
+            <textarea
+                v-model="description"
+                placeholder="Description"
+            ></textarea>
 
-        <button
-            class="submit"
-            @click="createPoll"
-            :disabled="loading || !isFormValid"
-        >
-            CREATE WAGER!!!!
-        </button>
+            <label for="endDate">End Date</label>
+            <p>
+                Specify what date betting will end. No more votes will be
+                allowed on this day (UTC timezone).
+            </p>
+            <input type="date" v-model="endDate" />
+            <p v-if="!isEndDateValid && endDate">
+                End date must between tomorrow and 6 months from today.
+            </p>
 
-        <p v-if="message">{{ message }}</p>
+            <label for="options">Options</label>
+            <div
+                class="options"
+                v-for="(option, index) in options"
+                :key="index"
+            >
+                <input v-model="option.text" placeholder="Option text" />
+                <button @click="removeOption(index)" v-if="options.length > 2">
+                    ✖
+                </button>
+            </div>
+
+            <button
+                class="addOption"
+                @click="addOption"
+                :disabled="options.length >= maxOptions"
+            >
+                + Add Option
+            </button>
+
+            <button
+                class="submit"
+                @click="createPoll"
+                :disabled="loading || !isFormValid"
+            >
+                CREATE WAGER!!!!
+            </button>
+
+            <p v-if="message">{{ message }}</p>
+        </div>
     </div>
 </template>
 
@@ -143,7 +157,7 @@ const createPoll = async () => {
     width: 400px;
     margin: 0 auto;
     max-width: 100%;
-    & > * {
+    & * {
         box-sizing: border-box;
     }
     img {
@@ -247,6 +261,13 @@ const createPoll = async () => {
         .alert {
             font-size: 2em;
         }
+    }
+}
+
+.noMoney {
+    margin-top: 2em;
+    p {
+        text-align: center;
     }
 }
 </style>

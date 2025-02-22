@@ -12,7 +12,7 @@ const userStore = useUserStore();
                 Welcome home,
                 <strong>{{ userStore.user?.name }}</strong
                 ><br />
-                Current Wins: <strong>{{ userStore.user?.wins.length }}</strong>
+                Bean Bag: <strong>{{ userStore.user?.beans || 0 }} Beans</strong>
             </div>
             <div @click="useLogout()" class="logout">Logout</div>
         </div>

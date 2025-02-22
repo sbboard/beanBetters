@@ -12,6 +12,8 @@ const selectedOption = ref<string | null>(null);
 const userStore = useUserStore();
 const userId = userStore.user?._id;
 
+const beans = computed(() => userStore.user?.beans || 0);
+
 const isOwner = computed(() => poll.creatorId === userId && !poll.winner);
 const isPastExpiration = computed(() => new Date() > new Date(poll.endDate));
 const hasVoted = ref(isPastExpiration.value);
@@ -87,7 +89,13 @@ onMounted(async () => {
         <h1>{{ poll.title }}</h1>
         <div class="details">
             <div>
-                <span><strong>BOOKIE:</strong> {{ creator }}</span>
+                <div>
+                    <span><strong>BOOKIE:</strong> {{ creator }}</span>
+                    <span
+                        ><strong>PPS:</strong>
+                        {{ poll.pricePerShare }} BEANS</span
+                    >
+                </div>
                 <span
                     ><strong>{{
                         !isPastExpiration ? `TIME LEFT` : `CLOSED`
@@ -121,16 +129,21 @@ onMounted(async () => {
                     :option="pollOption.text"
                     :voters="pollOption.bettors"
                     :is-winner="poll.winner === pollOption._id"
+                    :price-per-share="poll.pricePerShare"
                 />
             </div>
-            <div class="total">Total Bets: {{ totalVotes }}</div>
-            <div
-                v-if="!hasVoted && !isPastExpiration && selectedOption"
-                @click="placeBet"
-                class="betButton"
-            >
-                BET NOW BET NOW BET NOW!!!!! $$$$$
-            </div>
+            <div class="total">TOTAL BEANS: {{ poll.pot }}</div>
+            <template v-if="!hasVoted && !isPastExpiration && selectedOption">
+                <div
+                    v-if="beans < poll.pricePerShare"
+                    class="betButton noBeans"
+                >
+                    NOT ENOUGH BEANS
+                </div>
+                <div v-else @click="placeBet" class="betButton">
+                    BET NOW BET NOW BET NOW!!!!! $$$$$
+                </div>
+            </template>
             <div v-if="isOwner && isPastExpiration" class="ownerOptions">
                 <RouterLink :to="`/bets/settle/${poll._id}`"
                     >$$$ SETTLE BET $$$</RouterLink
@@ -195,6 +208,11 @@ onMounted(async () => {
         font-weight: bold;
         margin-top: 0.5rem;
         animation: blink 0.25s linear infinite;
+        &.noBeans {
+            animation: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     }
 
     .ownerOptions > a {

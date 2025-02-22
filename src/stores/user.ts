@@ -10,5 +10,10 @@ export const useUserStore = defineStore('user', () => {
         user.value = null;
     }
 
-    return { user, showLogin, resetUser };
+    function updateBeanCount(count: number) {
+        if (!user.value) return;
+        user.value.beans = count;
+    }
+
+    return { user, showLogin, resetUser, updateBeanCount };
 });

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 
-const { percent, option, isWinner } = defineProps<{
+const { percent, option, isWinner, pricePerShare, voters } = defineProps<{
     percent: number;
     option: string;
     voters: string[];
     isWinner?: boolean;
+    pricePerShare: number;
 }>();
 
 const darkInnerWidth = ref(0);
@@ -18,6 +19,11 @@ function calculateBars() {
     darkInnerWidth.value = width;
     optionInnerWidths.value = width * (percent / 100);
 }
+
+const beanCopy = () => {
+    const beans = voters.length * pricePerShare;
+    return `BEANS: ${beans}`;
+};
 
 onMounted(() => {
     calculateBars();
@@ -33,7 +39,9 @@ onUnmounted(() => {
     <div class="barWrap">
         <div class="light-layer" ref="baseLayer">
             <div class="title">{{ option }} {{ isWinner ? '★' : null }}</div>
-            <div class="percentage">{{ parseFloat(percent.toFixed(2)) }}%</div>
+            <div class="percentage">
+                {{ beanCopy() }}
+            </div>
         </div>
         <div class="dark-layer" :style="{ width: `${optionInnerWidths}px` }">
             <div class="inner" :style="{ width: `${darkInnerWidth}px` }">
@@ -41,7 +49,7 @@ onUnmounted(() => {
                     {{ option }} {{ isWinner ? '★' : null }}
                 </div>
                 <div class="percentage">
-                    {{ parseFloat(percent.toFixed(2)) }}%
+                    {{ beanCopy() }}
                 </div>
             </div>
         </div>
@@ -66,12 +74,6 @@ onUnmounted(() => {
             position: absolute;
             font-weight: 600;
         }
-        .title {
-            left: 6px;
-        }
-        .percentage {
-            right: 6px;
-        }
     }
     .dark-layer {
         height: 100%;
@@ -89,13 +91,13 @@ onUnmounted(() => {
                 position: absolute;
                 font-weight: 600;
             }
-            .title {
-                left: 6px;
-            }
-            .percentage {
-                right: 6px;
-            }
         }
+    }
+    .title {
+        left: 6px;
+    }
+    .percentage {
+        right: 0px;
     }
 }
 </style>
