@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
+import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
 
 const router = useRouter();
 const title = ref('');
@@ -85,15 +86,22 @@ const createPoll = async () => {
         <img src="/assets/dealer.jpg" />
         <h2>CREATE A NEW WAGER</h2>
 
-        <RouterLink to="/rules">
+        <RouterLink class="alertBox" to="/rules">
             <div class="alert">⚠️</div>
             <div>
                 <strong>BEWARE:</strong> Read The Bookie Agreement before
-                creating a wager and becoming a bookie.
+                creating a wager and becoming a bookie. Bookies are held to a
+                higher standard than regular bettors.
             </div>
         </RouterLink>
-        <div v-if="(userStore.user?.beans || 0) < 2" class="noMoney">
-            <p>You need at least 2 BEANS to create a wager.</p>
+        <div
+            v-if="(userStore.user?.beans || 0) < PRICE_OF_WAGER"
+            class="noMoney"
+        >
+            <p>
+                You need at least {{ addCommas(PRICE_OF_WAGER) }} BEANS to
+                create a wager.
+            </p>
         </div>
         <div v-else>
             <label for="title">Title</label>
@@ -148,6 +156,15 @@ const createPoll = async () => {
             </button>
 
             <p v-if="message">{{ message }}</p>
+            <div class="alertBox">
+                <div>
+                    <strong>NOTE:</strong> A
+                    {{ addCommas(PRICE_OF_WAGER) }} bean wager creation fee is
+                    taken out of your bean wallet upon wager creation. This will
+                    most likely be offset by the jackpot tax earned on wager
+                    settlement.
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -244,14 +261,16 @@ const createPoll = async () => {
             text-align: right;
         }
     }
-    a {
+    .alertBox {
         flex-direction: row;
         font-size: 0.8em;
-        text-align: center;
+        text-align: left;
         display: flex;
         border: 1px solid var(--themeColor);
         padding: 1em;
         align-items: center;
+        color: var(--themeColor);
+        margin-top: 1em;
         &:hover {
             text-decoration: none;
         }
@@ -260,6 +279,7 @@ const createPoll = async () => {
         }
         .alert {
             font-size: 2em;
+            margin-right: 1rem;
         }
     }
 }

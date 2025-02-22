@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
+import { addCommas } from '@/composables/useEconomy';
 
 const { percent, option, isWinner, pricePerShare, voters } = defineProps<{
     percent: number;
@@ -22,7 +23,7 @@ function calculateBars() {
 
 const beanCopy = () => {
     const beans = voters.length * pricePerShare;
-    return `BEANS: ${beans}`;
+    return `BEANS: ${addCommas(beans)}`;
 };
 
 onMounted(() => {

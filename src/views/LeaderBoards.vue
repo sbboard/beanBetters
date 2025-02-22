@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import { addCommas } from '@/composables/useEconomy';
 
 const users = ref<User[]>([]);
 
@@ -82,6 +83,7 @@ onMounted(async () => {
                     <tr>
                         <th>No.</th>
                         <th>Rank</th>
+                        <th>Role</th>
                         <th>Bettor</th>
                         <th>Wins</th>
                         <th>Beans</th>
@@ -91,9 +93,10 @@ onMounted(async () => {
                     <tr v-for="(user, index) in users" :key="index">
                         <td>{{ index + 1 }}</td>
                         <td>{{ getRank(index + 1) }}</td>
+                        <td>{{ user.role || 'bettor' }}</td>
                         <td>{{ user.name }}</td>
                         <td class="wins">{{ user.wins.length }}</td>
-                        <td class="wins">{{ user.beans }}</td>
+                        <td class="wins">{{ addCommas(user.beans || 0) }}</td>
                     </tr>
                 </tbody>
             </table></template
@@ -113,16 +116,19 @@ onMounted(async () => {
             <thead>
                 <tr>
                     <th>PSHM User</th>
+                    <th>Beans</th>
                     <th>Wins</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Nick</td>
+                    <td class="wins">6,000,000</td>
                     <td class="wins">3</td>
                 </tr>
                 <tr>
                     <td>Itsmekidney</td>
+                    <td class="wins">2,000,000</td>
                     <td class="wins">1</td>
                 </tr>
             </tbody>

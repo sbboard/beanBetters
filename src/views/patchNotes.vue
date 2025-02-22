@@ -3,6 +3,15 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>2/22/25</h2>
+        <ul>
+            <li>Added role to leaderboard</li>
+            <li>Add commas to bean amounts</li>
+            <li>
+                Added wager creation fee disclaimer below create wager button
+            </li>
+            <li>Multiply all bean values by 1,000,000</li>
+        </ul>
         <h2>2/21/25</h2>
         <ul>
             <li>add bookie benefits to bookie agreement</li>

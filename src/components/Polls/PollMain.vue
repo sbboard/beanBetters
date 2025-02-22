@@ -4,6 +4,7 @@ import Bars from './PollBars.vue';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 import { getUserInfo } from '@/composables/useGetUserInfo';
+import { addCommas } from '@/composables/useEconomy';
 
 const { poll } = defineProps<{ poll: Poll }>();
 const virtualPoll = ref(poll);
@@ -93,7 +94,7 @@ onMounted(async () => {
                     <span><strong>BOOKIE:</strong> {{ creator }}</span>
                     <span
                         ><strong>PPS:</strong>
-                        {{ poll.pricePerShare }} BEANS</span
+                        {{ addCommas(poll.pricePerShare) }} BEANS</span
                     >
                 </div>
                 <span
@@ -132,7 +133,7 @@ onMounted(async () => {
                     :price-per-share="poll.pricePerShare"
                 />
             </div>
-            <div class="total">TOTAL BEANS: {{ poll.pot }}</div>
+            <div class="total">TOTAL BEANS: {{ addCommas(poll.pot) }}</div>
             <template v-if="!hasVoted && !isPastExpiration && selectedOption">
                 <div
                     v-if="beans < poll.pricePerShare"

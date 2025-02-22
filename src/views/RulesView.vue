@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
+</script>
 
 <template>
     <div class="notes">
@@ -45,9 +47,28 @@
             <li>
                 <strong>WAGER CREATION FEE</strong>
                 <p>
-                    Wagers must have a creation fee of 2 beans. This is to
-                    ensure that bookies are invested in their wagers and are not
+                    Wagers must have a creation fee of
+                    {{ addCommas(PRICE_OF_WAGER) }} beans. This is to ensure
+                    that bookies are invested in their wagers and are not
                     creating wagers for the sake of creating wagers.
+                </p>
+            </li>
+            <li>
+                <strong
+                    >NO WAGERS WITH OBVIOUS / CLEAR ANSWERS AT TIME OF
+                    CREATION</strong
+                >
+                <p>
+                    Wagers must not have an obvious or clear answer at the time
+                    of creation. Wagers must be based on future events or
+                    outcomes that are not yet known.
+                </p>
+            </li>
+            <li>
+                <strong>NO DOUBLE BETTING WITH MULTIPLE ACCOUNTS</strong>
+                <p>
+                    Bookies may not create wagers and then bet on them with
+                    multiple accounts. One account per person.
                 </p>
             </li>
         </ol>
@@ -102,6 +123,16 @@
                     rules and guidelines.
                 </p>
             </li>
+            <li>
+                <strong>APPLICATION TO NON-BOOKIES</strong>
+                <p>
+                    While this agreement only applies to bookies, all users are
+                    expected to be aware of this sacred agreement and bet within
+                    the spirit of it. However, only bookies are held to the
+                    letter of the law and are subject to punishment for
+                    violations.
+                </p>
+            </li>
         </ol>
     </div>
 </template>
@@ -119,7 +150,7 @@
     margin: 0 auto;
     padding: 10px;
     ol {
-        list-style: auto;
+        list-style: upper-roman;
     }
     strong {
         font-weight: bold;

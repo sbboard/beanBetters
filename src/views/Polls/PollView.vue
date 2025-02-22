@@ -3,7 +3,7 @@ import Poll from '@/components/Polls/PollMain.vue';
 import { computed, onMounted, ref } from 'vue';
 import { getAllPolls } from '@/composables/usePolls';
 import { useUserStore } from '@/stores/user';
-import { PRICE_OF_WAGER } from '@/composables/useEconomy';
+import { addCommas, PRICE_OF_WAGER } from '@/composables/useEconomy';
 const userStore = useUserStore();
 
 const beans = computed(() => userStore.user?.beans || 0);
@@ -36,7 +36,7 @@ onMounted(async () => {
             >$$CREATE NEW WAGER$$</RouterLink
         >
         <a v-else class="new disabled" :title="'Not enough beans'"
-            >NEED 2 BEANS TO CREATE WAGER</a
+            >NEED {{ addCommas(PRICE_OF_WAGER) }} BEANS TO CREATE WAGER</a
         >
         <template v-if="polls && polls.length">
             <template :key="poll._id" v-for="(poll, i) in polls">

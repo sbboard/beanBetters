@@ -2,6 +2,7 @@
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import { useUserStore } from '../stores/user';
 import { useLogout } from '@/composables/useLogin';
+import { addCommas } from '@/composables/useEconomy';
 const userStore = useUserStore();
 </script>
 
@@ -12,7 +13,10 @@ const userStore = useUserStore();
                 Welcome home,
                 <strong>{{ userStore.user?.name }}</strong
                 ><br />
-                Bean Bag: <strong>{{ userStore.user?.beans || 0 }} Beans</strong>
+                Bean Bag:
+                <strong
+                    >{{ addCommas(userStore.user?.beans || 0) }} Beans</strong
+                >
             </div>
             <div @click="useLogout()" class="logout">Logout</div>
         </div>
