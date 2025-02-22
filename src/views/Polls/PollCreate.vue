@@ -69,6 +69,7 @@ const createPoll = async () => {
         const response = await axios.post(`${api}/polls/create`, pollData);
         message.value = response.data.message;
         if (message.value === 'Poll created successfully') {
+            userStore.updateBeanCount(response.data.newBeanAmt);
             router.push({ path: '/bets' });
         }
     } catch (error) {
