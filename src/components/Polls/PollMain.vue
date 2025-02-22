@@ -55,18 +55,18 @@ async function placeBet() {
     if (!selectedOption.value || hasVoted.value) return; // Prevent multiple votes
 
     try {
-        await axios.post('https://www.gang-fight.com/api/beans/polls/bet', {
-            pollId: poll._id,
-            optionId: selectedOption.value,
-            userId,
-        });
-        hasVoted.value = true; // Mark user as having voted
-        virtualPoll.value.options = virtualPoll.value.options.map(option => {
-            if (option._id === selectedOption.value) {
-                option.bettors.push(userId as string);
+        const response = await axios.post(
+            'https://www.gang-fight.com/api/beans/polls/bet',
+            {
+                pollId: poll._id,
+                optionId: selectedOption.value,
+                userId,
+                shares: 1,
             }
-            return option;
-        });
+        );
+        userStore.updateBeanCount(response.data.newBeanAmt);
+        hasVoted.value = true; // Mark user as having voted
+        virtualPoll.value = response.data.poll;
     } catch (error) {
         console.error('Error placing bet:', error);
     }
