@@ -65,8 +65,8 @@ async function placeBet() {
             }
         );
         userStore.updateBeanCount(response.data.newBeanAmt);
-        hasVoted.value = true; // Mark user as having voted
         virtualPoll.value = response.data.poll;
+        hasVoted.value = true; // Mark user as having voted
     } catch (error) {
         console.error('Error placing bet:', error);
     }
