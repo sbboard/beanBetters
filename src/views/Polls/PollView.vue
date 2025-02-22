@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import Poll from '@/components/Polls/PollMain.vue';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { getAllPolls } from '@/composables/usePolls';
+import { useUserStore } from '@/stores/user';
+import { PRICE_OF_WAGER } from '@/composables/economy';
+const userStore = useUserStore();
+
+const beans = computed(() => userStore.user?.beans || 0);
 
 const polls = ref<Poll[] | null>(null);
 
@@ -23,8 +28,15 @@ onMounted(async () => {
 
 <template>
     <div>
-        <RouterLink class="new" to="/bets/create"
+        <RouterLink
+            v-if="beans >= PRICE_OF_WAGER"
+            class="new"
+            to="/bets/create"
+            :title="'Create a new wager'"
             >$$CREATE NEW WAGER$$</RouterLink
+        >
+        <a v-else class="new disabled" :title="'Not enough beans'"
+            >NEED 2 BEANS TO CREATE WAGER</a
         >
         <template v-if="polls && polls.length">
             <template :key="poll._id" v-for="(poll, i) in polls">
@@ -45,5 +57,14 @@ onMounted(async () => {
 }
 hr {
     margin: 15px 0;
+}
+a.disabled {
+    opacity: 0.5;
+    text-decoration: line-through;
+    cursor: not-allowed;
+    &:active {
+        background-color: unset;
+        user-select: none;
+    }
 }
 </style>

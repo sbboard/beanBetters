@@ -26,4 +26,5 @@ interface User {
     registrationDate: Date;
     contentType: 'user';
     lastIP?: string;
+    beans?: number;
 }
