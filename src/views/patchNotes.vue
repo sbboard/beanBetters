@@ -5,7 +5,10 @@
         <h1>PATCH NOTES</h1>
         <h2>2/22/25</h2>
         <ul>
-            <li>changed timezone from UTC to EST</li>
+            <li>
+                fixed issue where bets couldn't be set "tomorrow" and always
+                ended at midnight
+            </li>
             <li>
                 fixed bug where not all bet information was updating after
                 betting

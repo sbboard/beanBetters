@@ -21,14 +21,44 @@ const isEndDateValid = computed(() => {
 
     const selectedDate = new Date(endDate.value);
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time for proper comparison
     const minEndDate = new Date(today);
-    minEndDate.setDate(today.getDate() + 1); // Must be at least tomorrow
+    minEndDate.setDate(today.getDate() + 1); // Move to tomorrow
+    minEndDate.setHours(
+        today.getHours(),
+        today.getMinutes(),
+        today.getSeconds(),
+        0
+    );
+
     const maxEndDate = new Date(today);
     maxEndDate.setMonth(today.getMonth() + 6); // Max is six months from today
+    maxEndDate.setHours(
+        today.getHours(),
+        today.getMinutes(),
+        today.getSeconds(),
+        0
+    );
 
-    return selectedDate >= minEndDate && selectedDate <= maxEndDate;
+    // Compare timestamps (milliseconds since epoch) to avoid precision issues
+    return (
+        selectedDate.getTime() >= minEndDate.getTime() &&
+        selectedDate.getTime() <= maxEndDate.getTime()
+    );
 });
+
+const handleDateChange = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    if (!input.value) return;
+    const localDate = new Date(input.value + 'T00:00:00'); // Parse as local date at midnight (start of the day)
+    const currentTime = new Date(); // Current time in the user's local timezone
+    localDate.setHours(
+        currentTime.getHours(),
+        currentTime.getMinutes(),
+        currentTime.getSeconds(),
+        currentTime.getMilliseconds()
+    );
+    endDate.value = localDate.toLocaleString(); // Display in the local timezone
+};
 
 const isFormValid = computed(() => {
     return (
@@ -122,7 +152,7 @@ const createPoll = async () => {
                 Specify what date betting will end. No more votes will be
                 allowed on this day (UTC timezone).
             </p>
-            <input type="date" v-model="endDate" />
+            <input type="date" @change="handleDateChange" />
             <p v-if="!isEndDateValid && endDate">
                 End date must between tomorrow and 6 months from today.
             </p>
