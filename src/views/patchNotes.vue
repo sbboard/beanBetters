@@ -5,6 +5,7 @@
         <h1>PATCH NOTES</h1>
         <h2>2/21/25</h2>
         <ul>
+            <li>add bookie benefits to bookie agreement</li>
             <li>implement bean currency</li>
             <li>begin logging ip addresses</li>
             <li>
