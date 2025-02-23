@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
-import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
+import { PRICE_OF_WAGER } from '@/composables/useEconomy';
 
 const router = useRouter();
 const title = ref('');
@@ -128,10 +128,7 @@ const createPoll = async () => {
             v-if="(userStore.user?.beans || 0) < PRICE_OF_WAGER"
             class="noMoney"
         >
-            <p>
-                You need at least {{ addCommas(PRICE_OF_WAGER) }} BEANS to
-                create a wager.
-            </p>
+            <p>Not enough beans for minimum seed</p>
         </div>
         <div v-else>
             <label for="title">Title</label>
@@ -186,15 +183,6 @@ const createPoll = async () => {
             </button>
 
             <p v-if="message">{{ message }}</p>
-            <div class="alertBox">
-                <div>
-                    <strong>NOTE:</strong> {{ addCommas(PRICE_OF_WAGER) }} beans
-                    will be taken out of your bean wallet upon wager creation.
-                    These beans are used as a seed fund for your wager. This
-                    will most likely be offset by the bookie tip earned on wager
-                    settlement.
-                </div>
-            </div>
         </div>
     </div>
 </template>
