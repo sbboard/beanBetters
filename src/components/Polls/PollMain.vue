@@ -141,6 +141,7 @@ onMounted(async () => {
             <div class="total">
                 TOTAL BEANS: {{ addCommas(virtualPoll.pot) }}
             </div>
+            <hr v-if="!isPastExpiration || isOwner" />
             <div v-if="!isPastExpiration" class="betControls">
                 <div class="shares" v-if="virtualPoll.pricePerShare < beans">
                     BUY
@@ -231,6 +232,10 @@ onMounted(async () => {
         border-bottom: 1px solid var(--themeColor);
     }
 
+    hr {
+        border: 1px solid var(--themeColor);
+    }
+
     .betButton,
     .ownerOptions > a {
         cursor: pointer;
@@ -296,13 +301,13 @@ onMounted(async () => {
         align-items: center;
         .shares {
             margin-right: 1em;
-            color: var(--themeColor);
+            color: white;
             input {
                 background: none;
                 outline: none;
                 border: 0;
                 color: var(--themeColor);
-                border-bottom: 1px;
+                border-bottom: 2px solid var(--themeColor);
                 width: 1.125em;
                 text-align: center;
                 font-size: 1.125em;

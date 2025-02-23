@@ -51,6 +51,6 @@ a {
     font-size: 1.5em;
 }
 hr {
-    margin: 15px 0;
+    margin: 50px 0;
 }
 </style>
