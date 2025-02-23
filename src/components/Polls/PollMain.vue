@@ -12,6 +12,8 @@ const virtualPoll = ref(poll);
 const selectedOption = ref<string | null>(null);
 const userStore = useUserStore();
 const userId = userStore.user?._id;
+const shares = ref(1);
+const creator = ref('');
 
 const beans = computed(() => userStore.user?.beans || 0);
 
@@ -54,10 +56,8 @@ const getPercentage = (v: number) => {
     return (v / totalVotes.value) * 100;
 };
 
-const creator = ref('');
-
 async function placeBet() {
-    if (!selectedOption.value || hasVoted.value) return; // Prevent multiple votes
+    if (!selectedOption.value) return;
 
     try {
         const response = await axios.post(
@@ -66,7 +66,7 @@ async function placeBet() {
                 pollId: virtualPoll.value._id,
                 optionId: selectedOption.value,
                 userId,
-                shares: 1,
+                shares: shares.value,
             }
         );
         userStore.updateBeanCount(response.data.newBeanAmt);
@@ -141,17 +141,39 @@ onMounted(async () => {
             <div class="total">
                 TOTAL BEANS: {{ addCommas(virtualPoll.pot) }}
             </div>
-            <template v-if="!hasVoted && !isPastExpiration && selectedOption">
+            <div v-if="!isPastExpiration" class="betControls">
+                <div class="shares" v-if="virtualPoll.pricePerShare < beans">
+                    BUY
+                    <input
+                        v-model="shares"
+                        value="1"
+                        min="1"
+                        :max="beans / virtualPoll.pricePerShare"
+                        type="number"
+                    />
+                    SHARES
+                </div>
+                <div v-if="shares < 1" class="betButton noBeans">
+                    NO SHARES SELECTED
+                </div>
                 <div
-                    v-if="beans < virtualPoll.pricePerShare"
+                    v-else-if="beans < virtualPoll.pricePerShare * shares"
                     class="betButton noBeans"
                 >
-                    NOT ENOUGH BEANS
+                    CANNOT AFFORD BET
                 </div>
-                <div v-else @click="placeBet" class="betButton">
-                    BET NOW BET NOW BET NOW!!!!! $$$$$
+                <div
+                    v-else
+                    class="betButton"
+                    :class="{ disabled: !selectedOption }"
+                    @click="placeBet"
+                >
+                    BET
+                    {{ addCommas(shares * virtualPoll.pricePerShare)
+                    }}{{ hasVoted ? ' MORE' : '' }}
+                    BEANS NOW !!!!!!
                 </div>
-            </template>
+            </div>
             <div v-if="isOwner && isPastExpiration" class="ownerOptions">
                 <RouterLink :to="`/bets/settle/${virtualPoll._id}`"
                     >$$$ SETTLE BET $$$</RouterLink
@@ -218,25 +240,34 @@ onMounted(async () => {
         padding: 0.5em;
         text-align: center;
         font-weight: bold;
-        margin-top: 0.5rem;
-        animation: blink 0.25s linear infinite;
         &.noBeans {
             animation: none;
             opacity: 0.5;
             cursor: not-allowed;
+            border: 1px solid var(--themeColor);
+            background-color: transparent;
+            color: var(--themeColor);
+        }
+        &.disabled {
+            animation: none;
+            opacity: 0.5;
+            pointer-events: none;
         }
     }
 
-    .ownerOptions > a {
-        color: var(--themeColor);
-        background-color: transparent;
-        border: 1px solid var(--themeColor);
-        animation: none;
-        text-decoration: none;
-        &.disabled {
-            opacity: 0.5;
+    .ownerOptions {
+        margin-top: 0.5rem;
+        & > a {
+            color: var(--themeColor);
+            background-color: transparent;
+            border: 1px solid var(--themeColor);
             animation: none;
-            pointer-events: none;
+            text-decoration: none;
+            &.disabled {
+                opacity: 0.5;
+                animation: none;
+                pointer-events: none;
+            }
         }
     }
     &.hasVoted {
@@ -257,20 +288,32 @@ onMounted(async () => {
             }
         }
     }
-}
-
-@keyframes blink {
-    0% {
-        color: black;
-    }
-    49% {
-        color: black;
-    }
-    50% {
-        color: var(--themeColor);
-    }
-    100% {
-        color: var(--themeColor);
+    .betControls {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .shares {
+            margin-right: 1em;
+            color: var(--themeColor);
+            input {
+                background: none;
+                outline: none;
+                border: 0;
+                color: var(--themeColor);
+                border-bottom: 1px;
+                width: 1.125em;
+                text-align: center;
+                font-size: 1.125em;
+                &::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                }
+            }
+        }
+        .betButton {
+            flex: 1;
+        }
     }
 }
 </style>

@@ -5,6 +5,7 @@
         <h1>PATCH NOTES</h1>
         <h2>2/22/25</h2>
         <ul>
+            <li>Added ability to buy multiple shares of a bet</li>
             <li>Added ability to increase PPS / bean seed</li>
             <li>Added seed beans to poll view</li>
             <li>Renamed "Wager Creation Fee" to "Seed Beans"</li>
