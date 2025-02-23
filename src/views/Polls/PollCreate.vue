@@ -188,10 +188,10 @@ const createPoll = async () => {
             <p v-if="message">{{ message }}</p>
             <div class="alertBox">
                 <div>
-                    <strong>NOTE:</strong> A
-                    {{ addCommas(PRICE_OF_WAGER) }} bean wager creation fee is
-                    taken out of your bean wallet upon wager creation. This will
-                    most likely be offset by the jackpot tax earned on wager
+                    <strong>NOTE:</strong> {{ addCommas(PRICE_OF_WAGER) }} beans
+                    will be taken out of your bean wallet upon wager creation.
+                    These beans are used as a seed fund for your wager. This
+                    will most likely be offset by the bookie tip earned on wager
                     settlement.
                 </div>
             </div>

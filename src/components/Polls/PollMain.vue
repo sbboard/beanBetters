@@ -137,6 +137,7 @@ onMounted(async () => {
                     :price-per-share="virtualPoll.pricePerShare"
                 />
             </div>
+            <div class="total seed">SEED BEANS: 2,000,000</div>
             <div class="total">
                 TOTAL BEANS: {{ addCommas(virtualPoll.pot) }}
             </div>
@@ -196,6 +197,10 @@ onMounted(async () => {
         text-align: right;
         font-size: 0.9em;
         margin-top: 5px;
+        font-weight: 600;
+        &.seed {
+            color: var(--themeColor);
+        }
     }
 
     .main {

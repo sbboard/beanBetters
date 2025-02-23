@@ -40,14 +40,13 @@ import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
                     Wagers must be settled within 10 days of the end date. No
                     wagers may be left open indefinitely. Wagers must be settled
                     in a timely manner. If a wager is left abandoned it can be
-                    claimed by another user as their own, and the original
-                    creator will may be put on probation from creating wagers.
+                    claimed by another user as their own.
                 </p>
             </li>
             <li>
-                <strong>WAGER CREATION FEE</strong>
+                <strong>SEED BEANS</strong>
                 <p>
-                    Wagers must have a creation fee of
+                    Bookies must seed their wages with a minimum of
                     {{ addCommas(PRICE_OF_WAGER) }} beans. This is to ensure
                     that bookies are invested in their wagers and are not
                     creating wagers for the sake of creating wagers.
@@ -71,6 +70,10 @@ import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
                     multiple accounts. One account per person.
                 </p>
             </li>
+            <li>
+                <strong>WINNING OPTION MUST BE THE CORRECT OPTION</strong>
+                <p>The winning option must be the correct, factual option.</p>
+            </li>
         </ol>
         <hr />
         <h2>BOOKIE BENEFITS</h2>
@@ -80,9 +83,9 @@ import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
         </p>
         <ol>
             <li>
-                <strong>JACKPOT TAX</strong>
+                <strong>BOOKIE TIP</strong>
                 <p>
-                    Bookies will receive 10% of the jackpot for each wager they
+                    Bookies will receive 15% of the jackpot for each wager they
                     create. This is to incentivize bookies to create wagers and
                     to reward them for their contributions to the betting
                     ecosystem.
@@ -110,9 +113,8 @@ import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
             <li>
                 <strong>PUNISHMENT</strong>
                 <p>
-                    Violation of these rules may result in the wager being
-                    removed and the creator being put on probation from creating
-                    wagers.
+                    Violation of these rules may result in a bookie being
+                    labeled as a racketeer and banned from creating wagers.
                 </p>
             </li>
             <li>

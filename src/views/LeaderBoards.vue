@@ -83,7 +83,6 @@ onMounted(async () => {
                     <tr>
                         <th>No.</th>
                         <th>Rank</th>
-                        <th>Role</th>
                         <th>Bettor</th>
                         <th>Wins</th>
                         <th>Beans</th>
@@ -93,7 +92,6 @@ onMounted(async () => {
                     <tr v-for="(user, index) in users" :key="index">
                         <td>{{ index + 1 }}</td>
                         <td>{{ getRank(index + 1) }}</td>
-                        <td>{{ user.role || 'bettor' }}</td>
                         <td>{{ user.name }}</td>
                         <td class="wins">{{ user.wins.length }}</td>
                         <td class="wins">{{ addCommas(user.beans || 0) }}</td>

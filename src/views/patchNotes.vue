@@ -5,6 +5,10 @@
         <h1>PATCH NOTES</h1>
         <h2>2/22/25</h2>
         <ul>
+            <li>Added seed beans to poll view</li>
+            <li>Renamed "Wager Creation Fee" to "Seed Beans"</li>
+            <li>Renamed "Jackpot Tax" to "Bookie Tip"</li>
+            <li>swapped out some of the banner ads</li>
             <li>
                 fixed issue where bets couldn't be set "tomorrow" and always
                 ended at midnight

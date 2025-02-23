@@ -3,7 +3,7 @@ import Poll from '@/components/Polls/PollMain.vue';
 import { computed, onMounted, ref } from 'vue';
 import { getAllPolls } from '@/composables/usePolls';
 import { useUserStore } from '@/stores/user';
-import { addCommas, PRICE_OF_WAGER } from '@/composables/useEconomy';
+import { PRICE_OF_WAGER } from '@/composables/useEconomy';
 const userStore = useUserStore();
 
 const beans = computed(() => userStore.user?.beans || 0);
@@ -30,13 +30,9 @@ onMounted(async () => {
     <div>
         <RouterLink
             v-if="beans >= PRICE_OF_WAGER"
-            class="new"
             to="/bets/create"
             :title="'Create a new wager'"
             >$$CREATE NEW WAGER$$</RouterLink
-        >
-        <a v-else class="new disabled" :title="'Not enough beans'"
-            >NEED {{ addCommas(PRICE_OF_WAGER) }} BEANS TO CREATE WAGER</a
         >
         <template v-if="polls && polls.length">
             <template :key="poll._id" v-for="(poll, i) in polls">
@@ -48,23 +44,13 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
-.new {
-    margin: 1em auto;
+a {
+    margin: 0 auto 20px auto;
     display: block;
     width: fit-content;
     font-size: 1.5em;
-    text-align: center;
 }
 hr {
     margin: 15px 0;
-}
-a.disabled {
-    opacity: 0.5;
-    text-decoration: line-through;
-    cursor: not-allowed;
-    &:active {
-        background-color: unset;
-        user-select: none;
-    }
 }
 </style>
