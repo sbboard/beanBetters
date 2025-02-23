@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
@@ -9,11 +9,18 @@ const router = useRouter();
 const title = ref('');
 const description = ref('');
 const endDate = ref('');
+const pricePerShare = ref(1000000);
+const seed = ref(pricePerShare.value * 2);
 const options = ref([{ text: '' }, { text: '' }]); // Start with 2 options
 const loading = ref(false);
 const message = ref('');
 const maxOptions = 5;
 const userStore = useUserStore();
+
+watch(pricePerShare, () => {
+    if (seed.value >= pricePerShare.value * 2) return;
+    seed.value = Math.max(seed.value, pricePerShare.value * 2);
+});
 
 // **Validation for End Date**
 const isEndDateValid = computed(() => {
@@ -62,6 +69,10 @@ const handleDateChange = (event: Event) => {
 
 const isFormValid = computed(() => {
     return (
+        pricePerShare.value >= 1000000 &&
+        seed.value >= pricePerShare.value * 2 &&
+        userStore.user?.beans &&
+        seed.value <= userStore.user?.beans &&
         title.value.trim() !== '' &&
         description.value.trim() !== '' &&
         endDate.value.trim() !== '' &&
@@ -95,6 +106,8 @@ const createPoll = async () => {
             description: description.value,
             endDate: new Date(endDate.value),
             options: options.value,
+            pricePerShare: pricePerShare.value,
+            seed: seed.value,
         };
 
         const response = await axios.post(`${api}/polls/create`, pollData);
@@ -147,11 +160,39 @@ const createPoll = async () => {
             <label for="endDate">End Date</label>
             <p>
                 Specify what date betting will end. No more votes will be
-                allowed on this day (UTC timezone).
+                allowed on this day (UTC timezone). End date must between
+                tomorrow and 6 months from today.
             </p>
             <input type="date" @change="handleDateChange" />
             <p v-if="!isEndDateValid && endDate">
-                End date must between tomorrow and 6 months from today.
+                End date is not currentlybetween tomorrow and 6 months from
+                today!
+            </p>
+
+            <label for="pricePerShare">Price Per Share</label>
+            <p>How much a single bet costs. Minimum 1,000,000 beans.</p>
+            <input
+                type="number"
+                v-model="pricePerShare"
+                minimum="1000000"
+                value="1000000"
+            />
+
+            <label for="pricePerShare">Bean Seed</label>
+            <p>
+                How much you're putting in initially. Must be at least twice the
+                PPS. You must have this amount of beans in your account. Minimum
+                2,000,000 beans.
+            </p>
+            <input
+                type="number"
+                v-model="seed"
+                :min="pricePerShare * 2"
+                :max="userStore.user?.beans || 2000000"
+                value="2000000"
+            />
+            <p v-if="seed > (userStore.user?.beans || 0)">
+                You cannot afford this seed amount!
             </p>
 
             <label for="options">Options</label>
