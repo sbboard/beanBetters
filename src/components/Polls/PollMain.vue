@@ -137,7 +137,9 @@ onMounted(async () => {
                     :price-per-share="virtualPoll.pricePerShare"
                 />
             </div>
-            <div class="total seed">SEED BEANS: 2,000,000</div>
+            <div class="total seed">
+                SEED BEANS: {{ addCommas(virtualPoll.seed) }}
+            </div>
             <div class="total">
                 TOTAL BEANS: {{ addCommas(virtualPoll.pot) }}
             </div>

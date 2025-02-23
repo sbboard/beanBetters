@@ -18,6 +18,7 @@ interface Poll {
     pot: number;
     pricePerShare: number;
     settleDate?: Date;
+    seed: number;
     title: string;
     winner: null | string;
     _id: string;
