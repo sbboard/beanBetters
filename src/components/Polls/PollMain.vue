@@ -23,6 +23,17 @@ const isOwner = computed(
 const isPastExpiration = computed(
     () => new Date() > new Date(virtualPoll.value.endDate)
 );
+
+const isPastSettleDate = computed(
+    () =>
+        new Date() >
+        new Date(
+            virtualPoll.value.settleDate
+                ? virtualPoll.value.settleDate.toString()
+                : virtualPoll.value.endDate.toString()
+        )
+);
+
 const hasVoted = ref(isPastExpiration.value);
 
 const timeLeft = computed(() => {
@@ -139,16 +150,26 @@ onMounted(async () => {
                         {{ addCommas(virtualPoll.pricePerShare) }} BEANS</span
                     >
                 </div>
-                <span
-                    ><strong>{{
-                        !isPastExpiration ? `TIME LEFT` : `CLOSED`
-                    }}</strong>
-                    {{
-                        !isPastExpiration
-                            ? timeLeft
-                            : formatDate(virtualPoll.endDate.toString())
-                    }}</span
-                >
+                <div class="right">
+                    <span
+                        ><strong>{{
+                            !isPastExpiration
+                                ? `BET DEADLINE`
+                                : !virtualPoll.winner
+                                ? `SETTLE DATE`
+                                : `SETTLED`
+                        }}</strong>
+                        {{
+                            !isPastExpiration
+                                ? timeLeft
+                                : formatDate(
+                                      virtualPoll.settleDate
+                                          ? virtualPoll.settleDate.toString()
+                                          : virtualPoll.endDate.toString()
+                                  )
+                        }}</span
+                    >
+                </div>
             </div>
             <span class="description">
                 <pre>{{ virtualPoll.description }}</pre>
@@ -202,7 +223,7 @@ onMounted(async () => {
                     >{{ potentialPayout }}
                 </div>
             </div>
-            <hr v-if="!isPastExpiration || isOwner" />
+            <hr v-if="!isPastExpiration || (isOwner && isPastSettleDate)" />
             <div v-if="!isPastExpiration" class="betControls">
                 <div class="shares" v-if="virtualPoll.pricePerShare < beans">
                     BUY
@@ -236,7 +257,7 @@ onMounted(async () => {
                     BEANS NOW !!!!!!
                 </div>
             </div>
-            <div v-if="isOwner && isPastExpiration" class="ownerOptions">
+            <div v-if="isOwner && isPastSettleDate" class="ownerOptions">
                 <RouterLink :to="`/bets/settle/${virtualPoll._id}`"
                     >$$$ SETTLE BET $$$</RouterLink
                 >
@@ -271,6 +292,9 @@ onMounted(async () => {
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
+        }
+        .right {
+            text-align: right;
         }
     }
     & > div {

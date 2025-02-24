@@ -5,6 +5,7 @@
         <h1>PATCH NOTES</h1>
         <h2>2/24/25</h2>
         <ul>
+            <li>Seperate wager end date and settle date</li>
             <li>Lowered bookie tip from 15% to 5%</li>
             <li>Allow linebreaks in wager descriptions</li>
             <li>Changed sorting algorithms for different wager states</li>

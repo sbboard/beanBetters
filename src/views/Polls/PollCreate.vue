@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, type Ref } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
@@ -9,6 +9,7 @@ const router = useRouter();
 const title = ref('');
 const description = ref('');
 const endDate = ref('');
+const settleDate = ref('');
 const pricePerShare = ref(PRICE_OF_WAGER);
 const seed = ref(PRICE_OF_WAGER);
 const options = ref([{ text: '' }, { text: '' }]); // Start with 2 options
@@ -16,6 +17,7 @@ const loading = ref(false);
 const message = ref('');
 const maxOptions = 10;
 const userStore = useUserStore();
+const settleDateRef: Ref<HTMLInputElement | null> = ref(null);
 
 watch(pricePerShare, () => {
     if (seed.value >= pricePerShare.value) return;
@@ -52,6 +54,35 @@ const isEndDateValid = computed(() => {
         selectedDate.getTime() <= maxEndDate.getTime()
     );
 });
+const isSettleDateValid = computed(() => {
+    if (!settleDate.value) return false;
+
+    //must be the same day or within 2 months of the endDate
+    const selectedDate = new Date(settleDate.value);
+    const today = new Date();
+    const minSettleDate = new Date(endDate.value);
+    minSettleDate.setHours(
+        today.getHours(),
+        today.getMinutes(),
+        today.getSeconds(),
+        0
+    );
+
+    const maxSettleDate = new Date(endDate.value);
+    maxSettleDate.setMonth(minSettleDate.getMonth() + 2); // Max is two months from the end date
+    maxSettleDate.setHours(
+        today.getHours(),
+        today.getMinutes(),
+        today.getSeconds(),
+        0
+    );
+
+    // Compare timestamps (milliseconds since epoch) to avoid precision issues
+    return (
+        selectedDate.getTime() >= minSettleDate.getTime() &&
+        selectedDate.getTime() <= maxSettleDate.getTime()
+    );
+});
 
 const handleDateChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
@@ -65,6 +96,27 @@ const handleDateChange = (event: Event) => {
         currentTime.getMilliseconds()
     );
     endDate.value = localDate.toLocaleString(); // Display in the local timezone
+    if (!settleDate.value || new Date(settleDate.value) < localDate) {
+        settleDate.value = localDate.toLocaleString();
+        if (!settleDateRef.value) return;
+        const date = new Date(settleDate.value);
+        const formattedDate = date.toISOString().split('T')[0]; // Formats to "YYYY-MM-DD"
+        settleDateRef.value.value = formattedDate;
+    }
+};
+
+const handleSettleDateChange = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    if (!input.value) return;
+    const localDate = new Date(input.value + 'T00:00:00'); // Parse as local date at midnight (start of the day)
+    const currentTime = new Date(); // Current time in the user's local timezone
+    localDate.setHours(
+        currentTime.getHours(),
+        currentTime.getMinutes(),
+        currentTime.getSeconds(),
+        currentTime.getMilliseconds()
+    );
+    settleDate.value = localDate.toLocaleString(); // Display in the local timezone
 };
 
 const isFormValid = computed(() => {
@@ -77,6 +129,7 @@ const isFormValid = computed(() => {
         description.value.trim() !== '' &&
         endDate.value.trim() !== '' &&
         isEndDateValid.value &&
+        isSettleDateValid.value &&
         options.value.length >= 2 &&
         options.value.every(option => option.text.trim() !== '') // No empty option
     );
@@ -105,6 +158,7 @@ const createPoll = async () => {
             title: title.value,
             description: description.value,
             endDate: new Date(endDate.value),
+            settleDate: new Date(settleDate.value),
             options: options.value,
             pricePerShare: pricePerShare.value,
             seed: seed.value,
@@ -157,17 +211,31 @@ const createPoll = async () => {
                 placeholder="Description"
             ></textarea>
 
-            <label for="endDate">End Date</label>
+            <label for="endDate">Betting Deadline</label>
             <p>
-                Specify what date betting will end. No more votes will be
-                allowed on this day (UTC timezone). End date must between
-                tomorrow and 6 months from today. Time is based on whatever time
-                it is when you submit the form.
+                Specify what date betting will end.<br />End date must between
+                tomorrow and 6 months from today.<br />Time is based on whatever
+                time it is when you create wager.
             </p>
             <input type="date" @change="handleDateChange" />
             <p v-if="!isEndDateValid && endDate">
-                End date is not currentlybetween tomorrow and 6 months from
+                Settle date is not currently between tomorrow and 6 months from
                 today!
+            </p>
+
+            <label for="endDate">Settle Deadline</label>
+            <p>
+                Specify what date the bet will be settled.<br />Must be the day
+                of, or within 2 months of the end date.<br />Time is based on
+                whatever time it is when you create wager.
+            </p>
+            <input
+                ref="settleDateRef"
+                type="date"
+                @change="handleSettleDateChange"
+            />
+            <p v-if="!isSettleDateValid && settleDate">
+                Settle date is not currently within valid timeframe.
             </p>
 
             <label for="pricePerShare">Price Per Share</label>
