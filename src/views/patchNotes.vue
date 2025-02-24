@@ -5,6 +5,8 @@
         <h1>PATCH NOTES</h1>
         <h2>2/23/25</h2>
         <ul>
+            <li>Added position information</li>
+            <li>Added bet filters</li>
             <li>Added pop-ups</li>
             <li>disabled inputs if you cant afford the bet</li>
             <li>Created Soda Enjoyer Seed Grant</li>
