@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 
-const getNumber = () => Math.floor(Math.random() * 7) + 1;
+const getNumber = () => Math.floor(Math.random() * 16) + 1;
 const random = ref(getNumber());
 const closed = ref(true);
 const top = ref('0%');
 const left = ref('0%');
+
+function isMobile() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
 
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
@@ -60,6 +64,7 @@ function closeDragElement() {
 }
 
 onMounted(() => {
+    if (isMobile()) return;
     timeoutId = setTimeout(() => showAd(), 5000);
 });
 
@@ -71,7 +76,8 @@ onUnmounted(() => {
 <template>
     <div class="ad" v-if="!closed">
         <div class="header" @mousedown="dragMouseDown">
-            <span @click="closeAd">x</span>
+            <span>SODA ENJOYER GRANT FUNDED BY</span
+            ><span @click="closeAd" class="close">x</span>
         </div>
         <img :src="`/assets/popups/${random}.jpg`" />
     </div>
@@ -94,18 +100,27 @@ onUnmounted(() => {
         border-bottom: 1px solid var(--themeColor);
         line-height: 1;
         cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         span {
-            margin-left: auto;
             display: block;
-            border-left: 1px solid var(--themeColor);
-            width: 1em;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             color: var(--themeColor);
+            font-size: 0.8em;
+            margin-left: 0.25em;
+            &.close {
+                border-left: 1px solid var(--themeColor);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 1em;
+                margin-left: auto;
+                font-size: 1rem;
+            }
         }
     }
     img {
+        image-rendering: pixelated;
         max-width: 300px;
     }
 }

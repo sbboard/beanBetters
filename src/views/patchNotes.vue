@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>2/24/25</h2>
+        <ul>
+            <li>Disabled pop-ups on mobile</li>
+            <li>Added more pop-ups</li>
+        </ul>
         <h2>2/23/25</h2>
         <ul>
             <li>Added position information</li>
