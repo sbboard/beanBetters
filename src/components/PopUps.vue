@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 const getNumber = () => Math.floor(Math.random() * 7) + 1;
 const random = ref(getNumber());
 const closed = ref(true);
 const top = ref('0%');
 const left = ref('0%');
+
+let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
 function showAd() {
     closed.value = false;
@@ -16,8 +18,11 @@ function showAd() {
 
 function closeAd() {
     closed.value = true;
-    //between 30 seconds and 5 minutes
-    setTimeout(() => showAd(), Math.floor(Math.random() * 270000) + 30000);
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(
+        () => showAd(),
+        Math.floor(Math.random() * 270000) + 30000
+    );
 }
 
 let pos1 = 0,
@@ -26,7 +31,6 @@ let pos1 = 0,
     pos4 = 0;
 
 function dragMouseDown(e: MouseEvent) {
-    e = e || window.event;
     e.preventDefault();
     pos3 = e.clientX;
     pos4 = e.clientY;
@@ -35,7 +39,6 @@ function dragMouseDown(e: MouseEvent) {
 }
 
 function elementDrag(e: MouseEvent) {
-    e = e || window.event;
     e.preventDefault();
     const elmnt = document.querySelector('.ad') as HTMLElement;
 
@@ -44,17 +47,11 @@ function elementDrag(e: MouseEvent) {
     pos3 = e.clientX;
     pos4 = e.clientY;
 
-    // Calculate new position in pixels
     const newTop = elmnt.offsetTop - pos2;
     const newLeft = elmnt.offsetLeft - pos1;
 
-    // Convert new position to percentage
-    const topPercentage = (newTop / window.innerHeight) * 100;
-    const leftPercentage = (newLeft / window.innerWidth) * 100;
-
-    // Set new position in percentage
-    top.value = topPercentage + '%';
-    left.value = leftPercentage + '%';
+    top.value = (newTop / window.innerHeight) * 100 + '%';
+    left.value = (newLeft / window.innerWidth) * 100 + '%';
 }
 
 function closeDragElement() {
@@ -63,7 +60,11 @@ function closeDragElement() {
 }
 
 onMounted(() => {
-    setTimeout(() => showAd(), 5000);
+    timeoutId = setTimeout(() => showAd(), 5000);
+});
+
+onUnmounted(() => {
+    if (timeoutId) clearTimeout(timeoutId);
 });
 </script>
 
