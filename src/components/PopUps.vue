@@ -25,7 +25,7 @@ function closeAd() {
     if (timeoutId) clearTimeout(timeoutId);
     timeoutId = setTimeout(
         () => showAd(),
-        Math.floor(Math.random() * 270000) + 30000
+        Math.floor(Math.random() * 300000) + 30000
     );
 }
 

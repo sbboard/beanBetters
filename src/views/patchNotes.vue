@@ -5,6 +5,7 @@
         <h1>PATCH NOTES</h1>
         <h2>2/24/25</h2>
         <ul>
+            <li>Lowered frequency of pop-ups</li>
             <li>Disabled pop-ups on mobile</li>
             <li>Added more pop-ups</li>
         </ul>
