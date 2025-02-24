@@ -1,9 +1,21 @@
 <script setup lang="ts">
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { addCommas } from '@/composables/useEconomy';
 
 const users = ref<User[]>([]);
+const sort = ref('beans');
+
+const sortedUsers = computed(() => {
+    const virtualUsers = [...users.value];
+    return virtualUsers.sort((a, b) => {
+        if (sort.value === 'beans') {
+            return b.beans - a.beans;
+        } else {
+            return b.wins.length - a.wins.length;
+        }
+    });
+});
 
 function getRank(rank: number) {
     let rankString = '';
@@ -61,6 +73,49 @@ onMounted(async () => {
 <template>
     <div class="leaderboards">
         <h1>LEADERBOARD</h1>
+        <div class="menu">
+            <span
+                :class="{ selected: sort === 'beans' }"
+                @click="() => (sort = 'beans')"
+                >SORT BY BEANS</span
+            >
+            <span
+                :class="{ selected: sort === 'wins' }"
+                @click="() => (sort = 'wins')"
+                >SORT BY WINS</span
+            >
+        </div>
+        <div v-if="sortedUsers.length === 0" style="margin-bottom: 1em">
+            Loading...
+        </div>
+        <template v-else>
+            <table :class="[sort]">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th v-if="sort === 'beans'">Rank</th>
+                        <th>Bettor</th>
+                        <th>Wins</th>
+                        <th v-if="sort === 'beans'">Beans</th>
+                    </tr>
+                </thead>
+                <tbody class="ranks">
+                    <tr v-for="(user, index) in sortedUsers" :key="index">
+                        <td>{{ index + 1 }}</td>
+                        <td v-if="sort === 'beans'">
+                            {{ getRank(index + 1) }}
+                        </td>
+                        <td>{{ user.name }}</td>
+                        <td class="wins">{{ user.wins.length }}</td>
+                        <td class="wins" v-if="sort === 'beans'">
+                            {{ addCommas(user.beans || 0) }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table></template
+        >
+        <h2>RANK INFORMATION</h2>
+
         <p style="font-size: 0.9em">
             Ranks 1-4 are sacred and are considered
             <strong>"The Bean Royal Family"</strong>. They are worthy of your
@@ -74,31 +129,6 @@ onMounted(async () => {
             destined for a pauper's grave. But with enough wins, they too can
             become something greater.
         </p>
-        <div v-if="users.length === 0" style="margin-bottom: 1em">
-            Loading...
-        </div>
-        <template v-else>
-            <table>
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Rank</th>
-                        <th>Bettor</th>
-                        <th>Wins</th>
-                        <th>Beans</th>
-                    </tr>
-                </thead>
-                <tbody class="ranks">
-                    <tr v-for="(user, index) in users" :key="index">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ getRank(index + 1) }}</td>
-                        <td>{{ user.name }}</td>
-                        <td class="wins">{{ user.wins.length }}</td>
-                        <td class="wins">{{ addCommas(user.beans || 0) }}</td>
-                    </tr>
-                </tbody>
-            </table></template
-        >
 
         <h2>UNCLAIMED WINS</h2>
         <p style="font-size: 0.9em">
@@ -148,6 +178,11 @@ onMounted(async () => {
         .wins {
             text-align: right;
         }
+        &.wins {
+            tr {
+                border-bottom: 1px solid var(--themeColor) !important;
+            }
+        }
     }
 }
 
@@ -161,6 +196,29 @@ strong {
     }
     tr:nth-of-type(10) {
         border-bottom: 5px solid var(--themeColor);
+    }
+}
+
+.menu {
+    border: 1px solid var(--themeColor);
+    margin-bottom: 0.5em;
+    display: flex;
+    span {
+        display: block;
+        flex: 1;
+        text-align: center;
+        padding: 0.5em;
+        cursor: pointer;
+        border-right: 1px solid var(--themeColor);
+        font-weight: bold;
+        color: var(--themeColor);
+        &.selected {
+            background-color: var(--themeColor);
+            color: black;
+        }
+        &:last-child {
+            border-right: none;
+        }
     }
 }
 </style>
