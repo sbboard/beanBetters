@@ -9,6 +9,7 @@ const router = useRouter();
 const title = ref('');
 const description = ref('');
 const endDate = ref('');
+const settleDate = ref('');
 const pricePerShare = ref(1000000);
 const seed = ref(pricePerShare.value * 2);
 const options = ref([{ text: '' }, { text: '' }]); // Start with 2 options
@@ -105,6 +106,7 @@ const createPoll = async () => {
             title: title.value,
             description: description.value,
             endDate: new Date(endDate.value),
+            settleDate: new Date(settleDate.value),
             options: options.value,
             pricePerShare: pricePerShare.value,
             seed: seed.value,
@@ -157,7 +159,7 @@ const createPoll = async () => {
                 placeholder="Description"
             ></textarea>
 
-            <label for="endDate">End Date</label>
+            <label for="endDate">Betting Deadline</label>
             <p>
                 Specify what date betting will end. No more votes will be
                 allowed on this day (UTC timezone). End date must between
@@ -166,8 +168,19 @@ const createPoll = async () => {
             </p>
             <input type="date" @change="handleDateChange" />
             <p v-if="!isEndDateValid && endDate">
-                End date is not currentlybetween tomorrow and 6 months from
+                Settle date is not currently between tomorrow and 6 months from
                 today!
+            </p>
+
+            <label for="endDate">Settle Deadline</label>
+            <p>
+                Specify what date the bet will be settled. Must be the day of,
+                or within 2 months of the end date. Time is based on whatever
+                time it is when you submit the form.
+            </p>
+            <input type="date" @change="handleSettleDateChange" />
+            <p v-if="!isSettleDateValid && settleDate">
+                Settle date is not currently within valid timeframe.
             </p>
 
             <label for="pricePerShare">Price Per Share</label>

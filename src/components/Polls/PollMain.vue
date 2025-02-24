@@ -130,16 +130,28 @@ onMounted(async () => {
                         {{ addCommas(virtualPoll.pricePerShare) }} BEANS</span
                     >
                 </div>
-                <span
-                    ><strong>{{
-                        !isPastExpiration ? `TIME LEFT` : `CLOSED`
-                    }}</strong>
-                    {{
-                        !isPastExpiration
-                            ? timeLeft
-                            : formatDate(virtualPoll.endDate.toString())
-                    }}</span
-                >
+                <div class="right">
+                    <span
+                        ><strong>{{
+                            !isPastExpiration ? `BET DEADLINE` : `CLOSED`
+                        }}</strong>
+                        {{
+                            !isPastExpiration
+                                ? timeLeft
+                                : formatDate(virtualPoll.endDate.toString())
+                        }}</span
+                    >
+                    <span v-if="!virtualPoll.winner"
+                        ><strong>SETTLE DEADLINE</strong>
+                        {{
+                            formatDate(
+                                virtualPoll.settleDate
+                                    ? virtualPoll.settleDate.toString()
+                                    : virtualPoll.endDate.toString()
+                            )
+                        }}</span
+                    >
+                </div>
             </div>
             <span class="description">{{ virtualPoll.description }}</span>
         </div>
@@ -256,6 +268,9 @@ onMounted(async () => {
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
+        }
+        .right {
+            text-align: right;
         }
     }
     & > div {
