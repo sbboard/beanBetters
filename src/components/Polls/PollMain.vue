@@ -77,6 +77,35 @@ async function placeBet() {
     }
 }
 
+const selectedOptionData = computed(
+    () =>
+        virtualPoll.value.options.find(
+            option => option._id === selectedOption.value
+        ) || null
+);
+
+const usersShares = computed(
+    () =>
+        selectedOptionData.value?.bettors.filter(bettor => bettor === userId)
+            .length ?? 0
+);
+
+const potentialPayout = computed(() => {
+    if (!selectedOptionData.value) return '0';
+
+    const jackpot = virtualPoll.value.pot;
+    const bookieTax = jackpot * 0.15;
+    const totalShares = selectedOptionData.value.bettors.length || 1; // Avoid division by zero
+    const percentYouOwn = usersShares.value / totalShares;
+    let payout = (jackpot - bookieTax) * percentYouOwn;
+
+    if (userStore.user?._id === virtualPoll.value.creatorId) {
+        payout += bookieTax;
+    }
+
+    return addCommas(Math.floor(payout));
+});
+
 onMounted(async () => {
     if (!userId) return;
     virtualPoll.value.options.forEach(option => {
@@ -147,6 +176,16 @@ onMounted(async () => {
             </div>
             <div class="total">
                 TOTAL BEANS: {{ addCommas(virtualPoll.pot) }}
+            </div>
+            <div v-if="usersShares > 0" class="position">
+                <div>
+                    <strong>POSITION: </strong>
+                    {{ addCommas(usersShares * virtualPoll.pricePerShare) }}
+                    BEANS
+                </div>
+                <div>
+                    <strong>POTENTIAL PAYOUT: </strong>{{ potentialPayout }}
+                </div>
             </div>
             <hr v-if="!isPastExpiration || isOwner" />
             <div v-if="!isPastExpiration" class="betControls">
@@ -331,6 +370,20 @@ onMounted(async () => {
         pointer-events: none;
         .selector {
             border: 1px solid transparent;
+        }
+    }
+    .position {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9em;
+        font-weight: bold;
+        margin-top: 1rem;
+        div {
+            margin-right: 0.5rem;
+            &:last-of-type {
+                margin-right: 0;
+                text-align: right;
+            }
         }
     }
 }

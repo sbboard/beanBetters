@@ -5,19 +5,31 @@ import { getAllPolls } from '@/composables/usePolls';
 import { useUserStore } from '@/stores/user';
 import { PRICE_OF_WAGER } from '@/composables/useEconomy';
 const userStore = useUserStore();
+const currentFilter = ref('open');
+
+const changeFilter = (filter: string) => {
+    currentFilter.value = filter;
+};
 
 const beans = computed(() => userStore.user?.beans || 0);
 
 const polls = ref<Poll[] | null>(null);
 
-const showHr = (index: number) => {
-    if (index === 0 || !polls.value) return false;
-    return !!polls.value[index].winner && !polls.value[index - 1].winner;
-};
+const filteredPolls = computed(() => {
+    if (!polls.value) return null;
+    const now = new Date();
+    return polls.value.filter(poll => {
+        if (currentFilter.value === 'open')
+            return !poll.winner && new Date(poll.endDate) > now;
+        if (currentFilter.value === 'unsettled')
+            return !poll.winner && new Date(poll.endDate) <= now;
+        if (currentFilter.value === 'completed') return poll.winner;
+        return false;
+    });
+});
 
 onMounted(async () => {
     const fetchedPolls = await getAllPolls();
-    //move all polls with winner to the bottom
     polls.value = fetchedPolls.sort((a, b) => {
         if (a.winner && !b.winner) return 1;
         if (!a.winner && b.winner) return -1;
@@ -34,23 +46,57 @@ onMounted(async () => {
             :title="'Create a new wager'"
             >$$CREATE NEW WAGER$$</RouterLink
         >
+        <div class="menu">
+            <span
+                :class="{ selected: currentFilter === 'open' }"
+                @click="changeFilter('open')"
+                >OPEN</span
+            >
+            <span
+                :class="{ selected: currentFilter === 'unsettled' }"
+                @click="changeFilter('unsettled')"
+                >UNSETTLED</span
+            >
+            <span
+                :class="{ selected: currentFilter === 'completed' }"
+                @click="changeFilter('completed')"
+                >COMPLETED</span
+            >
+        </div>
         <template v-if="polls && polls.length">
-            <template :key="poll._id" v-for="(poll, i) in polls">
-                <hr v-if="showHr(i)" />
-                <Poll :poll="poll" /> </template
-        ></template>
-        <div v-else>Loading wagers...</div>
+            <Poll :key="poll._id" v-for="poll in filteredPolls" :poll="poll"
+        /></template>
+        <div v-else>No {{ currentFilter }} wagers</div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+.menu {
+    border: 1px solid var(--themeColor);
+    margin-bottom: 0.5em;
+    display: flex;
+    span {
+        display: block;
+        flex: 1;
+        text-align: center;
+        padding: 0.5em;
+        cursor: pointer;
+        border-right: 1px solid var(--themeColor);
+        font-weight: bold;
+        color: var(--themeColor);
+        &.selected {
+            background-color: var(--themeColor);
+            color: black;
+        }
+        &:last-child {
+            border-right: none;
+        }
+    }
+}
 a {
     margin: 0 auto 20px auto;
     display: block;
     width: fit-content;
     font-size: 1.5em;
-}
-hr {
-    margin: 50px 0;
 }
 </style>
