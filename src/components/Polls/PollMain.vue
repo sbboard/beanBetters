@@ -92,6 +92,12 @@ const usersShares = computed(
 
 const potentialPayout = computed(() => {
     if (!selectedOptionData.value) return '0';
+    if (
+        virtualPoll.value.winner &&
+        selectedOptionData.value._id !== virtualPoll.value.winner
+    ) {
+        return '0';
+    }
 
     const jackpot = virtualPoll.value.pot;
     const bookieTax = jackpot * 0.15;
@@ -148,7 +154,7 @@ onMounted(async () => {
                 class="option"
                 v-for="pollOption in virtualPoll.options"
                 :class="{
-                    isWinner: poll.winner === pollOption._id,
+                    isWinner: virtualPoll.winner === pollOption._id,
                     noMoney: virtualPoll.pricePerShare > beans,
                 }"
                 :key="pollOption._id"
@@ -184,7 +190,11 @@ onMounted(async () => {
                     BEANS
                 </div>
                 <div>
-                    <strong>POTENTIAL PAYOUT: </strong>{{ potentialPayout }}
+                    <strong
+                        >{{
+                            virtualPoll.winner ? '' : 'POTENTIAL '
+                        }}PAYOUT: </strong
+                    >{{ potentialPayout }}
                 </div>
             </div>
             <hr v-if="!isPastExpiration || isOwner" />

@@ -5,6 +5,11 @@
         <h1>PATCH NOTES</h1>
         <h2>2/24/25</h2>
         <ul>
+            <li>Lowered price of bean seed</li>
+            <li>
+                show actual payout instead of potential payout for completed
+                wagers
+            </li>
             <li>Lowered minimum price per share to 500,000</li>
             <li>Added ability to sort leaderboard by wins</li>
             <li>Lowered frequency of pop-ups</li>

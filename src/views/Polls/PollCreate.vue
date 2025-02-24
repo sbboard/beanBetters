@@ -3,14 +3,14 @@ import { ref, computed, watch } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
-import { PRICE_OF_WAGER } from '@/composables/useEconomy';
+import { addCommas, PRICE_OF_WAGER } from '@/composables/useEconomy';
 
 const router = useRouter();
 const title = ref('');
 const description = ref('');
 const endDate = ref('');
-const pricePerShare = ref(PRICE_OF_WAGER / 2);
-const seed = ref(pricePerShare.value * 2);
+const pricePerShare = ref(PRICE_OF_WAGER);
+const seed = ref(PRICE_OF_WAGER);
 const options = ref([{ text: '' }, { text: '' }]); // Start with 2 options
 const loading = ref(false);
 const message = ref('');
@@ -18,8 +18,8 @@ const maxOptions = 10;
 const userStore = useUserStore();
 
 watch(pricePerShare, () => {
-    if (seed.value >= pricePerShare.value * 2) return;
-    seed.value = Math.max(seed.value, pricePerShare.value * 2);
+    if (seed.value >= pricePerShare.value) return;
+    seed.value = pricePerShare.value;
 });
 
 // **Validation for End Date**
@@ -69,8 +69,8 @@ const handleDateChange = (event: Event) => {
 
 const isFormValid = computed(() => {
     return (
-        pricePerShare.value >= 1000000 &&
-        seed.value >= pricePerShare.value * 2 &&
+        pricePerShare.value >= PRICE_OF_WAGER &&
+        seed.value >= pricePerShare.value &&
         userStore.user?.beans &&
         seed.value <= userStore.user?.beans &&
         title.value.trim() !== '' &&
@@ -175,24 +175,25 @@ const createPoll = async () => {
             <input
                 type="number"
                 v-model="pricePerShare"
-                :minimum="PRICE_OF_WAGER / 2"
-                :value="PRICE_OF_WAGER / 2"
+                :minimum="PRICE_OF_WAGER"
+                :value="pricePerShare"
             />
+            <p>Comma Helper: {{ addCommas(pricePerShare) }} BEANS</p>
 
             <label for="pricePerShare">Bean Seed</label>
             <p>
-                How many beans are put in initially.<br />Must be at least twice
-                the PPS.<br />You must have this amount of beans in your
-                account.<br />Will be matched by the Soda Enjoyer Seed Grant.<br />Minimum
-                1,000,000 beans.
+                How many beans are put in initially.<br />You must have this
+                amount of beans in your account.<br />Will be matched by the
+                Soda Enjoyer Seed Grant.<br />Minimum 500,000 beans.
             </p>
             <input
                 type="number"
                 v-model="seed"
-                :min="pricePerShare * 2"
+                :min="pricePerShare"
                 :max="userStore.user?.beans || PRICE_OF_WAGER"
-                :value="PRICE_OF_WAGER"
+                :value="seed"
             />
+            <p>Comma Helper: {{ addCommas(seed) }} BEANS</p>
             <p v-if="seed > (userStore.user?.beans || 0)">
                 You cannot afford this seed amount!
             </p>
