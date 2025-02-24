@@ -147,7 +147,9 @@ onMounted(async () => {
                     }}</span
                 >
             </div>
-            <span class="description">{{ virtualPoll.description }}</span>
+            <span class="description">
+                <pre>{{ virtualPoll.description }}</pre>
+            </span>
         </div>
         <div class="main">
             <div
@@ -395,6 +397,9 @@ onMounted(async () => {
                 text-align: right;
             }
         }
+    }
+    pre {
+        text-wrap: auto;
     }
 }
 </style>
