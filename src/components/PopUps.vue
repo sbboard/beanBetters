@@ -76,7 +76,7 @@ onUnmounted(() => {
 <template>
     <div class="ad" v-if="!closed">
         <div class="header" @mousedown="dragMouseDown">
-            <span>SODA ENJOYER GRANT FUNDED BY</span
+            <span>SODA ENJOYER SEED GRANT FUNDED BY</span
             ><span @click="closeAd" class="close">x</span>
         </div>
         <img :src="`/assets/popups/${random}.jpg`" />
@@ -106,7 +106,7 @@ onUnmounted(() => {
         span {
             display: block;
             color: var(--themeColor);
-            font-size: 0.8em;
+            font-size: 0.75em;
             margin-left: 0.25em;
             &.close {
                 border-left: 1px solid var(--themeColor);

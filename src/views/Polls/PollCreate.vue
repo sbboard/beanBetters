@@ -9,7 +9,7 @@ const router = useRouter();
 const title = ref('');
 const description = ref('');
 const endDate = ref('');
-const pricePerShare = ref(1000000);
+const pricePerShare = ref(PRICE_OF_WAGER / 2);
 const seed = ref(pricePerShare.value * 2);
 const options = ref([{ text: '' }, { text: '' }]); // Start with 2 options
 const loading = ref(false);
@@ -171,27 +171,27 @@ const createPoll = async () => {
             </p>
 
             <label for="pricePerShare">Price Per Share</label>
-            <p>How much a single bet costs. Minimum 1,000,000 beans.</p>
+            <p>How much a single bet costs. Minimum 500,000 beans.</p>
             <input
                 type="number"
                 v-model="pricePerShare"
-                minimum="1000000"
-                value="1000000"
+                :minimum="PRICE_OF_WAGER / 2"
+                :value="PRICE_OF_WAGER / 2"
             />
 
             <label for="pricePerShare">Bean Seed</label>
             <p>
-                How many beans are put in initially. Must be at least twice the
-                PPS. You must have this amount of beans in your account, however
-                you are only responsible for paying half. The rest is covered by
-                the Soda Enjoyer Seed Grant.<br />Minimum 2,000,000 beans.
+                How many beans are put in initially.<br />Must be at least twice
+                the PPS.<br />You must have this amount of beans in your
+                account.<br />Will be matched by the Soda Enjoyer Seed Grant.<br />Minimum
+                1,000,000 beans.
             </p>
             <input
                 type="number"
                 v-model="seed"
                 :min="pricePerShare * 2"
-                :max="userStore.user?.beans || 2000000"
-                value="2000000"
+                :max="userStore.user?.beans || PRICE_OF_WAGER"
+                :value="PRICE_OF_WAGER"
             />
             <p v-if="seed > (userStore.user?.beans || 0)">
                 You cannot afford this seed amount!
@@ -205,7 +205,11 @@ const createPoll = async () => {
                 :key="index"
             >
                 <input v-model="option.text" placeholder="Option text" />
-                <button @click="removeOption(index)" v-if="options.length > 2">
+                <button
+                    tabindex="-1"
+                    @click="removeOption(index)"
+                    v-if="options.length > 2"
+                >
                     ✖
                 </button>
             </div>
@@ -257,7 +261,7 @@ const createPoll = async () => {
     textarea {
         display: block;
         width: 100%;
-        resize: none;
+        resize: vertical;
     }
     textarea {
         height: 5em;
