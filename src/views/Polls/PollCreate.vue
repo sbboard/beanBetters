@@ -14,7 +14,7 @@ const seed = ref(pricePerShare.value * 2);
 const options = ref([{ text: '' }, { text: '' }]); // Start with 2 options
 const loading = ref(false);
 const message = ref('');
-const maxOptions = 5;
+const maxOptions = 10;
 const userStore = useUserStore();
 
 watch(pricePerShare, () => {
@@ -161,7 +161,8 @@ const createPoll = async () => {
             <p>
                 Specify what date betting will end. No more votes will be
                 allowed on this day (UTC timezone). End date must between
-                tomorrow and 6 months from today.
+                tomorrow and 6 months from today. Time is based on whatever time
+                it is when you submit the form.
             </p>
             <input type="date" @change="handleDateChange" />
             <p v-if="!isEndDateValid && endDate">
@@ -180,9 +181,10 @@ const createPoll = async () => {
 
             <label for="pricePerShare">Bean Seed</label>
             <p>
-                How much you're putting in initially. Must be at least twice the
-                PPS. You must have this amount of beans in your account. Minimum
-                2,000,000 beans.
+                How many beans are put in initially. Must be at least twice the
+                PPS. You must have this amount of beans in your account, however
+                you are only responsible for paying half. The rest is covered by
+                the Soda Enjoyer Seed Grant.<br />Minimum 2,000,000 beans.
             </p>
             <input
                 type="number"
@@ -196,6 +198,7 @@ const createPoll = async () => {
             </p>
 
             <label for="options">Options</label>
+            <p>Between 2 and 10</p>
             <div
                 class="options"
                 v-for="(option, index) in options"

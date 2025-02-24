@@ -118,13 +118,18 @@ onMounted(async () => {
             <div
                 class="option"
                 v-for="pollOption in virtualPoll.options"
-                :class="{ isWinner: poll.winner === pollOption._id }"
+                :class="{
+                    isWinner: poll.winner === pollOption._id,
+                    noMoney: virtualPoll.pricePerShare > beans,
+                }"
                 :key="pollOption._id"
                 @click="selectOption(pollOption._id)"
             >
                 <div
                     class="selector"
-                    :class="{ selected: selectedOption === pollOption._id }"
+                    :class="{
+                        selected: selectedOption === pollOption._id,
+                    }"
                 >
                     <span v-if="selectedOption === pollOption._id">🫘</span>
                 </div>
@@ -320,6 +325,12 @@ onMounted(async () => {
         }
         .betButton {
             flex: 1;
+        }
+    }
+    .noMoney {
+        pointer-events: none;
+        .selector {
+            border: 1px solid transparent;
         }
     }
 }

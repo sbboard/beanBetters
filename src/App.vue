@@ -2,6 +2,7 @@
 import LoginView from './views/LoginView.vue';
 import { useUserStore } from './stores/user';
 import SiteFooter from './components/SiteFooter.vue';
+import PopUps from './components/PopUps.vue';
 import AdRoll from './components/AdRoll.vue';
 import { onMounted } from 'vue';
 import { readScrambledId } from './composables/useLogin';
@@ -22,6 +23,7 @@ onMounted(async () => {
 
 <template>
     <div>
+        <PopUps />
         <header>
             <div>
                 <RouterLink to="/"><img src="@/assets/words.gif" /></RouterLink>
