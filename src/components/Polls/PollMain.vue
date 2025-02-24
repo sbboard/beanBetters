@@ -133,22 +133,20 @@ onMounted(async () => {
                 <div class="right">
                     <span
                         ><strong>{{
-                            !isPastExpiration ? `BET DEADLINE` : `CLOSED`
+                            !isPastExpiration
+                                ? `BET DEADLINE`
+                                : !virtualPoll.winner
+                                ? `SETTLE DEADLINE`
+                                : `SETTLED`
                         }}</strong>
                         {{
                             !isPastExpiration
                                 ? timeLeft
-                                : formatDate(virtualPoll.endDate.toString())
-                        }}</span
-                    >
-                    <span v-if="!virtualPoll.winner"
-                        ><strong>SETTLE DEADLINE</strong>
-                        {{
-                            formatDate(
-                                virtualPoll.settleDate
-                                    ? virtualPoll.settleDate.toString()
-                                    : virtualPoll.endDate.toString()
-                            )
+                                : formatDate(
+                                      virtualPoll.settleDate
+                                          ? virtualPoll.settleDate.toString()
+                                          : virtualPoll.endDate.toString()
+                                  )
                         }}</span
                     >
                 </div>
