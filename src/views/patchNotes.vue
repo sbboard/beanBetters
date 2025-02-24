@@ -3,8 +3,26 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>2/24/25</h2>
+        <ul>
+            <li>Lowered bookie tip from 15% to 5%</li>
+            <li>Allow linebreaks in wager descriptions</li>
+            <li>Changed sorting algorithms for different wager states</li>
+            <li>Lowered price of bean seed</li>
+            <li>
+                show actual payout instead of potential payout for completed
+                wagers
+            </li>
+            <li>Lowered minimum price per share to 500,000</li>
+            <li>Added ability to sort leaderboard by wins</li>
+            <li>Lowered frequency of pop-ups</li>
+            <li>Disabled pop-ups on mobile</li>
+            <li>Added more pop-ups</li>
+        </ul>
         <h2>2/23/25</h2>
         <ul>
+            <li>Added position information</li>
+            <li>Added bet filters</li>
             <li>Added pop-ups</li>
             <li>disabled inputs if you cant afford the bet</li>
             <li>Created Soda Enjoyer Seed Grant</li>

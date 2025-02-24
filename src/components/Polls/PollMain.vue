@@ -92,9 +92,18 @@ const usersShares = computed(
 
 const potentialPayout = computed(() => {
     if (!selectedOptionData.value) return '0';
-
     const jackpot = virtualPoll.value.pot;
-    const bookieTax = jackpot * 0.15;
+    const bookieTax = jackpot * 0.05;
+    if (
+        virtualPoll.value.winner &&
+        selectedOptionData.value._id !== virtualPoll.value.winner
+    ) {
+        if (userStore.user?._id === virtualPoll.value.creatorId) {
+            return addCommas(Math.floor(bookieTax));
+        }
+        return '0';
+    }
+
     const totalShares = selectedOptionData.value.bettors.length || 1; // Avoid division by zero
     const percentYouOwn = usersShares.value / totalShares;
     let payout = (jackpot - bookieTax) * percentYouOwn;
@@ -151,14 +160,16 @@ onMounted(async () => {
                     >
                 </div>
             </div>
-            <span class="description">{{ virtualPoll.description }}</span>
+            <span class="description">
+                <pre>{{ virtualPoll.description }}</pre>
+            </span>
         </div>
         <div class="main">
             <div
                 class="option"
                 v-for="pollOption in virtualPoll.options"
                 :class="{
-                    isWinner: poll.winner === pollOption._id,
+                    isWinner: virtualPoll.winner === pollOption._id,
                     noMoney: virtualPoll.pricePerShare > beans,
                 }"
                 :key="pollOption._id"
@@ -194,7 +205,11 @@ onMounted(async () => {
                     BEANS
                 </div>
                 <div>
-                    <strong>POTENTIAL PAYOUT: </strong>{{ potentialPayout }}
+                    <strong
+                        >{{
+                            virtualPoll.winner ? '' : 'POTENTIAL '
+                        }}PAYOUT: </strong
+                    >{{ potentialPayout }}
                 </div>
             </div>
             <hr v-if="!isPastExpiration || isOwner" />
@@ -398,6 +413,9 @@ onMounted(async () => {
                 text-align: right;
             }
         }
+    }
+    pre {
+        text-wrap: auto;
     }
 }
 </style>

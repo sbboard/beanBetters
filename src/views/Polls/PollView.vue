@@ -18,7 +18,7 @@ const polls = ref<Poll[] | null>(null);
 const filteredPolls = computed(() => {
     if (!polls.value) return null;
     const now = new Date();
-    return polls.value.filter(poll => {
+    const filter = polls.value.filter(poll => {
         if (currentFilter.value === 'open')
             return !poll.winner && new Date(poll.endDate) > now;
         if (currentFilter.value === 'unsettled')
@@ -26,6 +26,19 @@ const filteredPolls = computed(() => {
         if (currentFilter.value === 'completed') return poll.winner;
         return false;
     });
+    if (currentFilter.value === 'unsettled') {
+        //sort by settleDate
+        return filter.sort((a, b) => {
+            return (
+                new Date(b.settleDate || b.endDate).getTime() -
+                new Date(a.settleDate || a.endDate).getTime()
+            );
+        });
+    }
+    if (currentFilter.value === 'completed') {
+        return filter.reverse();
+    }
+    return filter;
 });
 
 onMounted(async () => {
