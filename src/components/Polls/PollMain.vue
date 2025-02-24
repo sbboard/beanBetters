@@ -23,6 +23,17 @@ const isOwner = computed(
 const isPastExpiration = computed(
     () => new Date() > new Date(virtualPoll.value.endDate)
 );
+
+const isPastSettleDate = computed(
+    () =>
+        new Date() >
+        new Date(
+            virtualPoll.value.settleDate
+                ? virtualPoll.value.settleDate.toString()
+                : virtualPoll.value.endDate.toString()
+        )
+);
+
 const hasVoted = ref(isPastExpiration.value);
 
 const timeLeft = computed(() => {
@@ -145,7 +156,7 @@ onMounted(async () => {
                             !isPastExpiration
                                 ? `BET DEADLINE`
                                 : !virtualPoll.winner
-                                ? `SETTLE DEADLINE`
+                                ? `SETTLE DATE`
                                 : `SETTLED`
                         }}</strong>
                         {{
@@ -212,7 +223,7 @@ onMounted(async () => {
                     >{{ potentialPayout }}
                 </div>
             </div>
-            <hr v-if="!isPastExpiration || isOwner" />
+            <hr v-if="!isPastExpiration || (isOwner && isPastSettleDate)" />
             <div v-if="!isPastExpiration" class="betControls">
                 <div class="shares" v-if="virtualPoll.pricePerShare < beans">
                     BUY
@@ -246,7 +257,7 @@ onMounted(async () => {
                     BEANS NOW !!!!!!
                 </div>
             </div>
-            <div v-if="isOwner && isPastExpiration" class="ownerOptions">
+            <div v-if="isOwner && isPastSettleDate" class="ownerOptions">
                 <RouterLink :to="`/bets/settle/${virtualPoll._id}`"
                     >$$$ SETTLE BET $$$</RouterLink
                 >

@@ -30,8 +30,8 @@ const filteredPolls = computed(() => {
         //sort by settleDate
         return filter.sort((a, b) => {
             return (
-                new Date(b.settleDate || b.endDate).getTime() -
-                new Date(a.settleDate || a.endDate).getTime()
+                new Date(a.settleDate || a.endDate).getTime() -
+                new Date(b.settleDate || b.endDate).getTime()
             );
         });
     }
