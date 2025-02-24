@@ -85,7 +85,7 @@ import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
             <li>
                 <strong>BOOKIE TIP</strong>
                 <p>
-                    Bookies will receive 15% of the jackpot for each wager they
+                    Bookies will receive 5% of the jackpot for each wager they
                     create. This is to incentivize bookies to create wagers and
                     to reward them for their contributions to the betting
                     ecosystem.

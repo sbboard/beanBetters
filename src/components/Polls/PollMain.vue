@@ -92,15 +92,18 @@ const usersShares = computed(
 
 const potentialPayout = computed(() => {
     if (!selectedOptionData.value) return '0';
+    const jackpot = virtualPoll.value.pot;
+    const bookieTax = jackpot * 0.05;
     if (
         virtualPoll.value.winner &&
         selectedOptionData.value._id !== virtualPoll.value.winner
     ) {
+        if (userStore.user?._id === virtualPoll.value.creatorId) {
+            return addCommas(Math.floor(bookieTax));
+        }
         return '0';
     }
 
-    const jackpot = virtualPoll.value.pot;
-    const bookieTax = jackpot * 0.15;
     const totalShares = selectedOptionData.value.bettors.length || 1; // Avoid division by zero
     const percentYouOwn = usersShares.value / totalShares;
     let payout = (jackpot - bookieTax) * percentYouOwn;

@@ -85,7 +85,6 @@ onMounted(() => fetchPoll());
                 >
                     Settle Bet
                 </button>
-                <router-link to="/bets">Back to Bets</router-link>
             </div>
         </div>
 
