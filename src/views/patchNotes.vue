@@ -5,6 +5,7 @@
         <h1>PATCH NOTES</h1>
         <h2>2/24/25</h2>
         <ul>
+            <li>Lowered minimum price per share to 500,000</li>
             <li>Added ability to sort leaderboard by wins</li>
             <li>Lowered frequency of pop-ups</li>
             <li>Disabled pop-ups on mobile</li>

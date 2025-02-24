@@ -8,6 +8,14 @@ const sort = ref('beans');
 
 const sortedUsers = computed(() => {
     const virtualUsers = [...users.value];
+    //if sort == wins filter out users with no wins
+    if (sort.value === 'wins') {
+        return virtualUsers
+            .filter(user => user.wins.length > 0)
+            .sort((a, b) => {
+                return b.wins.length - a.wins.length;
+            });
+    }
     return virtualUsers.sort((a, b) => {
         if (sort.value === 'beans') {
             return b.beans - a.beans;
