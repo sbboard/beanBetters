@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
-</script>
+<script lang="ts" setup></script>
 
 <template>
     <div class="notes">
@@ -37,19 +35,10 @@ import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
             <li>
                 <strong>WAGER SETTLEMENT</strong>
                 <p>
-                    Wagers must be settled within 10 days of the end date. No
-                    wagers may be left open indefinitely. Wagers must be settled
-                    in a timely manner. If a wager is left abandoned it can be
-                    claimed by another user as their own.
-                </p>
-            </li>
-            <li>
-                <strong>SEED BEANS</strong>
-                <p>
-                    Bookies must seed their wages with a minimum of
-                    {{ addCommas(PRICE_OF_WAGER) }} beans. This is to ensure
-                    that bookies are invested in their wagers and are not
-                    creating wagers for the sake of creating wagers.
+                    Wagers must be settled within 10 days of the agreed upon
+                    settle date. No wagers may be left open indefinitely. Wagers
+                    must be settled in a timely manner. If a wager is left
+                    abandoned it can be claimed by another user as their own.
                 </p>
             </li>
             <li>
@@ -74,6 +63,16 @@ import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
                 <strong>WINNING OPTION MUST BE THE CORRECT OPTION</strong>
                 <p>The winning option must be the correct, factual option.</p>
             </li>
+            <li>
+                <strong>NO ATTEMPTING TO INFLUENCE OUTCOMES</strong>
+                <p>
+                    Bookies may not attempt to influence the outcome of a wager
+                    in any way. Bookies must remain neutral and unbiased. This
+                    rule extends to all bettors, not just bookies. While
+                    non-bookies cannot legally be penalized for breaking the
+                    Bookie Agreement there is great shame in doing so.
+                </p>
+            </li>
         </ol>
         <hr />
         <h2>BOOKIE BENEFITS</h2>
@@ -96,6 +95,15 @@ import { PRICE_OF_WAGER, addCommas } from '@/composables/useEconomy';
                 <p>
                     Bookies will be respected and admired by the community for
                     their contributions to the betting ecosystem.
+                </p>
+            </li>
+            <li>
+                <strong>SODA ENJOYER SEED GRANT</strong>
+                <p>
+                    Thanks to the funding from the United Nations of Soda
+                    Enjoyers, in exchange for displaying their non-intrusive
+                    ads, the Bean Seeds bookies contribute to their wagers will
+                    be matched by the United Nations of Soda Enjoyers.
                 </p>
             </li>
         </ol>
