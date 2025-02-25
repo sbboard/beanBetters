@@ -25,6 +25,11 @@ interface Poll {
     _id: string;
 }
 
+interface Item {
+    meta: string;
+    name: string;
+}
+
 interface User {
     _id: string;
     name: string;
@@ -35,4 +40,5 @@ interface User {
     contentType: 'user';
     lastIP?: string;
     beans: number;
+    inventory?: Item[];
 }

@@ -3,11 +3,17 @@ import LoginView from './views/LoginView.vue';
 import { useUserStore } from './stores/user';
 import SiteFooter from './components/SiteFooter.vue';
 import AdRoll from './components/AdRoll.vue';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { readScrambledId } from './composables/useLogin';
 import { useLogout } from '@/composables/useLogin';
 import { addCommas } from '@/composables/useEconomy';
 const userStore = useUserStore();
+
+const hasAdblock = computed(() => {
+    return userStore.user?.inventory?.some(
+        invItem => invItem.name === 'adblock'
+    );
+});
 
 onMounted(async () => {
     try {
@@ -27,7 +33,7 @@ onMounted(async () => {
             <div>
                 <RouterLink to="/"><img src="@/assets/words.gif" /></RouterLink>
             </div>
-            <AdRoll />
+            <AdRoll v-if="!hasAdblock" />
         </header>
         <main>
             <div class="content">
@@ -76,6 +82,7 @@ header {
     background-color: black;
     position: relative;
     overflow: hidden;
+    background: url('/assets/bg.png');
     & > div {
         max-width: 1000px;
         display: flex;

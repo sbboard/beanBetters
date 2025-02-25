@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user';
 import AdRoll from './AdRoll.vue';
+import { computed } from 'vue';
+const userStore = useUserStore();
+
+const hasAdblock = computed(() => {
+    return userStore.user?.inventory?.some(
+        invItem => invItem.name === 'adblock'
+    );
+});
 </script>
 
 <template>
@@ -8,7 +17,7 @@ import AdRoll from './AdRoll.vue';
             >&copy; {{ new Date().getFullYear() + 15 }} The United Nations of
             Soda Enjoyers</span
         >
-        <AdRoll :alt="true" />
+        <AdRoll v-if="!hasAdblock" :alt="true" />
     </footer>
 </template>
 
@@ -20,6 +29,7 @@ footer {
     color: var(--themeColor);
     font-size: 0.75em;
     overflow: hidden;
+    background: url('/assets/bg.png');
     span {
         max-width: 990px;
         position: absolute;

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import { useApiStore } from '@/stores/api';
+import { useUserStore } from '@/stores/user';
 
 const apiStore = useApiStore();
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -19,14 +21,23 @@ const apiStore = useApiStore();
                     @mouseover="() => apiStore.fetchPolls()"
                     ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
+                <RouterLink to="/rules"
+                    ><img src="/assets/agree.gif" alt="BOOKIE AGREEMENT"
+                /></RouterLink>
                 <RouterLink
                     to="/leaderboards"
                     @mouseover="() => apiStore.fetchWinners()"
                     ><img src="/assets/leader.gif" alt="LEADERBOARDS"
                 /></RouterLink>
-                <RouterLink to="/rules"
-                    ><img src="/assets/agree.gif" alt="BOOKIE AGREEMENT"
-                /></RouterLink>
+                <RouterLink to="/store">
+                    <img src="/assets/exchange.gif" alt="patch notes" />
+                </RouterLink>
+                <RouterLink
+                    v-if="userStore.user?.inventory?.length"
+                    to="/inventory"
+                >
+                    <img src="/assets/inventory.gif" alt="patch notes" />
+                </RouterLink>
                 <RouterLink to="/notes"
                     ><img src="/assets/patch.gif" alt="patch notes"
                 /></RouterLink>

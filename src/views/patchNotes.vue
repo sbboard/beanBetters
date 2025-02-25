@@ -5,6 +5,8 @@
         <h1>PATCH NOTES</h1>
         <h2>2/25/25</h2>
         <ul>
+            <li>created ad block item</li>
+            <li>created store / inventory</li>
             <li>
                 fixed bug where poll list wasn't updating after wager settlement
             </li>

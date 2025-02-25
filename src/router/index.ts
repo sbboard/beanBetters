@@ -7,6 +7,8 @@ import Leaderboards from '@/views/LeaderBoards.vue';
 import LoginView from '@/views/LoginView.vue';
 import patchNotes from '@/views/patchNotes.vue';
 import Rules from '@/views/RulesView.vue';
+import Inventory from '@/views/InventoryView.vue';
+import Store from '@/views/StoreView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +52,16 @@ const router = createRouter({
             path: '/rules',
             name: 'rules',
             component: Rules,
+        },
+        {
+            path: '/store',
+            name: 'store',
+            component: Store,
+        },
+        {
+            path: '/inventory',
+            name: 'inventory',
+            component: Inventory,
         },
     ],
 });
