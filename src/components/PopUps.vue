@@ -114,7 +114,7 @@ onUnmounted(() => {
             display: block;
             color: var(--themeColor);
             font-size: 0.75em;
-            margin-left: 0.25em;
+            margin-left: 1em;
             &.close {
                 border-left: 1px solid var(--themeColor);
                 display: flex;
