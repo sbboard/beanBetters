@@ -102,26 +102,33 @@ const usersShares = computed(
 );
 
 const potentialPayout = computed(() => {
-    if (!selectedOptionData.value) return '0';
-    const jackpot = virtualPoll.value.pot;
+    let jackpot = virtualPoll.value.pot;
     const bookieTax = jackpot * 0.05;
+    let payout = 0;
+
+    if (isOwner.value) payout = bookieTax;
+
+    //how many people voted for the winning option
+    const winningOption = virtualPoll.value.options.find(
+        option => option._id === virtualPoll.value.winner
+    );
+    const totalWinningShares = winningOption?.bettors.length || 0;
+    if (totalVotes.value === totalWinningShares) {
+        payout = 0; //remove bookie tax if everyone voted for the same option
+        jackpot = totalWinningShares * virtualPoll.value.pricePerShare;
+    }
+
     if (
-        virtualPoll.value.winner &&
-        selectedOptionData.value._id !== virtualPoll.value.winner
+        !selectedOptionData.value ||
+        (virtualPoll.value.winner &&
+            selectedOptionData.value._id !== virtualPoll.value.winner)
     ) {
-        if (userStore.user?._id === virtualPoll.value.creatorId) {
-            return addCommas(Math.floor(bookieTax));
-        }
-        return '0';
+        return addCommas(Math.floor(payout));
     }
 
-    const totalShares = selectedOptionData.value.bettors.length || 1; // Avoid division by zero
-    const percentYouOwn = usersShares.value / totalShares;
-    let payout = (jackpot - bookieTax) * percentYouOwn;
-
-    if (userStore.user?._id === virtualPoll.value.creatorId) {
-        payout += bookieTax;
-    }
+    const totalSharesOfWinner = selectedOptionData.value.bettors.length;
+    const percentYouOwn = usersShares.value / totalSharesOfWinner;
+    payout += (jackpot - bookieTax) * percentYouOwn;
 
     return addCommas(Math.floor(payout));
 });
@@ -209,7 +216,7 @@ onMounted(async () => {
             <div class="total">
                 TOTAL BEANS: {{ addCommas(virtualPoll.pot) }}
             </div>
-            <div v-if="usersShares > 0" class="position">
+            <div v-if="usersShares > 0 || isOwner" class="position">
                 <div>
                     <strong>POSITION: </strong>
                     {{ addCommas(usersShares * virtualPoll.pricePerShare) }}

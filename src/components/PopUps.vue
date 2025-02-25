@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 
@@ -7,8 +8,14 @@ const closed = ref(true);
 const top = ref('0%');
 const left = ref('0%');
 
-function isMobile() {
-    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+function isMobile(): boolean {
+    if ((navigator as any).userAgentData?.mobile) {
+        return (navigator as any).userAgentData.mobile;
+    }
+    return (
+        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+        'ontouchstart' in window
+    );
 }
 
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
@@ -76,7 +83,7 @@ onUnmounted(() => {
 <template>
     <div class="ad" v-if="!closed">
         <div class="header" @mousedown="dragMouseDown">
-            <span>SODA ENJOYER SEED GRANT FUNDED BY</span
+            <span>SODA ENJOYER SEED GRANT FUNDED BY...</span
             ><span @click="closeAd" class="close">x</span>
         </div>
         <img :src="`/assets/popups/${random}.jpg`" />
@@ -93,7 +100,7 @@ onUnmounted(() => {
     top: v-bind(top);
     left: v-bind(left);
     .header {
-        height: 1em;
+        height: 2em;
         width: 100%;
         display: block;
         backdrop-filter: brightness(0.5) blur(3px);
@@ -113,15 +120,17 @@ onUnmounted(() => {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 1em;
+                width: 2em;
                 margin-left: auto;
                 font-size: 1rem;
+                height: 100%;
             }
         }
     }
     img {
         image-rendering: pixelated;
-        max-width: 300px;
+        width: 350px;
+        height: auto;
     }
 }
 </style>
