@@ -5,6 +5,8 @@
         <h1>PATCH NOTES</h1>
         <h2>2/24/25</h2>
         <ul>
+            <li>optimized API fetches</li>
+            <li>Added user info to the top of every page</li>
             <li>add fallbacks for mobile detection</li>
             <li>increase pop-up size</li>
             <li>Seperate wager end date and settle date</li>

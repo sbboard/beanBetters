@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
+import { useApiStore } from '@/stores/api';
+
+const apiStore = useApiStore();
 </script>
 
 <template>
@@ -10,10 +13,15 @@ import CharacterPortraits from '@/components/CharacterPortraits.vue';
             </div>
             <div>
                 <!-- https://picasion.com/glitter-maker/ -->
-                <RouterLink class="betBtn" to="/bets"
+                <RouterLink
+                    class="betBtn"
+                    to="/bets"
+                    @mouseover="() => apiStore.fetchPolls()"
                     ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
-                <RouterLink to="/leaderboards"
+                <RouterLink
+                    to="/leaderboards"
+                    @mouseover="() => apiStore.fetchWinners()"
                     ><img src="/assets/leader.gif" alt="LEADERBOARDS"
                 /></RouterLink>
                 <RouterLink to="/rules"

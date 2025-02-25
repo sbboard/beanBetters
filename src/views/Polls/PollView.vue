@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Poll from '@/components/Polls/PollMain.vue';
 import { computed, onMounted, ref } from 'vue';
-import { getAllPolls } from '@/composables/usePolls';
 import { useUserStore } from '@/stores/user';
 import { PRICE_OF_WAGER } from '@/composables/useEconomy';
+import { useApiStore } from '@/stores/api';
 const userStore = useUserStore();
 const currentFilter = ref('open');
+
+const apiStore = useApiStore();
 
 const changeFilter = (filter: string) => {
     currentFilter.value = filter;
@@ -13,12 +15,10 @@ const changeFilter = (filter: string) => {
 
 const beans = computed(() => userStore.user?.beans || 0);
 
-const polls = ref<Poll[] | null>(null);
-
 const filteredPolls = computed(() => {
-    if (!polls.value) return null;
+    if (!apiStore.polls.data) return null;
     const now = new Date();
-    const filter = polls.value.filter(poll => {
+    const filter = apiStore.polls.data.filter(poll => {
         if (currentFilter.value === 'open')
             return !poll.winner && new Date(poll.endDate) > now;
         if (currentFilter.value === 'unsettled')
@@ -38,16 +38,15 @@ const filteredPolls = computed(() => {
     if (currentFilter.value === 'completed') {
         return filter.reverse();
     }
-    return filter;
-});
-
-onMounted(async () => {
-    const fetchedPolls = await getAllPolls();
-    polls.value = fetchedPolls.sort((a, b) => {
+    return filter.sort((a, b) => {
         if (a.winner && !b.winner) return 1;
         if (!a.winner && b.winner) return -1;
         return 0;
     });
+});
+
+onMounted(async () => {
+    apiStore.fetchPolls();
 });
 </script>
 
@@ -76,7 +75,7 @@ onMounted(async () => {
                 >COMPLETED</span
             >
         </div>
-        <template v-if="polls && polls.length">
+        <template v-if="filteredPolls && filteredPolls.length">
             <Poll :key="poll._id" v-for="poll in filteredPolls" :poll="poll"
         /></template>
         <div v-else>No {{ currentFilter }} wagers</div>

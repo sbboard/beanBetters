@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import axios from 'axios';
 import { computed, onMounted, ref } from 'vue';
 import { addCommas } from '@/composables/useEconomy';
+import { useApiStore } from '@/stores/api';
 
-const users = ref<User[]>([]);
+const apiStore = useApiStore();
 const sort = ref('beans');
 
 const sortedUsers = computed(() => {
-    const virtualUsers = [...users.value];
-    //if sort == wins filter out users with no wins
+    if (!apiStore.winners.data) return [];
+    const virtualUsers = [...apiStore.winners.data];
     if (sort.value === 'wins') {
         return virtualUsers
             .filter(user => user.wins.length > 0)
@@ -65,17 +65,7 @@ function getRank(rank: number) {
     return rankString;
 }
 
-onMounted(async () => {
-    try {
-        const response = await axios.get(
-            `https://www.gang-fight.com/api/beans/user/winners`
-        );
-        users.value = response.data;
-    } catch (error) {
-        console.error('Error fetching polls:', error);
-        throw error;
-    }
-});
+onMounted(() => apiStore.fetchWinners());
 </script>
 
 <template>
