@@ -1,26 +1,9 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
-import { useUserStore } from '../stores/user';
-import { useLogout } from '@/composables/useLogin';
-import { addCommas } from '@/composables/useEconomy';
-const userStore = useUserStore();
 </script>
 
 <template>
     <div class="home">
-        <div class="welcome">
-            <div>
-                Welcome home,
-                <strong>{{ userStore.user?.name }}</strong
-                ><br />
-                Bean Bag:
-                <strong
-                    >{{ addCommas(userStore.user?.beans || 0) }} Beans</strong
-                >
-            </div>
-            <div @click="useLogout()" class="logout">Logout</div>
-        </div>
-        <hr />
         <div>
             <div class="left">
                 <CharacterPortraits character="king" />
@@ -46,28 +29,6 @@ const userStore = useUserStore();
 
 <style lang="scss" scoped>
 .home {
-    .welcome {
-        display: flex;
-        margin-top: 10px;
-        flex-direction: row;
-        font-size: 1.1em;
-        align-items: end;
-        & > div {
-            display: block;
-            max-width: unset;
-        }
-        strong {
-            font-weight: bold;
-        }
-        .logout {
-            text-align: right;
-            width: fit-content;
-            cursor: pointer;
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
     img {
         filter: sepia(1) hue-rotate(33deg) saturate(3.5) contrast(1.5);
     }

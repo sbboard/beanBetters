@@ -103,7 +103,7 @@ onMounted(async () => {
                         <th>No.</th>
                         <th v-if="sort === 'beans'">Rank</th>
                         <th>Bettor</th>
-                        <th>Wins</th>
+                        <th v-if="sort === 'wins'">Wins</th>
                         <th v-if="sort === 'beans'">Beans</th>
                     </tr>
                 </thead>
@@ -114,7 +114,9 @@ onMounted(async () => {
                             {{ getRank(index + 1) }}
                         </td>
                         <td>{{ user.name }}</td>
-                        <td class="wins">{{ user.wins.length }}</td>
+                        <td class="wins" v-if="sort === 'wins'">
+                            {{ user.wins.length }}
+                        </td>
                         <td class="wins" v-if="sort === 'beans'">
                             {{ addCommas(user.beans || 0) }}
                         </td>

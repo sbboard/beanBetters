@@ -6,7 +6,8 @@ import PopUps from './components/PopUps.vue';
 import AdRoll from './components/AdRoll.vue';
 import { onMounted } from 'vue';
 import { readScrambledId } from './composables/useLogin';
-
+import { useLogout } from '@/composables/useLogin';
+import { addCommas } from '@/composables/useEconomy';
 const userStore = useUserStore();
 
 onMounted(async () => {
@@ -32,6 +33,24 @@ onMounted(async () => {
         </header>
         <main>
             <div class="content">
+                <div class="welcome">
+                    <div>
+                        Happy betting,
+                        <strong
+                            >{{ userStore.user?.role }}
+                            {{ userStore.user?.name }}</strong
+                        ><br />
+                        Bean Bag:
+                        <strong
+                            >{{
+                                addCommas(userStore.user?.beans || 0)
+                            }}
+                            Beans</strong
+                        >
+                    </div>
+                    <div @click="useLogout()" class="logout">Logout</div>
+                </div>
+                <hr class="welcomeHr" />
                 <LoginView v-if="userStore.showLogin" />
                 <RouterView v-else-if="userStore.user" />
             </div>
@@ -233,5 +252,34 @@ table {
             }
         }
     }
+}
+
+.welcome {
+    display: flex;
+    margin-top: 10px;
+    flex-direction: row;
+    font-size: 1.1em;
+    align-items: end;
+    justify-content: space-between;
+    & > div {
+        display: block;
+        max-width: unset;
+    }
+    strong {
+        font-weight: bold;
+    }
+    .logout {
+        text-align: right;
+        width: fit-content;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+hr.welcomeHr {
+    width: 100%;
+    margin-bottom: 20px;
 }
 </style>
