@@ -14,25 +14,38 @@ export const useApiStore = defineStore('api', () => {
 
     const api = 'https://www.gang-fight.com/api/beans';
     const fetchWinners: () => Promise<void> = async () => {
-        const twoMinutesAgo = Date.now() - 1000 * 60 * 2;
-        if (winners.value.lastFetch && Date.now() - twoMinutesAgo) return;
+        const now = Date.now();
+        if (
+            winners.value.lastFetch &&
+            winners.value.lastFetch >= now - 1000 * 30
+        ) {
+            return;
+        }
+
         try {
             const response = await axios.get(`${api}/user/winners`);
             winners.value.data = response.data;
-            winners.value.lastFetch = Date.now();
+            winners.value.lastFetch = now;
         } catch (error) {
             console.error('Error fetching polls:', error);
             throw error;
         }
     };
 
-    const fetchPolls: () => Promise<void> = async () => {
-        const twoMinutesAgo = Date.now() - 1000 * 60 * 2;
-        if (polls.value.lastFetch && Date.now() - twoMinutesAgo) return;
+    const fetchPolls = async (force = false): Promise<void> => {
+        const now = Date.now();
+        if (
+            !force &&
+            polls.value.lastFetch &&
+            polls.value.lastFetch >= now - 1000 * 30
+        ) {
+            return;
+        }
+
         try {
             const response = await axios.get(`${api}/polls`);
             polls.value.data = response.data;
-            polls.value.lastFetch = Date.now();
+            polls.value.lastFetch = now;
         } catch (error) {
             console.error('Error fetching polls:', error);
             throw error;

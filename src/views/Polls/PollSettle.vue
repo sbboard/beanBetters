@@ -2,10 +2,14 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
+import { useApiStore } from '@/stores/api';
+import { useUserStore } from '@/stores/user';
 
 const api = 'https://www.gang-fight.com/api/beans';
 const poll = ref<Poll | null>(null);
 const selectedOption = ref<string | null>(null);
+const apiStore = useApiStore();
+const userStore = useUserStore();
 
 const route = useRoute();
 const router = useRouter();
@@ -29,10 +33,12 @@ const fetchPoll = async () => {
 const settleBet = async () => {
     if (!selectedOption.value) return;
     try {
-        await axios.post(`${api}/polls/set-winner`, {
+        const response = await axios.post(`${api}/polls/set-winner`, {
             pollId,
             optionId: selectedOption.value,
         });
+        apiStore.fetchPolls(true);
+        if (response.data.user) userStore.user = response.data.user;
         alert('Bet settled successfully');
         router.push({ name: 'bets' });
     } catch (error) {

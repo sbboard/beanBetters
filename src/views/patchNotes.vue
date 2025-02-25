@@ -3,6 +3,16 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>2/25/25</h2>
+        <ul>
+            <li>
+                fixed bug where poll list wasn't updating after wager settlement
+            </li>
+            <li>fixed issue where polls/leaderboards weren't updating</li>
+            <li>hide unsettled tab if no unsettled bets</li>
+            <li>Reversed order of completed polls</li>
+            <li>turned off pop-ups bc they were too annoying</li>
+        </ul>
         <h2>2/24/25</h2>
         <ul>
             <li>optimized API fetches</li>

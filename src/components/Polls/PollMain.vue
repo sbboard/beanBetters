@@ -3,7 +3,6 @@ import { computed, onMounted, ref } from 'vue';
 import Bars from './PollBars.vue';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
-import { getUserInfo } from '@/composables/useGetUserInfo';
 import { addCommas } from '@/composables/useEconomy';
 
 const { poll } = defineProps<{ poll: Poll }>();
@@ -13,7 +12,6 @@ const selectedOption = ref<string | null>(null);
 const userStore = useUserStore();
 const userId = userStore.user?._id;
 const shares = ref(1);
-const creator = ref('');
 
 const beans = computed(() => userStore.user?.beans || 0);
 
@@ -120,6 +118,7 @@ const potentialPayout = computed(() => {
 
     if (
         !selectedOptionData.value ||
+        usersShares.value === 0 ||
         (virtualPoll.value.winner &&
             selectedOptionData.value._id !== virtualPoll.value.winner)
     ) {
@@ -141,7 +140,6 @@ onMounted(async () => {
             hasVoted.value = true;
         }
     });
-    creator.value = (await getUserInfo(virtualPoll.value.creatorId)).name;
 });
 </script>
 
@@ -151,7 +149,10 @@ onMounted(async () => {
         <div class="details">
             <div>
                 <div>
-                    <span><strong>BOOKIE:</strong> {{ creator }}</span>
+                    <span
+                        ><strong>BOOKIE:</strong>
+                        {{ virtualPoll.creatorName }}</span
+                    >
                     <span
                         ><strong>PPS:</strong>
                         {{ addCommas(virtualPoll.pricePerShare) }} BEANS</span
@@ -211,7 +212,7 @@ onMounted(async () => {
                 />
             </div>
             <div class="total seed">
-                SEED BEANS: {{ addCommas(virtualPoll.seed) }}
+                SEED BEANS: {{ addCommas(virtualPoll.seed || 2000000) }}
             </div>
             <div class="total">
                 TOTAL BEANS: {{ addCommas(virtualPoll.pot) }}

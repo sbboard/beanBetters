@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
 import { addCommas, PRICE_OF_WAGER } from '@/composables/useEconomy';
+import { useApiStore } from '@/stores/api';
 
 const router = useRouter();
 const title = ref('');
@@ -17,6 +18,7 @@ const loading = ref(false);
 const message = ref('');
 const maxOptions = 10;
 const userStore = useUserStore();
+const apiStore = useApiStore();
 const settleDateRef: Ref<HTMLInputElement | null> = ref(null);
 
 watch(pricePerShare, () => {
@@ -168,6 +170,7 @@ const createPoll = async () => {
         message.value = response.data.message;
         if (message.value === 'Poll created successfully') {
             userStore.updateBeanCount(response.data.newBeanAmt);
+            apiStore.fetchPolls(true);
             router.push({ path: '/bets' });
         }
     } catch (error) {

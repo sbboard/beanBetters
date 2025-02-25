@@ -17,8 +17,9 @@ interface Poll {
     pollType: 'bet';
     pot: number;
     pricePerShare: number;
+    creatorName: string;
     settleDate?: Date;
-    seed: number;
+    seed?: number;
     title: string;
     winner: null | string;
     _id: string;

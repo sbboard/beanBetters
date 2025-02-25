@@ -9,23 +9,44 @@ const currentFilter = ref('open');
 
 const apiStore = useApiStore();
 
-const changeFilter = (filter: string) => {
-    currentFilter.value = filter;
-};
+const changeFilter = (filter: string) => (currentFilter.value = filter);
 
 const beans = computed(() => userStore.user?.beans || 0);
 
+const openPolls = computed(() => {
+    if (!apiStore.polls.data) return [];
+    const noWinner = apiStore.polls.data.filter(poll => !poll.winner);
+    return noWinner.filter(poll => new Date(poll.endDate) > new Date());
+});
+
+const unsettledPolls = computed(() => {
+    if (!apiStore.polls.data) return [];
+    return apiStore.polls.data.filter(
+        poll => !poll.winner && new Date(poll.endDate) <= new Date()
+    );
+});
+
+const completedPolls = computed(() => {
+    if (!apiStore.polls.data) return [];
+    return apiStore.polls.data.filter(poll => poll.winner);
+});
+
 const filteredPolls = computed(() => {
     if (!apiStore.polls.data) return null;
-    const now = new Date();
-    const filter = apiStore.polls.data.filter(poll => {
-        if (currentFilter.value === 'open')
-            return !poll.winner && new Date(poll.endDate) > now;
-        if (currentFilter.value === 'unsettled')
-            return !poll.winner && new Date(poll.endDate) <= now;
-        if (currentFilter.value === 'completed') return poll.winner;
-        return false;
-    });
+    let filter: Poll[] = [];
+    switch (currentFilter.value) {
+        case 'open':
+            filter = openPolls.value;
+            break;
+        case 'unsettled':
+            filter = unsettledPolls.value;
+            break;
+        case 'completed':
+            filter = completedPolls.value;
+            break;
+        default:
+            filter = [];
+    }
     if (currentFilter.value === 'unsettled') {
         //sort by settleDate
         return filter.sort((a, b) => {
@@ -36,7 +57,12 @@ const filteredPolls = computed(() => {
         });
     }
     if (currentFilter.value === 'completed') {
-        return filter.reverse();
+        return filter.sort((a, b) => {
+            return (
+                new Date(b.settleDate || b.endDate).getTime() -
+                new Date(a.settleDate || a.endDate).getTime()
+            );
+        });
     }
     return filter.sort((a, b) => {
         if (a.winner && !b.winner) return 1;
@@ -65,6 +91,7 @@ onMounted(async () => {
                 >OPEN</span
             >
             <span
+                v-if="unsettledPolls.length"
                 :class="{ selected: currentFilter === 'unsettled' }"
                 @click="changeFilter('unsettled')"
                 >UNSETTLED</span
