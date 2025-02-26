@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { setInfo } from '@/composables/useLogin';
+import PopUps from '@/components/PopUps.vue';
 
 const api = 'https://www.gang-fight.com/api/beans';
 
@@ -52,10 +53,13 @@ const swapTab = () => {
     loginError.value = null;
     forgotPassword.value = false;
 };
+
+const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
 </script>
 
 <template>
     <div class="login">
+        <PopUps class="popups" :key="booleanToKey(registerTab)" />
         <template v-if="registerTab">
             <h1>Register As an official big bean bettor</h1>
             <form @submit.prevent="registerUser">
@@ -129,7 +133,6 @@ const swapTab = () => {
 .login {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: inherit;
     width: fit-content;
@@ -137,6 +140,10 @@ const swapTab = () => {
     width: 400px;
     max-width: 100%;
     flex: 1;
+    .popups {
+        margin-top: 1em;
+        margin-bottom: 3em;
+    }
     p {
         font-size: 0.8em;
         text-align: left;

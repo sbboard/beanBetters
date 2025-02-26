@@ -1,90 +1,19 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
-const getNumber = () => Math.floor(Math.random() * 16) + 1;
+const getNumber = () => Math.floor(Math.random() * 10) + 1;
 const random = ref(getNumber());
-const closed = ref(true);
-const top = ref('0%');
-const left = ref('0%');
-
-function isMobile(): boolean {
-    if ((navigator as any).userAgentData?.mobile) {
-        return (navigator as any).userAgentData.mobile;
-    }
-    return (
-        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-        'ontouchstart' in window
-    );
-}
-
-let timeoutId: ReturnType<typeof setTimeout> | null = null;
-
-function showAd() {
-    closed.value = false;
-    random.value = getNumber();
-    top.value = Math.floor(Math.random() * 60) + 5 + '%';
-    left.value = Math.floor(Math.random() * 70) + 5 + '%';
-}
-
-function closeAd() {
-    closed.value = true;
-    if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(
-        () => showAd(),
-        Math.floor(Math.random() * 300000) + 30000
-    );
-}
-
-let pos1 = 0,
-    pos2 = 0,
-    pos3 = 0,
-    pos4 = 0;
-
-function dragMouseDown(e: MouseEvent) {
-    e.preventDefault();
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
-}
-
-function elementDrag(e: MouseEvent) {
-    e.preventDefault();
-    const elmnt = document.querySelector('.ad') as HTMLElement;
-
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-
-    const newTop = elmnt.offsetTop - pos2;
-    const newLeft = elmnt.offsetLeft - pos1;
-
-    top.value = (newTop / window.innerHeight) * 100 + '%';
-    left.value = (newLeft / window.innerWidth) * 100 + '%';
-}
-
-function closeDragElement() {
-    document.onmouseup = null;
-    document.onmousemove = null;
-}
 
 onMounted(() => {
-    if (isMobile()) return;
-    timeoutId = setTimeout(() => showAd(), 5000);
-});
-
-onUnmounted(() => {
-    if (timeoutId) clearTimeout(timeoutId);
+    random.value = getNumber();
 });
 </script>
 
 <template>
-    <div class="ad" v-if="!closed">
-        <div class="header" @mousedown="dragMouseDown">
-            <span>SODA ENJOYER SEED GRANT FUNDED BY...</span
-            ><span @click="closeAd" class="close">x</span>
+    <div class="ad">
+        <div class="header">
+            <span>SODA ENJOYER SEED GRANT FUNDED BY...</span>
         </div>
         <img :src="`/assets/popups/${random}.jpg`" />
     </div>
@@ -92,29 +21,19 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .ad {
-    position: fixed;
-    z-index: 500000;
-    border: 1px solid var(--themeColor);
+    width: 400px;
+    max-width: 100%;
+    margin: 0 auto;
     box-sizing: border-box;
-    line-height: 0;
-    top: v-bind(top);
-    left: v-bind(left);
     .header {
-        height: 2em;
-        width: 100%;
         display: block;
-        backdrop-filter: brightness(0.5) blur(3px);
-        border-bottom: 1px solid var(--themeColor);
         line-height: 1;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         span {
             display: block;
             color: var(--themeColor);
+            text-align: center;
             font-size: 0.75em;
-            margin-left: 1em;
+            margin-bottom: 0.5em;
             &.close {
                 border-left: 1px solid var(--themeColor);
                 display: flex;
@@ -128,9 +47,9 @@ onUnmounted(() => {
         }
     }
     img {
-        image-rendering: pixelated;
-        width: 350px;
-        height: auto;
+        width: 400px;
+        max-width: 100%;
+        aspect-ratio: 1.5 / 1;
     }
 }
 </style>
