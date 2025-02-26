@@ -200,6 +200,9 @@ const createPoll = async () => {
         >
             <p>Not enough beans for minimum seed</p>
         </div>
+        <div v-else-if="!userStore.checkItem('bookie license')" class="noMoney">
+            <p>You need a bookie license to create a wager</p>
+        </div>
         <div v-else>
             <label for="title">Title</label>
             <input v-model="title" placeholder="Title" />

@@ -79,7 +79,9 @@ onMounted(async () => {
 <template>
     <div>
         <RouterLink
-            v-if="beans >= PRICE_OF_WAGER"
+            v-if="
+                beans >= PRICE_OF_WAGER && userStore.checkItem('bookie license')
+            "
             to="/bets/create"
             :title="'Create a new wager'"
             >$$CREATE NEW WAGER$$</RouterLink

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 import { setInfo } from '@/composables/useLogin';
 
@@ -7,13 +7,9 @@ const api = 'https://www.gang-fight.com/api/beans';
 
 const registerTab = ref(false);
 const forgotPassword = ref(false);
-const SECRET = 'itsbeantime';
-const code = ref('');
-const newUser = ref({ name: '', password: '' });
+const newUser = ref({ name: '', password: '', inviteCode: '' });
 const loginCredentials = ref({ name: '', password: '' });
 const loginError = ref<string | null>(null);
-
-const noMatch = computed(() => code.value !== SECRET);
 
 const registerUser = async () => {
     try {
@@ -24,28 +20,35 @@ const registerUser = async () => {
             { headers: { 'Content-Type': 'application/json' } }
         );
         if (response.data.user) setInfo(response.data.user);
-    } catch (error) {
-        console.error('Registration error:', error);
+    } catch (error: unknown) {
+        loginError.value = axios.isAxiosError(error)
+            ? error.response?.data?.message || 'Registration failed.'
+            : error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred.';
     }
 };
 
 const loginUser = async () => {
     try {
-        // Logging in user with axios
-        const response = await axios.post(
+        const { data } = await axios.post(
             `${api}/user/login`,
-            loginCredentials.value,
-            { headers: { 'Content-Type': 'application/json' } }
+            loginCredentials.value
         );
-        if (response.data.user) setInfo(response.data.user);
-    } catch (error) {
-        loginError.value = 'Login failed.';
-        console.error('Login error:', error);
+        if (data.user) setInfo(data.user);
+    } catch (error: unknown) {
+        loginError.value = axios.isAxiosError(error)
+            ? error.response?.data?.message || 'Login failed.'
+            : error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred.';
     }
 };
 
 const swapTab = () => {
     registerTab.value = !registerTab.value;
+    loginCredentials.value = { name: '', password: '' };
+    newUser.value = { name: '', password: '', inviteCode: '' };
     loginError.value = null;
     forgotPassword.value = false;
 };
@@ -69,11 +72,18 @@ const swapTab = () => {
                     required
                 />
                 <p>TIP: Use a password that's easy to remember like '123456'</p>
-                <input placeholder="Invite Code" v-model="code" />
-                <button type="submit" :disabled="noMatch">
-                    REGISTER!! WIN BIG!
-                </button>
+                <input
+                    placeholder="Invite Code"
+                    v-model="newUser.inviteCode"
+                    required
+                    maxlength="5"
+                />
+                <button type="submit">REGISTER!! WIN BIG!</button>
             </form>
+
+            <div v-if="loginError" class="error">
+                <p>{{ loginError }}</p>
+            </div>
         </template>
 
         <template v-else>

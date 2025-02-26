@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
 import AdRoll from './AdRoll.vue';
-import { computed } from 'vue';
-const userStore = useUserStore();
-
-const hasAdblock = computed(() => {
-    return userStore.user?.inventory?.some(
-        invItem => invItem.name === 'adblock'
-    );
-});
 </script>
 
 <template>
@@ -17,7 +8,7 @@ const hasAdblock = computed(() => {
             >&copy; {{ new Date().getFullYear() + 15 }} The United Nations of
             Soda Enjoyers</span
         >
-        <AdRoll v-if="!hasAdblock" :alt="true" />
+        <AdRoll :alt="true" />
     </footer>
 </template>
 

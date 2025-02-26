@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useUserStore } from '../stores/user';
+
+const userStore = useUserStore();
+
 const images = Array.from({ length: 99 }, (_, i) => `${i}.gif`);
 images.sort(() => Math.random() - 0.5);
 images.length = 10; //trim the array to 10 images
@@ -7,7 +11,7 @@ const { alt } = defineProps<{ alt?: boolean }>();
 </script>
 
 <template>
-    <div :class="{ alt }">
+    <div :class="{ alt }" v-if="!userStore.checkItem('adblock')">
         <img
             :key="`${i}a`"
             v-for="(image, i) in images"

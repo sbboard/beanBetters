@@ -121,8 +121,10 @@
             <li>
                 <strong>PUNISHMENT</strong>
                 <p>
-                    Violation of these rules may result in a bookie being
-                    labeled as a racketeer and banned from creating wagers.
+                    Bookies who violate these rules may have their Bookie
+                    License revoked. Continued violation of these rules may
+                    result in a bookie being labeled as a racketeer and banned
+                    from getting a Bookie License in the future.
                 </p>
             </li>
             <li>
