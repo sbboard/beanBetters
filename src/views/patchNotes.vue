@@ -5,6 +5,8 @@
         <h1>PATCH NOTES</h1>
         <h2>2/26/25</h2>
         <ul>
+            <li>Re-used pop-ups on login page</li>
+            <li>Added Bookie License and Invites to Bean Exchange</li>
             <li>Added Bean Cashier to Bean Exchange</li>
         </ul>
         <h2>2/25/25</h2>
