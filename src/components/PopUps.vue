@@ -13,7 +13,7 @@ onMounted(() => {
 <template>
     <div class="ad">
         <div class="header">
-            <span>SODA ENJOYER SEED GRANT FUNDED BY...</span>
+            <span>SPONSORED CONTENT FUNDS SODA ENJOYER SEED FUND</span>
         </div>
         <img :src="`/assets/popups/${random}.jpg`" />
     </div>

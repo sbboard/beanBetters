@@ -19,7 +19,7 @@ export const ITEMS = {
             'Removes the ads brought to you by the Soda Enjoyer Seed Grant',
     },
     'bookie license': {
-        price: 15000000,
+        price: 11000000,
         displayName: 'Bookie License',
         icon: 'license.png',
         description: 'Allows you to become a bookie and create wagers',
@@ -29,6 +29,6 @@ export const ITEMS = {
         price: 20000000,
         displayName: 'Invite',
         description:
-            'Get an invite code (found in your inventory) to share the gift of betting with a friend.',
+            'Get an invite code (found in your inventory) to share the gift of betting with a friend',
     },
 };

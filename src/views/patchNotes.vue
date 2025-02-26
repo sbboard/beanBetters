@@ -5,7 +5,9 @@
         <h1>PATCH NOTES</h1>
         <h2>2/26/25</h2>
         <ul>
-            <li>Re-used pop-ups on login page</li>
+            <li>Gifted top 5 winning users an invite</li>
+            <li>Gifted all existing bookies a bookie license</li>
+            <li>Re-purposed pop-ups as ads on login page</li>
             <li>Added Bookie License and Invites to Bean Exchange</li>
             <li>Added Bean Cashier to Bean Exchange</li>
         </ul>

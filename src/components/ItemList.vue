@@ -86,13 +86,13 @@ async function sellItem(item: string) {
                 "
             >
                 {{
-                    (userStore.user?.beans || 0) <
-                    ITEMS[item.name as keyof typeof ITEMS]?.price
-                        ? 'CANNOT AFFORD'
-                        : userStore.user?.inventory?.some(
-                              invItem => invItem.name === item.name
-                          )
+                    userStore.user?.inventory?.some(
+                        invItem => invItem.name === item.name
+                    )
                         ? 'OWNED'
+                        : (userStore.user?.beans || 0) <
+                          ITEMS[item.name as keyof typeof ITEMS]?.price
+                        ? 'CANNOT AFFORD'
                         : 'BUY!!!'
                 }}
             </button>
@@ -117,7 +117,6 @@ async function sellItem(item: string) {
         background-size: 160px 160px;
         background-repeat: no-repeat;
         background-position: top;
-        margin-right: 1em;
         flex-direction: column;
         flex: 1;
         p {
@@ -163,6 +162,11 @@ async function sellItem(item: string) {
             }
         }
     }
+}
+
+div {
+    max-width: 100%;
+    margin: 0 auto;
 }
 
 .meta {
