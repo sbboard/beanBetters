@@ -112,6 +112,7 @@ async function sellItem(item: string) {
     .item {
         width: 160px;
         max-width: 25%;
+        margin: 0 .5em;
         text-align: center;
         background: radial-gradient(#0098ffb8, transparent 64%);
         background-size: 160px 160px;
@@ -162,11 +163,6 @@ async function sellItem(item: string) {
             }
         }
     }
-}
-
-div {
-    max-width: 100%;
-    margin: 0 auto;
 }
 
 .meta {
