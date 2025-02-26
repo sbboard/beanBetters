@@ -3,6 +3,10 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>2/26/25</h2>
+        <ul>
+            <li>Added Bean Cashier to Bean Exchange</li>
+        </ul>
         <h2>2/25/25</h2>
         <ul>
             <li>created ad block item</li>

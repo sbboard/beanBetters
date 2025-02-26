@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import { addCommas } from '@/composables/useEconomy';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
@@ -40,6 +41,14 @@ async function buyItem(item: string) {
 
 <template>
     <div>
+        <div class="head">
+            <CharacterPortraits
+                class="character"
+                character="store"
+                dir="vert"
+            />
+            <img src="/assets/exchange.gif" alt="STORE" />
+        </div>
         <div class="item" v-for="item in itemArray" :key="item.name">
             <img :src="`/assets/items/${item.icon}`" :alt="item.name" />
             <span class="name">{{ item.displayName }}</span>
@@ -68,8 +77,28 @@ async function buyItem(item: string) {
 </template>
 
 <style lang="scss" scoped>
+.head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    flex-direction: row;
+    margin-bottom: 1em;
+    .character {
+        width: 150px;
+        margin: 0;
+        margin-right: 1em;
+        image-rendering: auto !important;
+        max-width: 25%;
+        height: 150px;
+    }
+    img {
+        height: 125px;
+        width: 75%;
+        image-rendering: pixelated;
+    }
+}
 div {
-    width: 640px;
     max-width: 100%;
     margin: 0 auto;
     .item {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { character } = defineProps<{ character: string }>();
+const { character, dir } = defineProps<{ character: string; dir?: string }>();
 
 const random = Math.floor(Math.random() * 10) + 1 + 'px';
 const flipped = `-${random}`;
@@ -10,8 +10,12 @@ const flipped = `-${random}`;
 
 <template>
     <div class="character">
-        <img class="bean" :src="`/assets/characters/${character}_fg.png`" />
-        <img :src="`/assets/characters/${character}_bg.jpg`" />
+        <div class="bean" :class="[dir]">
+            <img :src="`/assets/characters/${character}_fg.png`" />
+        </div>
+        <div class="bg">
+            <img :src="`/assets/characters/${character}_bg.jpg`" />
+        </div>
     </div>
 </template>
 
@@ -21,15 +25,33 @@ const flipped = `-${random}`;
     overflow: hidden;
     position: relative;
     pointer-events: none;
-    img {
-        max-width: 100%;
-    }
-    .bean {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 1;
-        animation: mover 1ms infinite alternate linear;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    div {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        img {
+            width: auto;
+            height: 100%;
+            position: absolute;
+            z-index: -1;
+        }
+        &.bean {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            animation: mover 1ms infinite alternate linear;
+            &.vert {
+                animation: moverVert 1ms infinite alternate linear;
+            }
+            img {
+                z-index: 1;
+            }
+        }
     }
 }
 
@@ -39,6 +61,14 @@ const flipped = `-${random}`;
     }
     100% {
         transform: translateX(v-bind(flipped));
+    }
+}
+@keyframes moverVert {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(v-bind(random));
     }
 }
 </style>
