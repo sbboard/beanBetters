@@ -71,9 +71,7 @@ const filteredPolls = computed(() => {
     });
 });
 
-onMounted(async () => {
-    apiStore.fetchPolls();
-});
+onMounted(() => apiStore.fetchPolls());
 </script>
 
 <template>

@@ -104,7 +104,9 @@ const potentialPayout = computed(() => {
     const bookieTax = jackpot * 0.05;
     let payout = 0;
 
-    if (isOwner.value) payout = bookieTax;
+    if (virtualPoll.value.creatorId === userId) {
+        payout = bookieTax;
+    }
 
     //how many people voted for the winning option
     const winningOption = virtualPoll.value.options.find(
@@ -122,6 +124,7 @@ const potentialPayout = computed(() => {
         (virtualPoll.value.winner &&
             selectedOptionData.value._id !== virtualPoll.value.winner)
     ) {
+        console.log(virtualPoll.value.title);
         return addCommas(Math.floor(payout));
     }
 

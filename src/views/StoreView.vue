@@ -1,18 +1,29 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import ItemList from '@/components/ItemList.vue';
-import { ITEMS } from '@/composables/useEconomy';
+import { addCommas, ITEMS } from '@/composables/useEconomy';
+import { useApiStore } from '@/stores/api';
+import { computed, onMounted } from 'vue';
 
-const itemArray = Object.entries(ITEMS).map(
-    ([name, { price, icon, displayName, description }]) => ({
-        name,
-        displayName,
-        description,
-        price,
-        icon: icon || `${name}.png`,
-        meta: '',
-    })
+const apiStore = useApiStore();
+
+const itemArray = computed(() =>
+    Object.entries(ITEMS).map(
+        ([name, { price, icon, displayName, description }]) => ({
+            name,
+            displayName,
+            description,
+            price,
+            icon: icon || `${name}.png`,
+            meta:
+                name === 'lotto'
+                    ? `${addCommas(apiStore.lottoAmt.data)} BEANS`
+                    : '',
+        })
+    )
 );
+
+onMounted(() => apiStore.fetchLotto());
 </script>
 
 <template>

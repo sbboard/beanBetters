@@ -5,12 +5,13 @@ export function addCommas(num: number) {
 }
 
 export const ITEMS = {
-    // lotto: {
-    //     price: 10000,
-    //     displayName: 'Lotto Ticket',
-    //     icon: 'lotto.png',
-    //     description: 'Enter the lottery for a chance to win big!',
-    // },
+    lotto: {
+        price: 10000,
+        displayName: 'Lotto Ticket',
+        icon: 'lotto.png',
+        description:
+            'Enter the lottery for a chance to win big! Current jackpot:',
+    },
     adblock: {
         displayName: 'Ad Block',
         price: 1000000,

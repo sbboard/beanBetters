@@ -11,7 +11,10 @@ export const useApiStore = defineStore('api', () => {
         data: <Poll[]>[],
         lastFetch: 0,
     });
-
+    const lottoAmt = ref({
+        data: <number>0,
+        lastFetch: 0,
+    });
     const api = 'https://www.gang-fight.com/api/beans';
     const fetchWinners: () => Promise<void> = async () => {
         const now = Date.now();
@@ -52,5 +55,27 @@ export const useApiStore = defineStore('api', () => {
         }
     };
 
-    return { winners, polls, fetchWinners, fetchPolls };
+    const fetchLotto = async (force = false): Promise<void> => {
+        const now = Date.now();
+        if (
+            !force &&
+            lottoAmt.value.lastFetch &&
+            lottoAmt.value.lastFetch >= now - 1000 * 30
+        ) {
+            return;
+        }
+
+        try {
+            const response = await axios.get(
+                `${api}/user/67bbdee28094dd05bc218d1d`
+            );
+            lottoAmt.value.data = response.data.beans;
+            lottoAmt.value.lastFetch = now;
+        } catch (error) {
+            console.error('Error fetching polls:', error);
+            throw error;
+        }
+    };
+
+    return { winners, polls, lottoAmt, fetchWinners, fetchPolls, fetchLotto };
 });

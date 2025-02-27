@@ -13,6 +13,20 @@ const { action, list } = defineProps<{
 
 async function buyItem(item: string) {
     if (action !== 'buy') return;
+    if (item === 'lotto') {
+        console.log('hi');
+        try {
+            const response = await axios.post(
+                'https://www.gang-fight.com/api/beans/store/lottery',
+                { userId: userStore.user?._id }
+            );
+            console.log(response);
+            //userStore.user = response.data.user;
+        } catch (error) {
+            console.error('Error playing lotto:', error);
+        }
+        return;
+    }
     if (!confirm('Are you sure you want to buy this item?')) return;
     try {
         const response = await axios.post(
@@ -62,8 +76,8 @@ async function sellItem(item: string) {
             <p>
                 {{ ITEMS[item.name as keyof typeof ITEMS]?.description }}
             </p>
-            <p v-if="action === 'sell'">
-                <span class="meta" v-if="item.meta">{{ item.meta }}</span>
+            <p v-if="item.meta">
+                <span class="meta">{{ item.meta }}</span>
             </p>
             <span v-if="action === 'buy'"
                 >{{

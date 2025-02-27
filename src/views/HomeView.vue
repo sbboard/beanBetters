@@ -29,7 +29,10 @@ const userStore = useUserStore();
                     @mouseover="() => apiStore.fetchWinners()"
                     ><img src="/assets/leader.gif" alt="LEADERBOARDS"
                 /></RouterLink>
-                <RouterLink to="/store">
+                <RouterLink
+                    to="/store"
+                    @mouseover="() => apiStore.fetchLotto()"
+                >
                     <img src="/assets/exchange.gif" alt="BEAN EXCHANGE" />
                 </RouterLink>
                 <RouterLink
