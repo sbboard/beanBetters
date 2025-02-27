@@ -29,6 +29,6 @@ export const ITEMS = {
         price: 20000000,
         displayName: 'Invite',
         description:
-            'Get an invite code (found in your inventory) to share the gift of betting with a friend',
+            'Get an invite code (seen in inventory) to share the gift of betting with a friend',
     },
 };

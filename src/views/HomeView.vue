@@ -30,15 +30,21 @@ const userStore = useUserStore();
                     ><img src="/assets/leader.gif" alt="LEADERBOARDS"
                 /></RouterLink>
                 <RouterLink to="/store">
-                    <img src="/assets/exchange.gif" alt="patch notes" />
+                    <img src="/assets/exchange.gif" alt="BEAN EXCHANGE" />
                 </RouterLink>
                 <RouterLink
                     v-if="userStore.user?.inventory?.length"
                     to="/inventory"
                 >
-                    <img src="/assets/inventory.gif" alt="patch notes" />
+                    <img src="/assets/inventory.gif" alt="INVENTORY" />
                 </RouterLink>
-                <RouterLink to="/notes"
+                <RouterLink
+                    v-if="userStore.user?.inventory?.length"
+                    to="/inventory"
+                >
+                    <img src="/assets/loans.gif" alt="PERSONAL LOANS" />
+                </RouterLink>
+                <RouterLink class="patch" to="/notes"
                     ><img src="/assets/patch.gif" alt="patch notes"
                 /></RouterLink>
             </div>
@@ -80,8 +86,15 @@ const userStore = useUserStore();
                         width: 100%;
                     }
                 }
+                &.patch {
+                    text-align: right;
+                    img {
+                        min-width: auto;
+                    }
+                }
                 & > img {
                     max-width: 100%;
+                    min-width: 100%;
                     image-rendering: pixelated;
                 }
             }

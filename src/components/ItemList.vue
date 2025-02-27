@@ -13,6 +13,7 @@ const { action, list } = defineProps<{
 
 async function buyItem(item: string) {
     if (action !== 'buy') return;
+    if (!confirm('Are you sure you want to buy this item?')) return;
     try {
         const response = await axios.post(
             'https://www.gang-fight.com/api/beans/store/buy-item',
@@ -29,6 +30,7 @@ async function buyItem(item: string) {
 
 async function sellItem(item: string) {
     if (action !== 'sell') return;
+    if (!confirm('Are you sure you want to sell this item?')) return;
     try {
         const response = await axios.post(
             'https://www.gang-fight.com/api/beans/store/sell-item',
@@ -57,7 +59,7 @@ async function sellItem(item: string) {
             <span class="name">{{
                 ITEMS[item.name as keyof typeof ITEMS]?.displayName
             }}</span>
-            <p v-if="action === 'buy'">
+            <p>
                 {{ ITEMS[item.name as keyof typeof ITEMS]?.description }}
             </p>
             <p v-if="action === 'sell'">
@@ -112,9 +114,9 @@ async function sellItem(item: string) {
     .item {
         width: 160px;
         max-width: 25%;
-        margin: 0 .5em;
+        margin: 0 0.5em;
         text-align: center;
-        background: radial-gradient(#0098ffb8, transparent 64%);
+        background: radial-gradient(var(--themeColor), transparent 64%);
         background-size: 160px 160px;
         background-repeat: no-repeat;
         background-position: top;

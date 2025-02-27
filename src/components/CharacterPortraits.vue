@@ -9,7 +9,7 @@ const flipped = `-${random}`;
 </script>
 
 <template>
-    <div class="character">
+    <div class="character" :class="[character]">
         <div class="bean" :class="[dir]">
             <img :src="`/assets/characters/${character}_fg.png`" />
         </div>
@@ -28,6 +28,9 @@ const flipped = `-${random}`;
     width: 100%;
     height: 100%;
     aspect-ratio: 1;
+    &.king {
+        height: auto;
+    }
     div {
         display: flex;
         width: 100%;

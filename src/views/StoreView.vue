@@ -49,6 +49,7 @@ const itemArray = Object.entries(ITEMS).map(
         height: 125px;
         width: 75%;
         image-rendering: pixelated;
+        filter: sepia(1) hue-rotate(33deg) saturate(3.5) contrast(1.5);
     }
 }
 </style>

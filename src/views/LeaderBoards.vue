@@ -114,23 +114,26 @@ onMounted(() => apiStore.fetchWinners());
                 </tbody>
             </table></template
         >
-        <h2>RANK INFORMATION</h2>
+        <template v-if="sort === 'beans'">
+            <h2>RANK INFORMATION</h2>
 
-        <p style="font-size: 0.9em">
-            Ranks 1-4 are sacred and are considered
-            <strong>"The Bean Royal Family"</strong>. They are worthy of your
-            respect and admiration. They are the ones who have proven themselves
-            to be the best of the best. No bettors in the world are as good at
-            betting as them.<br /><br />
-            Ranks 5-10 are the <strong>"Bean Elite"</strong>. They are the ones
-            who have proven themselves to be worthy of the title of bean. The
-            Bean Royal Family sometimes goes to them for counsel.<br /><br />
-            All other ranks are just your average bettor. At the moment they are
-            destined for a pauper's grave. But with enough wins, they too can
-            become something greater.
-        </p>
+            <p style="font-size: 0.9em">
+                Ranks 1-4 are sacred and are considered
+                <strong>"The Bean Royal Family"</strong>. They are worthy of
+                your respect and admiration. They are the ones who have proven
+                themselves to be the best of the best. No bettors in the world
+                are as good at betting as them.<br /><br />
+                Ranks 5-10 are the <strong>"Bean Elite"</strong>. They are the
+                ones who have proven themselves to be worthy of the title of
+                bean. The Bean Royal Family sometimes goes to them for
+                counsel.<br /><br />
+                All other ranks are just your average bettor. At the moment they
+                are destined for a pauper's grave. But with enough wins, they
+                too can become something greater.
+            </p>
+        </template>
 
-        <h2>UNCLAIMED WINS</h2>
+        <h2>UNCLAIMED BEANS</h2>
         <p style="font-size: 0.9em">
             Below is a list of unclaimed wins from previous betting pools. If
             you are one of the people listed below contact admin to have your
@@ -149,11 +152,6 @@ onMounted(() => apiStore.fetchWinners());
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Nick</td>
-                    <td class="wins">6,000,000</td>
-                    <td class="wins">3</td>
-                </tr>
                 <tr>
                     <td>Itsmekidney</td>
                     <td class="wins">2,000,000</td>
