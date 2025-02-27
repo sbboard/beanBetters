@@ -23,7 +23,10 @@
             <li>Added item descriptions to inventory page</li>
             <li>Paid lack nacknoodle wins</li>
             <li>changed item glow to use theme color</li>
-            <li>Added personal loans</li>
+            <li>
+                Added personal loans (only viewable if you have less than 2mill
+                beans)
+            </li>
         </ul>
         <h2>2/26/25</h2>
         <ul>
