@@ -252,6 +252,7 @@ const applyForLoan = async () => {
 }
 
 .helper {
+    margin-top: 0.5em;
     font-size: 0.9em;
 }
 
