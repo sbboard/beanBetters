@@ -1,6 +1,8 @@
 export const PRICE_OF_WAGER = 500000;
+export const MIN_DEBT = 2000000;
 
-export function addCommas(num: number) {
+export function addCommas(num: number | string) {
+    if (typeof num === 'string') num = parseInt(num);
     return num.toLocaleString();
 }
 

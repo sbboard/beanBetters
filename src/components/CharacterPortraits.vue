@@ -28,7 +28,8 @@ const flipped = `-${random}`;
     width: 100%;
     height: 100%;
     aspect-ratio: 1;
-    &.king {
+    &.king,
+    &.crime {
         height: auto;
     }
     div {

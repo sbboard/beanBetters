@@ -12,6 +12,7 @@ const selectedOption = ref<string | null>(null);
 const userStore = useUserStore();
 const userId = userStore.user?._id;
 const shares = ref(1);
+const fixedShares = computed(() => Math.floor(shares.value));
 
 const beans = computed(() => userStore.user?.beans || 0);
 
@@ -75,7 +76,7 @@ async function placeBet() {
                 pollId: virtualPoll.value._id,
                 optionId: selectedOption.value,
                 userId,
-                shares: shares.value,
+                shares: fixedShares.value,
             }
         );
         userStore.updateBeanCount(response.data.newBeanAmt);
@@ -239,15 +240,16 @@ onMounted(async () => {
                 <div class="shares" v-if="virtualPoll.pricePerShare < beans">
                     BUY
                     <input
-                        v-model="shares"
-                        value="1"
-                        min="1"
+                        v-model.number="shares"
+                        :min="1"
+                        :value="fixedShares"
                         :max="beans / virtualPoll.pricePerShare"
                         type="number"
+                        step="1"
                     />
                     SHARES
                 </div>
-                <div v-if="shares < 1" class="betButton noBeans">
+                <div v-if="fixedShares < 1" class="betButton noBeans">
                     NO SHARES SELECTED
                 </div>
                 <div
@@ -263,7 +265,7 @@ onMounted(async () => {
                     @click="placeBet"
                 >
                     BET
-                    {{ addCommas(shares * virtualPoll.pricePerShare)
+                    {{ addCommas(fixedShares * virtualPoll.pricePerShare)
                     }}{{ hasVoted ? ' MORE' : '' }}
                     BEANS NOW !!!!!!
                 </div>

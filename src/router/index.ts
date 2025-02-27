@@ -8,6 +8,7 @@ import LoginView from '@/views/LoginView.vue';
 import patchNotes from '@/views/patchNotes.vue';
 import Rules from '@/views/RulesView.vue';
 import Inventory from '@/views/InventoryView.vue';
+import Loan from '@/views/LoanView.vue';
 import Store from '@/views/StoreView.vue';
 
 const router = createRouter({
@@ -62,6 +63,11 @@ const router = createRouter({
             path: '/inventory',
             name: 'inventory',
             component: Inventory,
+        },
+        {
+            path: '/loan',
+            name: 'loan',
+            component: Loan,
         },
     ],
 });

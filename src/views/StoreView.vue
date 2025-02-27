@@ -3,9 +3,11 @@ import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import ItemList from '@/components/ItemList.vue';
 import { addCommas, ITEMS } from '@/composables/useEconomy';
 import { useApiStore } from '@/stores/api';
+import { useUserStore } from '@/stores/user';
 import { computed, onMounted } from 'vue';
 
 const apiStore = useApiStore();
+const userStore = useUserStore();
 
 const itemArray = computed(() =>
     Object.entries(ITEMS).map(
@@ -36,7 +38,14 @@ onMounted(() => apiStore.fetchLotto());
             />
             <img src="/assets/exchange.gif" alt="STORE" />
         </div>
-        <ItemList :action="'buy'" :list="itemArray" />
+        <ItemList
+            v-if="!userStore.user?.debt"
+            :action="'buy'"
+            :list="itemArray"
+        />
+        <div v-else style="text-align: center">
+            You cannot exchange beans while in debt!
+        </div>
     </div>
 </template>
 

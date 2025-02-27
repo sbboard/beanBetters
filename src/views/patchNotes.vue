@@ -5,6 +5,8 @@
         <h1>PATCH NOTES</h1>
         <h2>2/27/25</h2>
         <ul>
+            <li>fixed bug where users could attempt to buy partial shares</li>
+            <li>Added lotto item to shop</li>
             <li>
                 fixed bug where bookie tax wasn't showing up on completed wager
                 payouts

@@ -18,7 +18,7 @@ const sortedUsers = computed(() => {
     }
     return virtualUsers.sort((a, b) => {
         if (sort.value === 'beans') {
-            return b.beans - a.beans;
+            return b.beans - (b.debt || 0) - (a.beans - (a.debt || 0));
         } else {
             return b.wins.length - a.wins.length;
         }
@@ -108,7 +108,7 @@ onMounted(() => apiStore.fetchWinners());
                             {{ user.wins.length }}
                         </td>
                         <td class="wins" v-if="sort === 'beans'">
-                            {{ addCommas(user.beans || 0) }}
+                            {{ addCommas(user.beans - (user.debt || 0) || 0) }}
                         </td>
                     </tr>
                 </tbody>

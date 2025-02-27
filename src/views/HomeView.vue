@@ -2,6 +2,7 @@
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import { useApiStore } from '@/stores/api';
 import { useUserStore } from '@/stores/user';
+import { MIN_DEBT } from '@/composables/useEconomy';
 
 const apiStore = useApiStore();
 const userStore = useUserStore();
@@ -30,6 +31,7 @@ const userStore = useUserStore();
                     ><img src="/assets/leader.gif" alt="LEADERBOARDS"
                 /></RouterLink>
                 <RouterLink
+                    v-if="!userStore.user?.debt"
                     to="/store"
                     @mouseover="() => apiStore.fetchLotto()"
                 >
@@ -42,8 +44,11 @@ const userStore = useUserStore();
                     <img src="/assets/inventory.gif" alt="INVENTORY" />
                 </RouterLink>
                 <RouterLink
-                    v-if="userStore.user?.inventory?.length"
-                    to="/inventory"
+                    v-if="
+                        (userStore.user?.beans || 0) < MIN_DEBT ||
+                        (userStore.user?.debt || 0) > 0
+                    "
+                    to="/loan"
                 >
                     <img src="/assets/loans.gif" alt="PERSONAL LOANS" />
                 </RouterLink>
