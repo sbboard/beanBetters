@@ -67,7 +67,10 @@ const payOffLoan = async () => {
             <div>
                 <h1>Loan Eligibility</h1>
                 <ol>
-                    <li>Bettor must have less than 500k beans in bean bag</li>
+                    <li>
+                        Bettor must have less than
+                        {{ addCommas(MIN_DEBT) }} beans
+                    </li>
                     <li>Bettor must have no assets in inventory</li>
                 </ol>
                 <h1>Loan Terms & Services</h1>

@@ -183,7 +183,6 @@ const createPoll = async () => {
 
 <template>
     <div class="create">
-        <img src="/assets/dealer.jpg" />
         <h2>CREATE A NEW WAGER</h2>
 
         <RouterLink class="alertBox" to="/rules">
@@ -312,7 +311,7 @@ const createPoll = async () => {
 
 <style lang="scss" scoped>
 .create {
-    width: 400px;
+    width: 500px;
     margin: 0 auto;
     max-width: 100%;
     & * {

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { addCommas, ITEMS } from '@/composables/useEconomy';
 import router from '@/router';
+import { useApiStore } from '@/stores/api';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 
 const userStore = useUserStore();
+const apiStore = useApiStore();
 
 const { action, list } = defineProps<{
     action?: 'buy' | 'sell';
@@ -14,14 +16,14 @@ const { action, list } = defineProps<{
 async function buyItem(item: string) {
     if (action !== 'buy') return;
     if (item === 'lotto') {
-        console.log('hi');
         try {
             const response = await axios.post(
                 'https://www.gang-fight.com/api/beans/store/lottery',
                 { userId: userStore.user?._id }
             );
-            console.log(response);
-            //userStore.user = response.data.user;
+            alert(response.data.message);
+            userStore.user = response.data.user;
+            apiStore.lottoAmt.data = response.data.houseBeans;
         } catch (error) {
             console.error('Error playing lotto:', error);
         }

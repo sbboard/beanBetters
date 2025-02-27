@@ -5,6 +5,14 @@
         <h1>PATCH NOTES</h1>
         <h2>2/27/25</h2>
         <ul>
+            <li>
+                Removed dealer image from "Create New Wager" page (I forgot she
+                was there)
+            </li>
+            <li>
+                Purchased items no longer contribute to lottery, to avoid
+                hitting max int cap
+            </li>
             <li>fixed bug where users could attempt to buy partial shares</li>
             <li>Added lotto item to shop</li>
             <li>
