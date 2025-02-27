@@ -13,10 +13,18 @@ const isEligable = computed(() => {
     );
 });
 
-const amnt = ref(MIN_DEBT);
+const amnt = ref(!userStore.user?.debt ? MIN_DEBT : 0);
 
 const isValid = computed(() => {
     return amnt.value >= MIN_DEBT && amnt.value <= 50000000;
+});
+
+const repaymentValid = computed(() => {
+    return (
+        amnt.value >= 0 &&
+        amnt.value <= (userStore.user?.debt || 0) &&
+        amnt.value <= (userStore.user?.beans || 0)
+    );
 });
 
 const api = 'https://www.gang-fight.com/api/beans';
@@ -29,6 +37,20 @@ const applyForLoan = async () => {
         };
 
         const response = await axios.post(`${api}/store/debt`, data);
+        userStore.user = response.data.user;
+    } catch (error) {
+        console.error('Error applying for loan:', error);
+    }
+};
+
+const payOffLoan = async () => {
+    try {
+        const data = {
+            userId: userStore.user?._id,
+            amount: amnt.value,
+        };
+
+        const response = await axios.post(`${api}/store/pay-debt`, data);
         userStore.user = response.data.user;
     } catch (error) {
         console.error('Error applying for loan:', error);
@@ -167,7 +189,14 @@ const applyForLoan = async () => {
                 {{ addCommas(userStore.user?.debt || 0) }} beans
             </div>
             <div class="debtBar">
-                <input type="number" value="0" /><button>PAY</button>
+                <input
+                    type="number"
+                    min="0"
+                    :max="userStore.user?.debt"
+                    v-model="amnt"
+                /><button :disabled="!repaymentValid" @click="payOffLoan()">
+                    PAY
+                </button>
             </div>
             <p class="helper">Comma Helper: {{ addCommas(amnt) }} BEANS</p>
         </div>
