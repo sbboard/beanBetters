@@ -16,6 +16,14 @@
 
         <ol>
             <li>
+                <strong>LICENSE REQUIREMENT</strong>
+                <p>
+                    Bookies must have a valid Bookie License in order to create
+                    wagers. Bookie Licenses can be purchased from the Bean
+                    Exchange.
+                </p>
+            </li>
+            <li>
                 <strong>NO NONSENSICAL WAGERS.</strong>
                 <p>
                     Wagers must be clear and concise. No wagers that are
@@ -33,17 +41,8 @@
                 </p>
             </li>
             <li>
-                <strong>WAGER SETTLEMENT</strong>
-                <p>
-                    Wagers must be settled within 10 days of the agreed upon
-                    settle date. No wagers may be left open indefinitely. Wagers
-                    must be settled in a timely manner. If a wager is left
-                    abandoned it can be claimed by another user as their own.
-                </p>
-            </li>
-            <li>
                 <strong
-                    >NO WAGERS WITH OBVIOUS / CLEAR ANSWERS AT TIME OF
+                    >NO WAGERS WITH OBVIOUS OR CLEAR ANSWERS AT TIME OF
                     CREATION</strong
                 >
                 <p>
@@ -61,7 +60,10 @@
             </li>
             <li>
                 <strong>WINNING OPTION MUST BE THE CORRECT OPTION</strong>
-                <p>The winning option must be the correct, factual option.</p>
+                <p>
+                    The winning option chosen at time of wager settlement must
+                    be the correct, factual option.
+                </p>
             </li>
             <li>
                 <strong>NO ATTEMPTING TO INFLUENCE OUTCOMES</strong>
