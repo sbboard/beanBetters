@@ -3,9 +3,10 @@ import { ref, computed, watch, type Ref } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
-import { addCommas, PRICE_OF_WAGER } from '@/composables/useEconomy';
+import { useEconomy, PRICE_OF_WAGER } from '@/composables/useEconomy';
 import { useApiStore } from '@/stores/api';
 
+const { addCommas } = useEconomy();
 const router = useRouter();
 const title = ref('');
 const description = ref('');

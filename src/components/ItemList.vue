@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { addCommas, ITEMS } from '@/composables/useEconomy';
+import { useEconomy } from '@/composables/useEconomy';
 import router from '@/router';
 import { useApiStore } from '@/stores/api';
 import { useUserStore } from '@/stores/user';
@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const userStore = useUserStore();
 const apiStore = useApiStore();
+const { ITEMS, addCommas } = useEconomy();
 
 const { action, list } = defineProps<{
     action?: 'buy' | 'sell';
@@ -63,6 +64,28 @@ async function sellItem(item: string) {
         console.error('Error selling item:', error);
     }
 }
+
+const isBuyDisabled = (item: Item) => {
+    const { beans = 0, inventory = [], debt = 0 } = userStore.user || {};
+    const itemPrice = ITEMS[item.name as keyof typeof ITEMS]?.price;
+
+    return (
+        beans < itemPrice ||
+        inventory.some(invItem => invItem.name === item.name) ||
+        (debt > 0 && item.name !== 'lotto')
+    );
+};
+
+const buyCopy = (item: Item) => {
+    const { beans = 0, inventory = [], debt = 0 } = userStore.user || {};
+    const itemPrice = ITEMS[item.name as keyof typeof ITEMS]?.price;
+
+    if (inventory.some(invItem => invItem.name === item.name)) return 'OWNED';
+    if (debt > 0 && item.name !== 'lotto') return 'IN DEBT';
+    if (beans < itemPrice) return 'CANNOT AFFORD';
+
+    return 'BUY!!!';
+};
 </script>
 
 <template>
@@ -96,23 +119,9 @@ async function sellItem(item: string) {
             <button
                 v-if="action === 'buy'"
                 @click="buyItem(item.name)"
-                :disabled="
-                    (userStore.user?.beans || 0) < ITEMS[item.name as keyof typeof ITEMS]?.price ||
-                    userStore.user?.inventory?.some(
-                        invItem => invItem.name === item.name
-                    )
-                "
+                :disabled="isBuyDisabled(item)"
             >
-                {{
-                    userStore.user?.inventory?.some(
-                        invItem => invItem.name === item.name
-                    )
-                        ? 'OWNED'
-                        : (userStore.user?.beans || 0) <
-                          ITEMS[item.name as keyof typeof ITEMS]?.price
-                        ? 'CANNOT AFFORD'
-                        : 'BUY!!!'
-                }}
+                {{ buyCopy(item) }}
             </button>
             <button v-if="action === 'sell'" @click="sellItem(item.name)">
                 SELL

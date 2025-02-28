@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { addCommas } from '@/composables/useEconomy';
+import { useEconomy } from '@/composables/useEconomy';
 import { useApiStore } from '@/stores/api';
 
 const apiStore = useApiStore();
 const sort = ref('beans');
+const { addCommas } = useEconomy();
 
 const sortedUsers = computed(() => {
     if (!apiStore.winners.data) return [];
@@ -132,33 +133,6 @@ onMounted(() => apiStore.fetchWinners());
                 too can become something greater.
             </p>
         </template>
-
-        <h2>UNCLAIMED BEANS</h2>
-        <p style="font-size: 0.9em">
-            Below is a list of unclaimed wins from previous betting pools. If
-            you are one of the people listed below contact admin to have your
-            wins retroactively added to your profile. Liars will be BANNED.
-            <br />
-            <br />
-            Unclaimed bets will be <strong>ERASED</strong> if not claimed by
-            March 1st, 2025.
-        </p>
-        <table>
-            <thead>
-                <tr>
-                    <th>PSHM User</th>
-                    <th>Beans</th>
-                    <th>Wins</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Itsmekidney</td>
-                    <td class="wins">2,000,000</td>
-                    <td class="wins">1</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </template>
 

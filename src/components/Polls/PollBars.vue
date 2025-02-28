@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
-import { addCommas } from '@/composables/useEconomy';
+import { useEconomy } from '@/composables/useEconomy';
+
+const { addCommas } = useEconomy();
 
 const { percent, option, isWinner, pricePerShare, voters } = defineProps<{
     percent: number;

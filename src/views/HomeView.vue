@@ -31,7 +31,6 @@ const userStore = useUserStore();
                     ><img src="/assets/leader.gif" alt="LEADERBOARDS"
                 /></RouterLink>
                 <RouterLink
-                    v-if="!userStore.user?.debt"
                     to="/store"
                     @mouseover="() => apiStore.fetchLotto()"
                 >

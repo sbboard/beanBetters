@@ -3,10 +3,11 @@ import { computed, onMounted, ref } from 'vue';
 import Bars from './PollBars.vue';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
-import { addCommas } from '@/composables/useEconomy';
+import { useEconomy } from '@/composables/useEconomy';
 
 const { poll } = defineProps<{ poll: Poll }>();
 const virtualPoll = ref(poll);
+const { addCommas } = useEconomy();
 
 const selectedOption = ref<string | null>(null);
 const userStore = useUserStore();

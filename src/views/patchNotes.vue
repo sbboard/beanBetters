@@ -3,6 +3,14 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>2/28/25</h2>
+        <ul>
+            <li>mobile styles</li>
+            <li>final pass at bookie agreement</li>
+            <li>Allow lotto to be played even with debt (not advised)</li>
+            <li>Revised Loan Terms & Services</li>
+            <li>Removed unclaimed wins portion of leaderboard</li>
+        </ul>
         <h2>2/27/25</h2>
         <ul>
             <li>

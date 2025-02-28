@@ -6,8 +6,10 @@ import AdRoll from './components/AdRoll.vue';
 import { onMounted } from 'vue';
 import { readScrambledId } from './composables/useLogin';
 import { useLogout } from '@/composables/useLogin';
-import { addCommas } from '@/composables/useEconomy';
+import { useEconomy } from '@/composables/useEconomy';
+
 const userStore = useUserStore();
+const { addCommas } = useEconomy();
 
 onMounted(async () => {
     try {
