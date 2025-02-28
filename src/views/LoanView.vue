@@ -294,7 +294,7 @@ const payOffLoan = async () => {
 }
 
 @media (max-width: 700px) {
-    .home > div {
+    .loans > div {
         flex-direction: column;
         align-items: center;
         & div {

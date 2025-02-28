@@ -64,4 +64,14 @@ onMounted(() => apiStore.fetchLotto());
         filter: sepia(1) hue-rotate(33deg) saturate(3.5) contrast(1.5);
     }
 }
+
+@media (max-width: 700px) {
+    .head {
+        height: 75px;
+        .character,
+        img {
+            height: 75px;
+        }
+    }
+}
 </style>

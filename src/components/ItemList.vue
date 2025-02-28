@@ -213,4 +213,29 @@ const buyCopy = (item: Item) => {
         transform: translateY(2px);
     }
 }
+
+@media (max-width: 700px) {
+    .items {
+        flex-wrap: wrap;
+        .item {
+            max-width: 50%;
+            flex-basis: 45%;
+            background-size: 120px 120px;
+            p {
+                font-size: 0.8em;
+            }
+            img {
+                width: 75px;
+                padding: 20px 0;
+            }
+            .meta {
+                font-size: 0.9em;
+            }
+            button {
+                margin-top: 0.5em;
+                margin-bottom: 1em;
+            }
+        }
+    }
+}
 </style>

@@ -26,45 +26,18 @@ const sortedUsers = computed(() => {
     });
 });
 
-function getRank(rank: number) {
-    let rankString = '';
-    switch (rank) {
-        case 1:
-            rankString = 'King Bean 🫅';
-            break;
-        case 2:
-            rankString = 'Queen Bean 👸';
-            break;
-        case 3:
-            rankString = 'Kidney Bean 👶';
-            break;
-        case 4:
-            rankString = 'Mr Bean 🤥';
-            break;
-        case 5:
-            rankString = 'Human Bean 🚶';
-            break;
-        case 6:
-            rankString = 'Jelly Bean 👻';
-            break;
-        case 7:
-            rankString = 'Garbanzo Bean 🧑‍🍳';
-            break;
-        case 8:
-            rankString = 'Baked Bean 😮‍💨';
-            break;
-        case 9:
-            rankString = 'Refried Bean 🧟‍♂️';
-            break;
-        case 10:
-            rankString = 'Soy Bean 😱';
-            break;
-        default:
-            rankString = '';
-            break;
-    }
-    return rankString;
-}
+const ranks = [
+    { title: 'King Bean', emoji: '🫅' },
+    { title: 'Queen Bean', emoji: '👸' },
+    { title: 'Kidney Bean', emoji: '👶' },
+    { title: 'Mr Bean', emoji: '🤥' },
+    { title: 'Human Bean', emoji: '🚶' },
+    { title: 'Jelly Bean', emoji: '👻' },
+    { title: 'Garbanzo Bean', emoji: '🧑‍🍳' },
+    { title: 'Baked Bean', emoji: '😮‍💨' },
+    { title: 'Refried Bean', emoji: '🧟‍♂️' },
+    { title: 'Soy Bean', emoji: '😱' },
+];
 
 onMounted(() => apiStore.fetchWinners());
 </script>
@@ -102,7 +75,10 @@ onMounted(() => apiStore.fetchWinners());
                     <tr v-for="(user, index) in sortedUsers" :key="index">
                         <td>{{ index + 1 }}</td>
                         <td v-if="sort === 'beans'">
-                            {{ getRank(index + 1) }}
+                            <template v-if="ranks[index]"
+                                ><span>{{ ranks[index].title }}</span>
+                                {{ ranks[index].emoji }}</template
+                            >
                         </td>
                         <td>{{ user.name }}</td>
                         <td class="wins" v-if="sort === 'wins'">
@@ -141,6 +117,7 @@ onMounted(() => apiStore.fetchWinners());
     width: 750px;
     max-width: 100%;
     margin: 0 auto;
+    box-sizing: border-box;
     p {
         margin-bottom: 1em;
         text-align: left;
@@ -149,6 +126,7 @@ onMounted(() => apiStore.fetchWinners());
         margin-bottom: 1em;
         .wins {
             text-align: right;
+            overflow-wrap: anywhere;
         }
         &.wins {
             tr {
@@ -190,6 +168,15 @@ strong {
         }
         &:last-child {
             border-right: none;
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    td {
+        font-size: 0.9em;
+        span {
+            display: none;
         }
     }
 }

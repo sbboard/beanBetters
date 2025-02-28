@@ -268,7 +268,7 @@ onMounted(async () => {
                     BET
                     {{ addCommas(fixedShares * virtualPoll.pricePerShare)
                     }}{{ hasVoted ? ' MORE' : '' }}
-                    BEANS NOW !!!!!!
+                    BEANS
                 </div>
             </div>
             <div v-if="isOwner && isPastSettleDate" class="ownerOptions">

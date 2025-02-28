@@ -206,4 +206,10 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
         opacity: 0;
     }
 }
+
+@media (max-width: 700px) {
+    .login p {
+        font-size: 0.7em;
+    }
+}
 </style>

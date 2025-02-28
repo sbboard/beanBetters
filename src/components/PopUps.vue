@@ -52,4 +52,10 @@ onMounted(() => {
         aspect-ratio: 1.5 / 1;
     }
 }
+
+@media (max-width: 700px) {
+    .ad .header span {
+        font-size: 0.7em;
+    }
+}
 </style>

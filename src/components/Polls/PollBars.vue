@@ -103,4 +103,10 @@ onUnmounted(() => {
         right: 0px;
     }
 }
+
+@media (max-width: 700px) {
+    .percentage {
+        display: none;
+    }
+}
 </style>
