@@ -2,12 +2,23 @@
 import { computed, onMounted, ref } from 'vue';
 import Bars from './PollBars.vue';
 import { useUserStore } from '@/stores/user';
+import { useApiStore } from '@/stores/api';
 import axios from 'axios';
 import { useEconomy } from '@/composables/useEconomy';
 
-const { poll } = defineProps<{ poll: Poll }>();
-const virtualPoll = ref(poll);
+const { pollId } = defineProps<{ pollId: string }>();
 const { addCommas } = useEconomy();
+const apiStore = useApiStore();
+const pollRef = computed(() =>
+    apiStore.polls.data?.find(poll => poll._id === pollId)
+);
+const updatePoll = (poll: Poll) => {
+    const pollIndex = apiStore.polls.data?.findIndex(
+        poll => poll._id === pollId
+    );
+    if (!pollIndex) return;
+    apiStore.polls.data?.splice(pollIndex, 1, poll);
+};
 
 const selectedOption = ref<string | null>(null);
 const userStore = useUserStore();
@@ -19,28 +30,37 @@ const beans = computed(() => userStore.user?.beans || 0);
 
 const isOwner = computed(
     () =>
-        virtualPoll.value.creatorName === userStore.user?.name &&
-        !virtualPoll.value.winner
+        pollRef.value?.creatorName === userStore.user?.name &&
+        !pollRef.value?.winner
 );
-const isPastExpiration = computed(
-    () => new Date() > new Date(virtualPoll.value.endDate)
-);
+const isPastExpiration = computed(() => {
+    if (!pollRef.value) return false;
+    return new Date() > new Date(pollRef.value.endDate);
+});
 
-const isPastSettleDate = computed(
-    () =>
+const isPastSettleDate = computed(() => {
+    if (!pollRef.value) return false;
+    return (
         new Date() >
         new Date(
-            virtualPoll.value.settleDate
-                ? virtualPoll.value.settleDate.toString()
-                : virtualPoll.value.endDate.toString()
+            pollRef.value.settleDate
+                ? pollRef.value.settleDate.toString()
+                : pollRef.value.endDate.toString()
         )
-);
+    );
+});
 
-const hasVoted = ref(isPastExpiration.value);
+const hasVoted = computed(() => {
+    if (!pollRef.value || isPastExpiration.value) return true;
+    return pollRef.value.options.some(option =>
+        option.bettors.includes(userId || '')
+    );
+});
 
 const timeLeft = computed(() => {
+    if (!pollRef.value) return '';
     const now = new Date();
-    const end = new Date(virtualPoll.value.endDate);
+    const end = new Date(pollRef.value.endDate);
     const diff = end.getTime() - now.getTime();
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -54,7 +74,7 @@ const formatDate = (date: string) => {
 };
 
 const totalVotes = computed(() =>
-    virtualPoll.value.options.reduce(
+    pollRef.value?.options.reduce(
         (sum, option) => sum + option.bettors.length,
         0
     )
@@ -75,14 +95,13 @@ async function placeBet() {
 
     try {
         const response = await axios.post(`${api}/polls/bet`, {
-            pollId: virtualPoll.value._id,
+            pollId: pollRef.value?._id,
             optionId: selectedOption.value,
             userId,
             shares: fixedShares.value,
         });
         userStore.updateBeanCount(response.data.newBeanAmt);
-        virtualPoll.value = response.data.poll;
-        hasVoted.value = true; // Mark user as having voted
+        updatePoll(response.data.poll);
     } catch (error) {
         console.error('Error placing bet:', error);
     }
@@ -90,7 +109,7 @@ async function placeBet() {
 
 const selectedOptionData = computed(
     () =>
-        virtualPoll.value.options.find(
+        pollRef.value?.options.find(
             option => option._id === selectedOption.value
         ) || null
 );
@@ -102,31 +121,31 @@ const usersShares = computed(
 );
 
 const potentialPayout = computed(() => {
-    let jackpot = virtualPoll.value.pot;
+    if (!pollRef.value) return 0;
+    let jackpot = pollRef.value?.pot || 0;
     const bookieTax = jackpot * 0.05;
     let payout = 0;
 
-    if (virtualPoll.value.creatorName === userStore.user?.name) {
+    if (pollRef.value.creatorName === userStore.user?.name) {
         payout = bookieTax;
     }
 
     //how many people voted for the winning option
-    const winningOption = virtualPoll.value.options.find(
-        option => option._id === virtualPoll.value.winner
+    const winningOption = pollRef.value.options.find(
+        option => option._id === pollRef.value?.winner
     );
     const totalWinningShares = winningOption?.bettors.length || 0;
     if (totalVotes.value === totalWinningShares) {
         payout = 0; //remove bookie tax if everyone voted for the same option
-        jackpot = totalWinningShares * virtualPoll.value.pricePerShare;
+        jackpot = totalWinningShares * pollRef.value.pricePerShare;
     }
 
     if (
         !selectedOptionData.value ||
         usersShares.value === 0 ||
-        (virtualPoll.value.winner &&
-            selectedOptionData.value._id !== virtualPoll.value.winner)
+        (pollRef.value.winner &&
+            selectedOptionData.value._id !== pollRef.value.winner)
     ) {
-        console.log(virtualPoll.value.title);
         return addCommas(Math.floor(payout));
     }
 
@@ -139,28 +158,31 @@ const potentialPayout = computed(() => {
 
 onMounted(async () => {
     if (!userId) return;
-    virtualPoll.value.options.forEach(option => {
+    pollRef.value?.options.forEach(option => {
         if (option.bettors.includes(userId)) {
             selectedOption.value = option._id;
-            hasVoted.value = true;
         }
     });
 });
 </script>
 
 <template>
-    <div class="poll" :class="{ hasVoted, hasWinner: virtualPoll.winner }">
-        <h1>{{ virtualPoll.title }}</h1>
+    <div
+        class="poll"
+        v-if="pollRef"
+        :class="{ hasVoted, hasWinner: pollRef?.winner }"
+    >
+        <h1>{{ pollRef?.title }}</h1>
         <div class="details">
             <div>
                 <div>
                     <span
                         ><strong>BOOKIE:</strong>
-                        {{ virtualPoll.creatorName }}</span
+                        {{ pollRef.creatorName }}</span
                     >
                     <span
                         ><strong>PPS:</strong>
-                        {{ addCommas(virtualPoll.pricePerShare) }} BEANS</span
+                        {{ addCommas(pollRef.pricePerShare) }} BEANS</span
                     >
                 </div>
                 <div class="right">
@@ -168,7 +190,7 @@ onMounted(async () => {
                         ><strong>{{
                             !isPastExpiration
                                 ? `BET DEADLINE`
-                                : !virtualPoll.winner
+                                : !pollRef.winner
                                 ? `SETTLE DATE`
                                 : `SETTLED`
                         }}</strong>
@@ -176,25 +198,25 @@ onMounted(async () => {
                             !isPastExpiration
                                 ? timeLeft
                                 : formatDate(
-                                      virtualPoll.settleDate
-                                          ? virtualPoll.settleDate.toString()
-                                          : virtualPoll.endDate.toString()
+                                      pollRef.settleDate
+                                          ? pollRef.settleDate.toString()
+                                          : pollRef.endDate.toString()
                                   )
                         }}</span
                     >
                 </div>
             </div>
             <span class="description">
-                <pre>{{ virtualPoll.description }}</pre>
+                <pre>{{ pollRef.description }}</pre>
             </span>
         </div>
         <div class="main">
             <div
                 class="option"
-                v-for="pollOption in virtualPoll.options"
+                v-for="pollOption in pollRef.options"
                 :class="{
-                    isWinner: virtualPoll.winner === pollOption._id,
-                    noMoney: virtualPoll.pricePerShare > beans,
+                    isWinner: pollRef.winner === pollOption._id,
+                    noMoney: pollRef.pricePerShare > beans,
                 }"
                 :key="pollOption._id"
                 @click="selectOption(pollOption._id)"
@@ -212,39 +234,37 @@ onMounted(async () => {
                     :percent="getPercentage(pollOption.bettors.length)"
                     :option="pollOption.text"
                     :voters="pollOption.bettors"
-                    :is-winner="virtualPoll.winner === pollOption._id"
-                    :price-per-share="virtualPoll.pricePerShare"
+                    :is-winner="pollRef.winner === pollOption._id"
+                    :price-per-share="pollRef.pricePerShare"
                 />
             </div>
             <div class="total seed">
-                SEED BEANS: {{ addCommas(virtualPoll.seed || 2000000) }}
+                SEED BEANS: {{ addCommas(pollRef.seed || 2000000) }}
             </div>
-            <div class="total">
-                TOTAL BEANS: {{ addCommas(virtualPoll.pot) }}
-            </div>
+            <div class="total">TOTAL BEANS: {{ addCommas(pollRef.pot) }}</div>
             <div v-if="usersShares > 0 || isOwner" class="position">
                 <div>
                     <strong>POSITION: </strong>
-                    {{ addCommas(usersShares * virtualPoll.pricePerShare) }}
+                    {{ addCommas(usersShares * pollRef.pricePerShare) }}
                     BEANS
                 </div>
                 <div>
                     <strong
                         >{{
-                            virtualPoll.winner ? '' : 'POTENTIAL '
+                            pollRef.winner ? '' : 'POTENTIAL '
                         }}PAYOUT: </strong
                     >{{ potentialPayout }}
                 </div>
             </div>
             <hr v-if="!isPastExpiration || (isOwner && isPastSettleDate)" />
             <div v-if="!isPastExpiration" class="betControls">
-                <div class="shares" v-if="virtualPoll.pricePerShare < beans">
+                <div class="shares" v-if="pollRef.pricePerShare < beans">
                     BUY
                     <input
                         v-model.number="shares"
                         :min="1"
                         :value="fixedShares"
-                        :max="beans / virtualPoll.pricePerShare"
+                        :max="beans / pollRef.pricePerShare"
                         type="number"
                         step="1"
                     />
@@ -254,7 +274,7 @@ onMounted(async () => {
                     NO SHARES SELECTED
                 </div>
                 <div
-                    v-else-if="beans < virtualPoll.pricePerShare * shares"
+                    v-else-if="beans < pollRef.pricePerShare * shares"
                     class="betButton noBeans"
                 >
                     CANNOT AFFORD BET
@@ -266,13 +286,13 @@ onMounted(async () => {
                     @click="placeBet"
                 >
                     BET
-                    {{ addCommas(fixedShares * virtualPoll.pricePerShare)
+                    {{ addCommas(fixedShares * pollRef.pricePerShare)
                     }}{{ hasVoted ? ' MORE' : '' }}
                     BEANS
                 </div>
             </div>
             <div v-if="isOwner && isPastSettleDate" class="ownerOptions">
-                <RouterLink :to="`/bets/settle/${virtualPoll._id}`"
+                <RouterLink :to="`/bets/settle/${pollRef._id}`"
                     >$$$ SETTLE BET $$$</RouterLink
                 >
             </div>

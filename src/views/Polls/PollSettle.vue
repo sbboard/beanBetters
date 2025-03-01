@@ -22,7 +22,9 @@ const selectOption = (id: string) => {
 // Fetch poll data based on the poll ID
 const fetchPoll = async () => {
     try {
-        const response = await axios.get(`${api}/polls/${pollId}`);
+        const response = await axios.get(`${api}/polls/${pollId}`, {
+            params: { userId: userStore.user?._id },
+        });
         poll.value = response.data;
     } catch (error) {
         console.error('Error fetching poll:', error);

@@ -103,7 +103,10 @@ onMounted(() => apiStore.fetchPolls());
             >
         </div>
         <template v-if="filteredPolls && filteredPolls.length">
-            <Poll :key="poll._id" v-for="poll in filteredPolls" :poll="poll"
+            <Poll
+                :key="poll._id"
+                v-for="poll in filteredPolls"
+                :pollId="poll._id"
         /></template>
         <div v-else>No {{ currentFilter }} wagers</div>
     </div>

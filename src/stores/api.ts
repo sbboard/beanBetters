@@ -70,10 +70,8 @@ export const useApiStore = defineStore('api', () => {
         }
 
         try {
-            const response = await axios.get(
-                `${api}/user/67bbdee28094dd05bc218d1d`
-            );
-            lottoAmt.value.data = response.data.beans;
+            const response = await axios.get(`${api}/store/get-jackpot`);
+            lottoAmt.value.data = response.data.jackpot;
             lottoAmt.value.lastFetch = now;
         } catch (error) {
             console.error('Error fetching polls:', error);

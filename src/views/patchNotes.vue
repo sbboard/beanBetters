@@ -5,8 +5,12 @@
         <h1>PATCH NOTES</h1>
         <h2>3/1/25</h2>
         <ul>
+            <li>
+                Fixed bug where if you bet on a wager and left the bets page
+                then returned your bet wouldnt be included in the totals
+            </li>
             <li>Decrease odds of winning lotto</li>
-            <li>Secure other user's user ids</li>
+            <li>Secure user ids</li>
         </ul>
         <h2>2/28/25</h2>
         <ul>
