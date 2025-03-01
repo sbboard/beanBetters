@@ -18,7 +18,9 @@ const fixedShares = computed(() => Math.floor(shares.value));
 const beans = computed(() => userStore.user?.beans || 0);
 
 const isOwner = computed(
-    () => virtualPoll.value.creatorId === userId && !virtualPoll.value.winner
+    () =>
+        virtualPoll.value.creatorName === userStore.user?.name &&
+        !virtualPoll.value.winner
 );
 const isPastExpiration = computed(
     () => new Date() > new Date(virtualPoll.value.endDate)
@@ -104,7 +106,7 @@ const potentialPayout = computed(() => {
     const bookieTax = jackpot * 0.05;
     let payout = 0;
 
-    if (virtualPoll.value.creatorId === userId) {
+    if (virtualPoll.value.creatorName === userStore.user?.name) {
         payout = bookieTax;
     }
 

@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/1/25</h2>
+        <ul>
+            <li>Decrease odds of winning lotto</li>
+            <li>Secure other user's user ids</li>
+        </ul>
         <h2>2/28/25</h2>
         <ul>
             <li>mobile styles</li>

@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { useUserStore } from './user';
 
 export const useApiStore = defineStore('api', () => {
     const winners = ref({
@@ -46,7 +47,10 @@ export const useApiStore = defineStore('api', () => {
         }
 
         try {
-            const response = await axios.get(`${api}/polls`);
+            const userStore = useUserStore();
+            const response = await axios.get(`${api}/polls`, {
+                params: { userId: userStore.user?._id },
+            });
             polls.value.data = response.data;
             polls.value.lastFetch = now;
         } catch (error) {

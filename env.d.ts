@@ -7,19 +7,16 @@ interface PollOption {
 }
 
 interface Poll {
-    abstained: string[];
     contentType: 'poll';
     creationDate: Date;
-    creatorId: string;
+    creatorName: string;
     description: string;
     endDate: Date;
     options: PollOption[];
-    pollType: 'bet';
     pot: number;
     pricePerShare: number;
-    creatorName: string;
-    settleDate?: Date;
     seed?: number;
+    settleDate?: Date;
     title: string;
     winner: null | string;
     _id: string;
@@ -32,14 +29,14 @@ interface Item {
 
 interface User {
     _id: string;
-    name: string;
-    password: string;
-    role?: string;
-    debt?: number;
-    wins: string[];
-    registrationDate: Date;
-    contentType: 'user';
-    lastIP?: string;
     beans: number;
+    contentType: 'user';
+    debt?: number;
+    displayName?: string;
     inventory?: Item[];
+    name: string;
+    role?: string;
+    wins: string[];
+    registrationDate?: Date;
+    lastIP?: string;
 }
