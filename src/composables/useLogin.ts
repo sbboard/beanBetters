@@ -77,12 +77,10 @@ export async function readScrambledId(scrambledId: string) {
     }
 }
 
+const api = import.meta.env.VITE_API;
 const updateLastIP = async (user: User, lastIP: string) => {
     try {
-        await axios.put(
-            `https://www.gang-fight.com/api/beans/user/${user._id}`,
-            { lastIP }
-        );
+        await axios.put(`${api}/user/${user._id}`, { lastIP });
     } catch {
         //empty
     }

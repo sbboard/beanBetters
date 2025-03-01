@@ -15,7 +15,7 @@ export const useApiStore = defineStore('api', () => {
         data: <number>0,
         lastFetch: 0,
     });
-    const api = 'https://www.gang-fight.com/api/beans';
+    const api = import.meta.env.VITE_API;
     const fetchWinners: () => Promise<void> = async () => {
         const now = Date.now();
         if (

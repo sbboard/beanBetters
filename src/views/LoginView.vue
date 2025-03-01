@@ -4,7 +4,7 @@ import axios from 'axios';
 import { setInfo } from '@/composables/useLogin';
 import PopUps from '@/components/PopUps.vue';
 
-const api = 'https://www.gang-fight.com/api/beans';
+const api = import.meta.env.VITE_API;
 
 const registerTab = ref(false);
 const forgotPassword = ref(false);

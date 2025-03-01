@@ -67,19 +67,17 @@ const getPercentage = (v: number) => {
     return (v / totalVotes.value) * 100;
 };
 
+const api = import.meta.env.VITE_API;
 async function placeBet() {
     if (!selectedOption.value) return;
 
     try {
-        const response = await axios.post(
-            'https://www.gang-fight.com/api/beans/polls/bet',
-            {
-                pollId: virtualPoll.value._id,
-                optionId: selectedOption.value,
-                userId,
-                shares: fixedShares.value,
-            }
-        );
+        const response = await axios.post(`${api}/polls/bet`, {
+            pollId: virtualPoll.value._id,
+            optionId: selectedOption.value,
+            userId,
+            shares: fixedShares.value,
+        });
         userStore.updateBeanCount(response.data.newBeanAmt);
         virtualPoll.value = response.data.poll;
         hasVoted.value = true; // Mark user as having voted

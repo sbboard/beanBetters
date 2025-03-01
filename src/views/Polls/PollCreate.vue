@@ -148,7 +148,7 @@ const removeOption = (index: number) => {
     options.value.splice(index, 1);
 };
 
-const api = 'https://www.gang-fight.com/api/beans';
+const api = import.meta.env.VITE_API;
 const createPoll = async () => {
     if (!isFormValid.value) return;
 

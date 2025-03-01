@@ -28,7 +28,7 @@ const repaymentValid = computed(() => {
     );
 });
 
-const api = 'https://www.gang-fight.com/api/beans';
+const api = import.meta.env.VITE_API;
 const applyForLoan = async () => {
     if (!confirm('Are you sure you want to apply for a loan?')) return;
     try {

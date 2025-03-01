@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useApiStore } from '@/stores/api';
 import { useUserStore } from '@/stores/user';
 
-const api = 'https://www.gang-fight.com/api/beans';
+const api = import.meta.env.VITE_API;
 const poll = ref<Poll | null>(null);
 const selectedOption = ref<string | null>(null);
 const apiStore = useApiStore();

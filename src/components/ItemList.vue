@@ -14,14 +14,14 @@ const { action, list } = defineProps<{
     list: Item[];
 }>();
 
+const api = import.meta.env.VITE_API;
 async function buyItem(item: string) {
     if (action !== 'buy') return;
     if (item === 'lotto') {
         try {
-            const response = await axios.post(
-                'https://www.gang-fight.com/api/beans/store/lottery',
-                { userId: userStore.user?._id }
-            );
+            const response = await axios.post(`${api}/store/lottery`, {
+                userId: userStore.user?._id,
+            });
             alert(response.data.message);
             userStore.user = response.data.user;
             apiStore.lottoAmt.data = response.data.houseBeans;
@@ -32,13 +32,10 @@ async function buyItem(item: string) {
     }
     if (!confirm('Are you sure you want to buy this item?')) return;
     try {
-        const response = await axios.post(
-            'https://www.gang-fight.com/api/beans/store/buy-item',
-            {
-                userId: userStore.user?._id,
-                itemName: item,
-            }
-        );
+        const response = await axios.post(`${api}/store/buy-item`, {
+            userId: userStore.user?._id,
+            itemName: item,
+        });
         userStore.user = response.data.user;
     } catch (error) {
         console.error('Error buying item:', error);
@@ -49,13 +46,10 @@ async function sellItem(item: string) {
     if (action !== 'sell') return;
     if (!confirm('Are you sure you want to sell this item?')) return;
     try {
-        const response = await axios.post(
-            'https://www.gang-fight.com/api/beans/store/sell-item',
-            {
-                userId: userStore.user?._id,
-                itemName: item,
-            }
-        );
+        const response = await axios.post(`${api}/store/sell-item`, {
+            userId: userStore.user?._id,
+            itemName: item,
+        });
         userStore.user = response.data.user;
         if (!userStore.user?.inventory?.length) {
             router.push({ path: '/' });
