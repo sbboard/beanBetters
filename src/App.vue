@@ -4,7 +4,7 @@ import { useUserStore } from './stores/user';
 import SiteFooter from './components/SiteFooter.vue';
 import AdRoll from './components/AdRoll.vue';
 import { onMounted } from 'vue';
-import { readScrambledId } from './composables/useLogin';
+import { checkBeanId } from './composables/useLogin';
 import { useLogout } from '@/composables/useLogin';
 import { useEconomy } from '@/composables/useEconomy';
 
@@ -14,8 +14,9 @@ const { addCommas } = useEconomy();
 onMounted(async () => {
     try {
         const beanId = localStorage.getItem('bean_id');
-        if (!beanId) return userStore.resetUser();
-        await readScrambledId(beanId);
+        const beanKey = localStorage.getItem('bean_key');
+        if (!beanId || !beanKey) return userStore.resetUser();
+        await checkBeanId(beanId, beanKey);
     } catch (error) {
         userStore.resetUser();
         console.error('Error during login:', error);

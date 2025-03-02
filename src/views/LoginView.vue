@@ -20,7 +20,7 @@ const registerUser = async () => {
             newUser.value,
             { headers: { 'Content-Type': 'application/json' } }
         );
-        if (response.data.user) setInfo(response.data.user);
+        if (response) setInfo(response.data.user, response.data.key);
     } catch (error: unknown) {
         loginError.value = axios.isAxiosError(error)
             ? error.response?.data?.message || 'Registration failed.'
@@ -32,11 +32,11 @@ const registerUser = async () => {
 
 const loginUser = async () => {
     try {
-        const { data } = await axios.post(
+        const response = await axios.post(
             `${api}/user/login`,
             loginCredentials.value
         );
-        if (data.user) setInfo(data.user);
+        if (response) setInfo(response.data.user, response.data.key);
     } catch (error: unknown) {
         loginError.value = axios.isAxiosError(error)
             ? error.response?.data?.message || 'Login failed.'
