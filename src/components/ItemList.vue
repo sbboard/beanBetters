@@ -106,7 +106,13 @@ const buyCopy = (item: Item) => {
             >
             <span v-if="action === 'sell'"
                 >{{
-                    addCommas(ITEMS[item.name as keyof typeof ITEMS]?.price / 2)
+                    ITEMS[item.name as keyof typeof ITEMS]?.maintainsValue
+                        ? addCommas(
+                              ITEMS[item.name as keyof typeof ITEMS]?.price
+                          )
+                        : addCommas(
+                              ITEMS[item.name as keyof typeof ITEMS]?.price / 2
+                          )
                 }}
                 BEANS</span
             >
@@ -130,6 +136,7 @@ const buyCopy = (item: Item) => {
     flex-direction: row;
     justify-content: center;
     align-items: flex-end;
+    flex-wrap: wrap;
     .item {
         width: 160px;
         max-width: 25%;
@@ -141,6 +148,7 @@ const buyCopy = (item: Item) => {
         background-position: top;
         flex-direction: column;
         flex: 1;
+        flex-basis: 20%;
         p {
             font-size: 0.9em;
         }
@@ -167,6 +175,7 @@ const buyCopy = (item: Item) => {
             font-weight: bold;
             font-size: 1.1rem;
             cursor: pointer;
+            margin-bottom: 1em;
             &:disabled {
                 background-color: transparent;
                 border: 1px solid var(--themeColor);
@@ -209,26 +218,22 @@ const buyCopy = (item: Item) => {
 }
 
 @media (max-width: 700px) {
-    .items {
-        flex-wrap: wrap;
-        .item {
-            max-width: 50%;
-            flex-basis: 45%;
-            background-size: 120px 120px;
-            p {
-                font-size: 0.8em;
-            }
-            img {
-                width: 75px;
-                padding: 20px 0;
-            }
-            .meta {
-                font-size: 0.9em;
-            }
-            button {
-                margin-top: 0.5em;
-                margin-bottom: 1em;
-            }
+    .items .item {
+        max-width: 50%;
+        flex-basis: 45%;
+        background-size: 120px 120px;
+        p {
+            font-size: 0.8em;
+        }
+        img {
+            width: 75px;
+            padding: 20px 0;
+        }
+        .meta {
+            font-size: 0.9em;
+        }
+        button {
+            margin-top: 0.5em;
         }
     }
 }
