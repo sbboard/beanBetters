@@ -147,7 +147,7 @@ const { addCommas } = useEconomy();
                     </tbody>
                 </table>
                 <p style="margin-top: 1em">
-                    Taxes are collected every Sunday night.
+                    Taxes are collected every Sunday night at 8PM EST.
                 </p>
             </li>
         </ol>
