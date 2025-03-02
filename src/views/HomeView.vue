@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import { useApiStore } from '@/stores/api';
-import { useUserStore } from '@/stores/user';
-import { MIN_DEBT } from '@/composables/useEconomy';
 
 const apiStore = useApiStore();
-const userStore = useUserStore();
 </script>
 
 <template>
@@ -36,19 +33,10 @@ const userStore = useUserStore();
                 >
                     <img src="/assets/exchange.gif" alt="BEAN EXCHANGE" />
                 </RouterLink>
-                <RouterLink
-                    v-if="userStore.user?.inventory?.length"
-                    to="/inventory"
-                >
+                <RouterLink to="/inventory">
                     <img src="/assets/inventory.gif" alt="INVENTORY" />
                 </RouterLink>
-                <RouterLink
-                    v-if="
-                        (userStore.user?.beans || 0) < MIN_DEBT ||
-                        (userStore.user?.debt || 0) > 0
-                    "
-                    to="/loan"
-                >
+                <RouterLink to="/loan">
                     <img src="/assets/loans.gif" alt="PERSONAL LOANS" />
                 </RouterLink>
                 <RouterLink class="patch" to="/notes"

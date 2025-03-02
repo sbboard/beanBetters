@@ -7,7 +7,15 @@ const userStore = useUserStore();
 
 <template>
     <div>
-        <ItemList :action="'sell'" :list="userStore.user?.inventory || []" />
+        <div
+            v-if="
+                !userStore.user?.inventory || !userStore.user.inventory.length
+            "
+            style="text-align: center"
+        >
+            Empty
+        </div>
+        <ItemList v-else :action="'sell'" :list="userStore.user.inventory" />
     </div>
 </template>
 
