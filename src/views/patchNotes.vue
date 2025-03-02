@@ -5,7 +5,8 @@
         <h1>PATCH NOTES</h1>
         <h2>3/2/25</h2>
         <ul>
-            <li>Add rare artifacts to bean exchange</li>
+            <li>Added taxes</li>
+            <li>Added rare artifacts to bean exchange</li>
         </ul>
         <h2>3/1/25</h2>
         <ul>

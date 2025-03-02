@@ -1,4 +1,8 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useEconomy } from '@/composables/useEconomy';
+
+const { addCommas } = useEconomy();
+</script>
 
 <template>
     <div class="notes">
@@ -106,6 +110,44 @@
                     Enjoyers, in exchange for displaying their non-intrusive
                     ads, the Bean Seeds bookies contribute to their wagers will
                     be matched by the United Nations of Soda Enjoyers.
+                </p>
+            </li>
+            <li>
+                <strong>TAX EVASION</strong>
+                <p>
+                    Bookies don't get taxed on weeks when they create wagers. By
+                    maintaining a healthy habit of creating weekly wagers a
+                    smart bookie could evade taxes their entire life.
+                </p>
+                <p>For those curious, here are the current tax rates:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wealth</th>
+                            <th>Tax Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ addCommas(100000000) }} Beans</td>
+                            <td>10%</td>
+                        </tr>
+                        <tr>
+                            <td>{{ addCommas(250000000) }} Beans</td>
+                            <td>20%</td>
+                        </tr>
+                        <tr>
+                            <td>{{ addCommas(500000000) }} Beans</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>{{ addCommas(1000000000) }} Beans</td>
+                            <td>40%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 1em">
+                    Taxes are collected every Sunday night.
                 </p>
             </li>
         </ol>
