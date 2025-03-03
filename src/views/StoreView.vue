@@ -11,13 +11,10 @@ const { ITEMS, addCommas } = useEconomy();
 
 const itemArray = computed(() =>
     Object.entries(ITEMS)
-        .filter(item => !item[1].hideFromStore)
-        .map(([name, { price, icon, displayName, description }]) => ({
+        .filter(([, item]) => !item.hideFromStore)
+        .map(([name]) => ({
             name,
-            displayName,
-            description,
-            price,
-            icon: icon || `${name}.png`,
+            _id: name,
             meta:
                 name === 'lotto'
                     ? `${addCommas(apiStore.lottoAmt.data)} BEANS`
