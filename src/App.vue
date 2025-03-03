@@ -63,6 +63,7 @@ onMounted(async () => {
 <style lang="scss">
 html {
     --themeColor: #daff3c;
+    --themeColorOpaque: #daff3c50;
     font-family: 'Nunito', sans-serif;
     color: white;
     font-size: 18px;

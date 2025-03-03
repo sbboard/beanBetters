@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import ItemList from '@/components/ItemList.vue';
+import SendBeans from '@/components/SendBeans.vue';
 import { useEconomy } from '@/composables/useEconomy';
 import { useApiStore } from '@/stores/api';
 import { computed, onMounted } from 'vue';
@@ -9,8 +10,9 @@ const apiStore = useApiStore();
 const { ITEMS, addCommas } = useEconomy();
 
 const itemArray = computed(() =>
-    Object.entries(ITEMS).map(
-        ([name, { price, icon, displayName, description }]) => ({
+    Object.entries(ITEMS)
+        .filter(item => !item[1].hideFromStore)
+        .map(([name, { price, icon, displayName, description }]) => ({
             name,
             displayName,
             description,
@@ -20,8 +22,7 @@ const itemArray = computed(() =>
                 name === 'lotto'
                     ? `${addCommas(apiStore.lottoAmt.data)} BEANS`
                     : '',
-        })
-    )
+        }))
 );
 
 onMounted(() => apiStore.fetchLotto());
@@ -38,6 +39,9 @@ onMounted(() => apiStore.fetchLotto());
             <img src="/assets/exchange.gif" alt="STORE" />
         </div>
         <ItemList :action="'buy'" :list="itemArray" />
+        <hr />
+        <h1>BEAN WIRE TRANSFER</h1>
+        <SendBeans />
     </div>
 </template>
 
@@ -63,6 +67,15 @@ onMounted(() => apiStore.fetchLotto());
         image-rendering: pixelated;
         filter: sepia(1) hue-rotate(33deg) saturate(3.5) contrast(1.5);
     }
+}
+
+h1 {
+    text-align: left;
+}
+
+hr {
+    margin: 1em 0 2em 0;
+    border-color: var(--themeColor);
 }
 
 @media (max-width: 700px) {

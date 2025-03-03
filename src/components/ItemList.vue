@@ -11,7 +11,7 @@ const { ITEMS, addCommas } = useEconomy();
 
 const { action, list } = defineProps<{
     action?: 'buy' | 'sell';
-    list: Item[];
+    list: InventoryItem[];
 }>();
 
 const api = import.meta.env.VITE_API;
@@ -42,13 +42,11 @@ async function buyItem(item: string) {
     }
 }
 
-async function sellItem(item: string) {
-    if (action !== 'sell') return;
-    if (!confirm('Are you sure you want to sell this item?')) return;
+async function sellBeanBag(item: InventoryItem) {
     try {
         const response = await axios.post(`${api}/store/sell-item`, {
             userId: userStore.user?._id,
-            itemName: item,
+            itemName: item.name,
         });
         userStore.user = response.data.user;
         if (!userStore.user?.inventory?.length) {
@@ -59,7 +57,25 @@ async function sellItem(item: string) {
     }
 }
 
-const isBuyDisabled = (item: Item) => {
+async function sellItem(item: InventoryItem) {
+    if (action !== 'sell') return;
+    if (item.specialPrice) return sellBeanBag(item);
+    if (!confirm('Are you sure you want to sell this item?')) return;
+    try {
+        const response = await axios.post(`${api}/store/sell-item`, {
+            userId: userStore.user?._id,
+            itemName: item.name,
+        });
+        userStore.user = response.data.user;
+        if (!userStore.user?.inventory?.length) {
+            router.push({ path: '/' });
+        }
+    } catch (error) {
+        console.error('Error selling item:', error);
+    }
+}
+
+const isBuyDisabled = (item: InventoryItem) => {
     const { beans = 0, inventory = [], debt = 0 } = userStore.user || {};
     const itemPrice = ITEMS[item.name as keyof typeof ITEMS]?.price;
 
@@ -70,7 +86,7 @@ const isBuyDisabled = (item: Item) => {
     );
 };
 
-const buyCopy = (item: Item) => {
+const buyCopy = (item: InventoryItem) => {
     const { beans = 0, inventory = [], debt = 0 } = userStore.user || {};
     const itemPrice = ITEMS[item.name as keyof typeof ITEMS]?.price;
 
@@ -92,11 +108,17 @@ const buyCopy = (item: Item) => {
             <span class="name">{{
                 ITEMS[item.name as keyof typeof ITEMS]?.displayName
             }}</span>
-            <p>
+            <p v-if="item.specialDescription">
+                "{{ item.specialDescription }}"
+            </p>
+            <p v-else>
                 {{ ITEMS[item.name as keyof typeof ITEMS]?.description }}
             </p>
             <p v-if="item.meta">
-                <span class="meta">{{ item.meta }}</span>
+                <span v-if="item.name === 'bean bag'">
+                    from {{ item.meta }}
+                </span>
+                <span v-else class="meta">{{ item.meta }}</span>
             </p>
             <span v-if="action === 'buy'"
                 >{{
@@ -104,7 +126,10 @@ const buyCopy = (item: Item) => {
                 }}
                 BEANS</span
             >
-            <span v-if="action === 'sell'"
+            <span v-if="action === 'sell' && item.specialPrice">
+                {{ addCommas(item.specialPrice) }} BEANS
+            </span>
+            <span v-else-if="action === 'sell'"
                 >{{
                     ITEMS[item.name as keyof typeof ITEMS]?.maintainsValue
                         ? addCommas(
@@ -123,7 +148,13 @@ const buyCopy = (item: Item) => {
             >
                 {{ buyCopy(item) }}
             </button>
-            <button v-if="action === 'sell'" @click="sellItem(item.name)">
+            <button
+                v-if="action === 'sell' && item.specialPrice"
+                @click="sellItem(item)"
+            >
+                CLAIM
+            </button>
+            <button v-else-if="action === 'sell'" @click="sellItem(item)">
                 SELL
             </button>
         </div>

@@ -22,9 +22,20 @@ interface Poll {
     _id: string;
 }
 
-interface Item {
+interface ShopItem {
+    price: number;
+    displayName: string;
+    icon: string;
+    description: string;
+    maintainsValue: boolean;
+    hideFromStore: boolean;
+}
+
+interface InventoryItem {
     meta: string;
     name: string;
+    specialDescription?: string;
+    specialPrice?: number;
 }
 
 interface User {
@@ -33,7 +44,7 @@ interface User {
     contentType: 'user';
     debt?: number;
     displayName?: string;
-    inventory?: Item[];
+    inventory?: InventoryItem[];
     name: string;
     role?: string;
     wins: string[];

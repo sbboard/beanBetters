@@ -3,6 +3,10 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/3/25</h2>
+        <ul>
+            <li>Added ability to send Bean Bags</li>
+        </ul>
         <h2>3/2/25</h2>
         <ul>
             <li>Added taxes</li>
