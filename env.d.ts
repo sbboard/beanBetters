@@ -32,6 +32,7 @@ interface ShopItem {
 }
 
 interface InventoryItem {
+    _id: string;
     meta: string;
     name: string;
     specialDescription?: string;

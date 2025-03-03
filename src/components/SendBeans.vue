@@ -76,7 +76,7 @@ async function sendBeans() {
                     <input
                         v-model="message"
                         placeholder="Message"
-                        maxlength="20"
+                        maxlength="30"
                     />
                 </div>
             </div>

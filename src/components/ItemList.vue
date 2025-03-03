@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useEconomy } from '@/composables/useEconomy';
-import router from '@/router';
 import { useApiStore } from '@/stores/api';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
@@ -42,34 +41,20 @@ async function buyItem(item: string) {
     }
 }
 
-async function sellBeanBag(item: InventoryItem) {
-    try {
-        const response = await axios.post(`${api}/store/sell-item`, {
-            userId: userStore.user?._id,
-            itemName: item.name,
-        });
-        userStore.user = response.data.user;
-        if (!userStore.user?.inventory?.length) {
-            router.push({ path: '/' });
-        }
-    } catch (error) {
-        console.error('Error selling item:', error);
-    }
-}
-
 async function sellItem(item: InventoryItem) {
     if (action !== 'sell') return;
-    if (item.specialPrice) return sellBeanBag(item);
-    if (!confirm('Are you sure you want to sell this item?')) return;
+    const payload: { userId: string; itemId?: string; itemName?: string } = {
+        userId: userStore.user?._id || '',
+    };
+
+    if (item.specialPrice) payload.itemId = item._id;
+    else {
+        if (!confirm('Are you sure you want to sell this item?')) return;
+        payload.itemName = item.name;
+    }
     try {
-        const response = await axios.post(`${api}/store/sell-item`, {
-            userId: userStore.user?._id,
-            itemName: item.name,
-        });
+        const response = await axios.post(`${api}/store/sell-item`, payload);
         userStore.user = response.data.user;
-        if (!userStore.user?.inventory?.length) {
-            router.push({ path: '/' });
-        }
     } catch (error) {
         console.error('Error selling item:', error);
     }
@@ -108,18 +93,20 @@ const buyCopy = (item: InventoryItem) => {
             <span class="name">{{
                 ITEMS[item.name as keyof typeof ITEMS]?.displayName
             }}</span>
-            <p v-if="item.specialDescription">
-                "{{ item.specialDescription }}"
-            </p>
-            <p v-else>
-                {{ ITEMS[item.name as keyof typeof ITEMS]?.description }}
-            </p>
-            <p v-if="item.meta">
-                <span v-if="item.name === 'bean bag'">
-                    from {{ item.meta }}
-                </span>
-                <span v-else class="meta">{{ item.meta }}</span>
-            </p>
+            <template v-if="item.specialDescription">
+                <p>
+                    "{{ item.specialDescription }}"
+                    <span style="white-space: nowrap"> - {{ item.meta }} </span>
+                </p>
+            </template>
+            <template v-else>
+                <p>
+                    {{ ITEMS[item.name as keyof typeof ITEMS]?.description }}
+                </p>
+                <p v-if="item.meta">
+                    <span class="meta">{{ item.meta }}</span>
+                </p>
+            </template>
             <span v-if="action === 'buy'"
                 >{{
                     addCommas(ITEMS[item.name as keyof typeof ITEMS]?.price)
@@ -181,6 +168,7 @@ const buyCopy = (item: InventoryItem) => {
         flex: 1;
         flex-basis: 20%;
         p {
+            margin-top: 0.25em;
             font-size: 0.9em;
         }
         > * {
