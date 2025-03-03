@@ -4,10 +4,12 @@ import { defineStore } from 'pinia';
 export const useUserStore = defineStore('user', () => {
     const user: Ref<User | null> = ref(null);
     const showLogin: Ref<boolean> = ref(false);
+    const key: Ref<string | null> = ref(null);
 
     function resetUser() {
         showLogin.value = true;
         user.value = null;
+        key.value = null;
     }
 
     function updateBeanCount(count: number) {
@@ -20,5 +22,5 @@ export const useUserStore = defineStore('user', () => {
         return user.value.inventory?.some(invItem => invItem.name === item);
     }
 
-    return { user, showLogin, resetUser, updateBeanCount, checkItem };
+    return { user, showLogin, key, resetUser, updateBeanCount, checkItem };
 });

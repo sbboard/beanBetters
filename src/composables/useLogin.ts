@@ -31,6 +31,7 @@ export async function checkBeanId(id: string, key: string) {
 export async function setInfo(user: User, key: string) {
     const userStore = useUserStore();
     userStore.user = user;
+    userStore.key = key;
     userStore.showLogin = false;
 
     const currentIP = await getCurrentIP(user.lastIP);

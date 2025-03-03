@@ -100,7 +100,7 @@ const buyCopy = (item: InventoryItem) => {
 
 <template>
     <div class="items">
-        <div class="item" v-for="item in list" :key="item.name">
+        <div class="item" v-for="(item, i) in list" :key="item.name + i">
             <img
                 :src="`/assets/items/${ITEMS[item.name as keyof typeof ITEMS]?.icon}`"
                 :alt="item.name"

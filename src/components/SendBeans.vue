@@ -1,43 +1,91 @@
 <script setup lang="ts">
 import { useEconomy } from '@/composables/useEconomy';
+import { useUserStore } from '@/stores/user';
+import axios from 'axios';
 import { ref } from 'vue';
+
+const api = import.meta.env.VITE_API;
+const userStore = useUserStore();
 const { addCommas } = useEconomy();
 
-const beansToSend = ref(0);
+const beansToSend = ref(500000);
 const recipient = ref('');
 const message = ref('');
+const feedback = ref('');
 
-function sendBeans() {
-    console.log('Sending beans:', beansToSend.value, 'to', recipient.value);
-    console.log('Message:', message.value);
+const isValid = () => {
+    if (beansToSend.value < 500000 || recipient.value === '') return false;
+    if (beansToSend.value > (userStore.user?.beans || 0)) return false;
+    if (recipient.value === userStore.user?.name) return false;
+    if ((userStore.user?.debt || 0) > 0) return false;
+    return true;
+};
+
+async function sendBeans() {
+    try {
+        const response = await axios.post(`${api}/store/send-beans`, {
+            userId: userStore.user?._id,
+            userKey: userStore.key,
+            recipientName: recipient.value,
+            amount: beansToSend.value,
+            message: message.value,
+        });
+        userStore.user = response.data.user;
+        beansToSend.value = 500000;
+        recipient.value = '';
+        message.value = '';
+        feedback.value = 'Beans transfered!';
+    } catch (error) {
+        console.error('Error sending beans:', error);
+        if (axios.isAxiosError(error)) {
+            feedback.value = 'Error: ' + error.response?.data.message;
+            return null;
+        }
+    }
 }
 </script>
 
 <template>
-    <div class="transfer">
-        <div class="bag">
-            <img :src="`/assets/items/bag.png`" />
+    <div>
+        <div class="transfer">
+            <div class="bag">
+                <img :src="`/assets/items/bag.png`" />
+            </div>
+            <div class="info">
+                <div>
+                    Transfer
+                    <input
+                        class="toSend"
+                        type="number"
+                        min="500000"
+                        :max="userStore.user?.beans || 0"
+                        v-model="beansToSend"
+                    />
+                    beans to
+                    <input
+                        type="text"
+                        placeholder="Recipient's Username"
+                        v-model="recipient"
+                    />
+                </div>
+                <div class="helper">
+                    Comma Helper: {{ addCommas(beansToSend) }} BEANS
+                </div>
+                <div class="msg">
+                    Message:
+                    <input
+                        v-model="message"
+                        placeholder="Message"
+                        maxlength="20"
+                    />
+                </div>
+            </div>
+            <button v-if="userStore.user?.debt" disabled>IN DEBT</button>
+            <button v-else @click="sendBeans" :disabled="!isValid()">
+                TRANSFER
+            </button>
         </div>
-        <div class="info">
-            <div>
-                Transfer
-                <input class="toSend" type="number" v-model="beansToSend" />
-                beans to
-                <input
-                    type="text"
-                    placeholder="Recipient's Username"
-                    v-model="recipient"
-                />
-            </div>
-            <div class="helper">
-                Comma Helper: {{ addCommas(beansToSend) }} BEANS
-            </div>
-            <div class="msg">
-                Message:
-                <input v-model="message" placeholder="Message" maxlength="20" />
-            </div>
-        </div>
-        <button @click="sendBeans">TRANSFER</button>
+        <div style="text-align: right">{{ feedback }}</div>
     </div>
 </template>
 
@@ -90,6 +138,10 @@ function sendBeans() {
         font-weight: bold;
         font-size: 1.1rem;
         cursor: pointer;
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     }
 }
 
