@@ -13,7 +13,7 @@ onMounted(() => {
 <template>
     <div class="ad">
         <div class="header">
-            <span>SPONSORED CONTENT FUNDS SODA ENJOYER SEED FUND</span>
+            <span>SPONSORED CONTENT HELPS SUPPORT THE SODA ENJOYER SEED FUND</span>
         </div>
         <img :src="`/assets/popups/${random}.jpg`" />
     </div>
@@ -32,7 +32,7 @@ onMounted(() => {
             display: block;
             color: var(--themeColor);
             text-align: center;
-            font-size: 0.75em;
+            font-size: 0.6em;
             margin-bottom: 0.5em;
             &.close {
                 border-left: 1px solid var(--themeColor);
