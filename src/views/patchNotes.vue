@@ -3,6 +3,15 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/5/25</h2>
+        <ul>
+            <li>Add a max length of 50 to wager options</li>
+            <li>
+                Fixed bug where multi-line poll options wouldn't be fully filled
+                vertically
+            </li>
+            <li>Changed olive oil ad to be able bean oil</li>
+        </ul>
         <h2>3/3/25</h2>
         <ul>
             <li>Added ability to send Bean Bags</li>

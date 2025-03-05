@@ -279,7 +279,11 @@ const createPoll = async () => {
                 v-for="(option, index) in options"
                 :key="index"
             >
-                <input v-model="option.text" placeholder="Option text" />
+                <input
+                    v-model="option.text"
+                    placeholder="Option text"
+                    maxlength="50"
+                />
                 <button
                     tabindex="-1"
                     @click="removeOption(index)"

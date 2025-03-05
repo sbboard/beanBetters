@@ -73,8 +73,11 @@ onUnmounted(() => {
         display: flex;
         align-items: center;
         background-color: transparent;
+        justify-content: space-between;
+        .title {
+            margin-left: 6px;
+        }
         > * {
-            position: absolute;
             font-weight: 600;
         }
     }
@@ -95,9 +98,9 @@ onUnmounted(() => {
                 font-weight: 600;
             }
         }
-    }
-    .title {
-        left: 6px;
+        .title {
+            left: 6px;
+        }
     }
     .percentage {
         right: 0px;

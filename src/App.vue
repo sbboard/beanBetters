@@ -233,6 +233,7 @@ table {
     margin-bottom: 10px;
     display: flex;
     cursor: pointer;
+    align-items: center;
     .selector {
         height: 20px;
         width: 20px;
