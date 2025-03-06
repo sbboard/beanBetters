@@ -5,6 +5,10 @@
         <h1>PATCH NOTES</h1>
         <h2>3/5/25</h2>
         <ul>
+            <li>
+                Add indicator when you have unclaimed bean bags in your
+                inventory
+            </li>
             <li>Add a max length of 50 to wager options</li>
             <li>
                 Fixed bug where multi-line poll options wouldn't be fully filled

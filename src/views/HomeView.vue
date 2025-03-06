@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import { useApiStore } from '@/stores/api';
+import { useUserStore } from '@/stores/user';
+import { computed } from 'vue';
 
 const apiStore = useApiStore();
+const userStore = useUserStore();
+
+const hasBeanBag = computed(() => {
+    return !!userStore.user?.inventory?.find(i => i.name === 'bean bag');
+});
 </script>
 
 <template>
@@ -13,10 +20,7 @@ const apiStore = useApiStore();
             </div>
             <div>
                 <!-- https://picasion.com/glitter-maker/ -->
-                <RouterLink
-                    class="betBtn"
-                    to="/bets"
-                    @mouseover="() => apiStore.fetchPolls()"
+                <RouterLink to="/bets" @mouseover="() => apiStore.fetchPolls()"
                     ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
                 <RouterLink to="/rules"
@@ -34,7 +38,15 @@ const apiStore = useApiStore();
                     <img src="/assets/exchange.gif" alt="BEAN EXCHANGE" />
                 </RouterLink>
                 <RouterLink to="/inventory">
-                    <img src="/assets/inventory.gif" alt="INVENTORY" />
+                    <img
+                        src="/assets/inventory.gif"
+                        style="width: calc(90% - 0.5em)"
+                        alt="INVENTORY"
+                        :class="{ hasBeanBag }"
+                    />
+                    <div v-if="hasBeanBag">
+                        <img src="/assets/items/bag.png" />
+                    </div>
                 </RouterLink>
                 <RouterLink to="/loan">
                     <img src="/assets/loans.gif" alt="PERSONAL LOANS" />
@@ -73,24 +85,38 @@ const apiStore = useApiStore();
             width: 700px;
             & > a {
                 min-width: 100%;
+                max-width: 100%;
                 display: block;
                 margin-bottom: 1em;
                 text-align: center;
-                &.betBtn {
-                    img {
-                        width: 100%;
-                    }
-                }
+                display: flex;
+                flex-direction: row;
                 &.patch {
-                    text-align: right;
+                    justify-content: end;
                     img {
                         min-width: auto;
+                        flex: 0;
                     }
                 }
                 & > img {
                     max-width: 100%;
-                    min-width: 100%;
+                    flex: 1;
                     image-rendering: pixelated;
+                }
+                & > div {
+                    height: 100%;
+                    aspect-ratio: 1 / 1;
+                    background: linear-gradient(180deg, #ffffdc, #bbfc00);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 100%;
+                    animation: blink 1s infinite;
+                    margin-left: 0.5em;
+                    img {
+                        max-width: 50%;
+                        image-rendering: pixelated;
+                    }
                 }
             }
         }
@@ -114,6 +140,21 @@ const apiStore = useApiStore();
                 margin-bottom: 1em;
             }
         }
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.5;
+    }
+    49% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
     }
 }
 </style>
