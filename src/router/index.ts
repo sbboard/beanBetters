@@ -10,6 +10,7 @@ import Rules from '@/views/RulesView.vue';
 import Inventory from '@/views/InventoryView.vue';
 import Loan from '@/views/LoanView.vue';
 import Store from '@/views/StoreView.vue';
+import Work from '@/views/JobView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,6 +69,11 @@ const router = createRouter({
             path: '/loan',
             name: 'loan',
             component: Loan,
+        },
+        {
+            path: '/work',
+            name: 'work',
+            component: Work,
         },
     ],
 });
