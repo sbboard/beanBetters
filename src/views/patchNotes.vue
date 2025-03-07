@@ -5,6 +5,7 @@
         <h1>PATCH NOTES</h1>
         <h2>3/7/25</h2>
         <ul>
+            <li>Fixed settle bet error</li>
             <li>Added hyperlink parsing in poll descriptions</li>
             <li>Updated bookie agreement</li>
         </ul>
