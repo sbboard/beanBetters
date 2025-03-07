@@ -24,7 +24,8 @@ const { addCommas } = useEconomy();
                 <p>
                     Bookies must have a valid Bookie License in order to create
                     wagers. Bookie Licenses can be purchased from the Bean
-                    Exchange.
+                    Exchange. Bookie Licenses are non-transferable and can only
+                    be used by the person who purchased them.
                 </p>
             </li>
             <li>
@@ -32,7 +33,8 @@ const { addCommas } = useEconomy();
                 <p>
                     Wagers must be clear and concise. No wagers that are
                     nonsensical or impossible to settle. No wagers where the
-                    betting options are not clear or cannot be determined.
+                    betting options are not clear or cannot be determined. No
+                    wagers that are impossible to settle.
                 </p>
             </li>
             <li>
@@ -46,27 +48,30 @@ const { addCommas } = useEconomy();
             </li>
             <li>
                 <strong
-                    >NO WAGERS WITH OBVIOUS OR CLEAR ANSWERS AT TIME OF
-                    CREATION</strong
+                    >NO WAGERS WITH CLEAR ANSWERS AT TIME OF CREATION</strong
                 >
                 <p>
                     Wagers must not have an obvious or clear answer at the time
                     of creation. Wagers must be based on future events or
-                    outcomes that are not yet known.
+                    outcomes that are not yet known. Wagers must be based on
+                    events that are not yet determined.
                 </p>
             </li>
             <li>
-                <strong>NO DOUBLE BETTING WITH MULTIPLE ACCOUNTS</strong>
+                <strong>NO DOUBLE BETTING</strong>
                 <p>
                     Bookies may not create wagers and then bet on them with
                     multiple accounts. One account per person.
                 </p>
             </li>
             <li>
-                <strong>WINNING OPTION MUST BE THE CORRECT OPTION</strong>
+                <strong>NO FALSE WITNESS</strong>
                 <p>
                     The winning option chosen at time of wager settlement must
-                    be the correct, factual option.
+                    be the correct, factual option. Bookies may not settle
+                    wagers with false information. If a wager's outcome is
+                    disputed the bookie must provide evidence to support their
+                    claim.
                 </p>
             </li>
             <li>
@@ -77,6 +82,35 @@ const { addCommas } = useEconomy();
                     rule extends to all bettors, not just bookies. While
                     non-bookies cannot legally be penalized for breaking the
                     Bookie Agreement there is great shame in doing so.
+                </p>
+            </li>
+            <li>
+                <strong>NO META WAGERS</strong>
+                <p>
+                    Wagers may NOT be made about the outcome of other wagers.
+                    This is to avoid the creation a game within a game, which is
+                    hedonistic. No wagers about the site itself. This is to
+                    avoid the creation of a game about a game, which is also
+                    hedonistic.
+                </p>
+            </li>
+            <li>
+                <strong
+                    >NO WAGERS WHERE OUTCOME IS DETERMINED BY BETTORS</strong
+                >
+                <p>
+                    Wagers can not be about the actions of bettors. Wagers must
+                    be about factors outside of the control of bettors and
+                    bookies.
+                </p>
+            </li>
+            <li>
+                <strong>RESPONSIBILITY OF ASSURING A PURE OUTCOME</strong>
+                <p>
+                    Bookies are responsible for assuring the outcome of a wager
+                    is as pure as possible. This means that bookies must take
+                    all necessary steps to ensure the outcome of a wager is not
+                    influenced by outside forces.
                 </p>
             </li>
         </ol>
@@ -211,6 +245,8 @@ const { addCommas } = useEconomy();
     strong {
         font-weight: bold;
         text-decoration: underline;
+        margin-bottom: 0.25em;
+        display: block;
     }
     h2 {
         color: white;
