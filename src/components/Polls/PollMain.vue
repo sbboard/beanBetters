@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/user';
 import { useApiStore } from '@/stores/api';
 import axios from 'axios';
 import { useEconomy } from '@/composables/useEconomy';
+import PollDescription from './PollDescription.vue';
 
 const { pollId } = defineProps<{ pollId: string }>();
 const { addCommas } = useEconomy();
@@ -206,9 +207,7 @@ onMounted(async () => {
                     >
                 </div>
             </div>
-            <span class="description">
-                <pre>{{ pollRef.description }}</pre>
-            </span>
+            <PollDescription :description="pollRef.description" />
         </div>
         <div class="main">
             <div
@@ -458,9 +457,6 @@ onMounted(async () => {
                 text-align: right;
             }
         }
-    }
-    pre {
-        text-wrap: auto;
     }
 }
 </style>
