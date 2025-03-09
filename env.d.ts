@@ -44,7 +44,6 @@ interface User {
     beans: number;
     contentType: 'user';
     debt?: number;
-    displayName?: string;
     inventory?: InventoryItem[];
     name: string;
     role?: string;

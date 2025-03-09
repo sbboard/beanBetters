@@ -207,7 +207,7 @@ const createPoll = async () => {
             <label for="title">Title</label>
             <input v-model="title" placeholder="Title" />
 
-            <label for="description">Rules</label>
+            <label for="description">Additional Information</label>
             <p>
                 Describe the bet in detail. Expect your bettors to be idiots and
                 be as clear as possible. They WILL misinterpret your bet.

@@ -3,6 +3,13 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/9/25</h2>
+        <ul>
+            <li>
+                Renamed "Rules" field to "Additional Information" on wager creation
+                page
+            </li>
+        </ul>
         <h2>3/7/25</h2>
         <ul>
             <li>Fixed settle bet error</li>
