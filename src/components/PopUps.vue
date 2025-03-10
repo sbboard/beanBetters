@@ -2,7 +2,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-const getNumber = () => Math.floor(Math.random() * 10) + 1;
+const NUMBER_OF_IMAGES = 11;
+const getNumber = () => Math.floor(Math.random() * NUMBER_OF_IMAGES) + 1;
 const random = ref(getNumber());
 
 onMounted(() => {
@@ -13,7 +14,10 @@ onMounted(() => {
 <template>
     <div class="ad">
         <div class="header">
-            <span>SPONSORED CONTENT HELPS SUPPORT THE SODA ENJOYER SEED FUND</span>
+            <span
+                >SPONSORED CONTENT HELPS SUPPORT THE SODA ENJOYER SEED
+                FUND</span
+            >
         </div>
         <img :src="`/assets/popups/${random}.jpg`" />
     </div>
