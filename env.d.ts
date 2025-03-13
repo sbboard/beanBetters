@@ -50,4 +50,6 @@ interface User {
     wins: string[];
     registrationDate?: Date;
     lastIP?: string;
+    notifications?: { text: string; date: Date; _id: string }[];
+    notificationsLastChecked?: Date;
 }

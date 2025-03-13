@@ -7,6 +7,15 @@ import { computed } from 'vue';
 const apiStore = useApiStore();
 const userStore = useUserStore();
 
+const unreadNotifications = computed(() => {
+    const { notifications, notificationsLastChecked } = userStore.user || {};
+    if (!notificationsLastChecked) return notifications?.length || 0;
+    return (
+        notifications?.filter(n => n.date > notificationsLastChecked).length ||
+        0
+    );
+});
+
 const hasBeanBag = computed(() => {
     return !!userStore.user?.inventory?.find(i => i.name === 'bean bag');
 });
@@ -23,6 +32,18 @@ const hasBeanBag = computed(() => {
                 <RouterLink to="/bets" @mouseover="() => apiStore.fetchPolls()"
                     ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
+                <RouterLink to="/notifications"
+                    ><img
+                        style="height: 40px"
+                        src="/assets/notif.gif"
+                        alt="NOTIFICATIONS"
+                    />
+                    <div v-if="unreadNotifications > 0">
+                        <span>{{
+                            unreadNotifications > 9 ? '9+' : unreadNotifications
+                        }}</span>
+                    </div></RouterLink
+                >
                 <RouterLink to="/rules"
                     ><img src="/assets/agree.gif" alt="BOOKIE AGREEMENT"
                 /></RouterLink>
@@ -116,6 +137,11 @@ const hasBeanBag = computed(() => {
                     img {
                         max-width: 50%;
                         image-rendering: pixelated;
+                    }
+                    span {
+                        font-size: 1.5em;
+                        font-weight: bold;
+                        color: black;
                     }
                 }
             }

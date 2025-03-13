@@ -38,6 +38,12 @@ onMounted(async () => {
                     <div>
                         Happy betting,
                         <strong
+                            @click="
+                                () =>
+                                    userStore.user?.role === 'admin'
+                                        ? $router.push('/admin')
+                                        : null
+                            "
                             >{{ userStore.user?.role }}
                             {{ userStore.user?.name }}</strong
                         ><br />

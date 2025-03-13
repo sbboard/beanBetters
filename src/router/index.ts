@@ -10,6 +10,8 @@ import Rules from '@/views/RulesView.vue';
 import Inventory from '@/views/InventoryView.vue';
 import Loan from '@/views/LoanView.vue';
 import Store from '@/views/StoreView.vue';
+import AdminView from '@/views/AdminView.vue';
+import NotificationView from '@/views/NotificationView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,6 +70,16 @@ const router = createRouter({
             path: '/loan',
             name: 'loan',
             component: Loan,
+        },
+        {
+            path: '/notifications',
+            name: 'notifications',
+            component: NotificationView,
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: AdminView,
         },
     ],
 });
