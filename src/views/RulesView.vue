@@ -9,10 +9,7 @@ const { addCommas } = useEconomy();
         <h1>BOOKIE AGREEMENT</h1>
         <p>
             If you decide to become a bookie and create wagers, you must agree
-            to the rules and guidelines set forth in this agreement. Note a
-            bookie is defined as a person who has created a wager. Regardless of
-            whether the bookie currently has a Bookie License, if they have ever
-            created a wager they are forever considered a bookie.
+            to the rules and guidelines set forth in this agreement.
         </p>
         <hr />
         <h2>BOOKIE RULES & GUIDELINES</h2>
@@ -126,7 +123,9 @@ const { addCommas } = useEconomy();
                     All wager's outcomes must be provable at any time to any
                     user of the site. If a wager's outcome can not be checked by
                     a simple Google search or a record of the outcome, it is not
-                    a valid wager.
+                    a valid wager. The only exception to this rule is if the
+                    bookie livestreams the event in question to a group of at
+                    least 5 bettors.
                 </p>
             </li>
         </ol>
@@ -227,6 +226,15 @@ const { addCommas } = useEconomy();
                     These rules are subject to change at any time. It is the
                     responsibility of the creator to stay up to date on the
                     rules and guidelines.
+                </p>
+            </li>
+            <li>
+                <strong>DEFINITION OF A BOOKIE</strong>
+                <p>
+                    A bookie is defined as a person who has created a wager.
+                    Regardless of whether the bookie currently has a Bookie
+                    License, if they have ever created a wager they are forever
+                    considered a bookie. Bookies are still considered bettors.
                 </p>
             </li>
             <li>
