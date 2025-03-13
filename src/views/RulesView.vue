@@ -9,7 +9,10 @@ const { addCommas } = useEconomy();
         <h1>BOOKIE AGREEMENT</h1>
         <p>
             If you decide to become a bookie and create wagers, you must agree
-            to the rules and guidelines set forth in this agreement.
+            to the rules and guidelines set forth in this agreement. Note a
+            bookie is defined as a person who has created a wager. Regardless of
+            whether the bookie currently has a Bookie License, if they have ever
+            created a wager they are forever considered a bookie.
         </p>
         <hr />
         <h2>BOOKIE RULES & GUIDELINES</h2>
@@ -20,7 +23,7 @@ const { addCommas } = useEconomy();
 
         <ol>
             <li>
-                <strong>LICENSE REQUIREMENT</strong>
+                <strong id="1">LICENSE REQUIREMENT</strong>
                 <p>
                     Bookies must have a valid Bookie License in order to create
                     wagers. Bookie Licenses can be purchased from the Bean
@@ -29,7 +32,7 @@ const { addCommas } = useEconomy();
                 </p>
             </li>
             <li>
-                <strong>NO NONSENSICAL WAGERS.</strong>
+                <strong id="2">NO NONSENSICAL WAGERS</strong>
                 <p>
                     Wagers must be clear and concise. No wagers that are
                     nonsensical or impossible to settle. No wagers where the
@@ -38,7 +41,7 @@ const { addCommas } = useEconomy();
                 </p>
             </li>
             <li>
-                <strong>NO BET MANIPULATION.</strong>
+                <strong id="3">NO BET MANIPULATION</strong>
                 <p>
                     Wagers must be honest and fair. No wagers that are intended
                     to manipulate the outcome or deceive bettors. No wagers may
@@ -47,7 +50,7 @@ const { addCommas } = useEconomy();
                 </p>
             </li>
             <li>
-                <strong
+                <strong id="4"
                     >NO WAGERS WITH CLEAR ANSWERS AT TIME OF CREATION</strong
                 >
                 <p>
@@ -58,14 +61,7 @@ const { addCommas } = useEconomy();
                 </p>
             </li>
             <li>
-                <strong>NO DOUBLE BETTING</strong>
-                <p>
-                    Bookies may not create wagers and then bet on them with
-                    multiple accounts. One account per person.
-                </p>
-            </li>
-            <li>
-                <strong>NO FALSE WITNESS</strong>
+                <strong id="5">NO FALSE WITNESS</strong>
                 <p>
                     The winning option chosen at time of wager settlement must
                     be the correct, factual option. Bookies may not settle
@@ -75,7 +71,7 @@ const { addCommas } = useEconomy();
                 </p>
             </li>
             <li>
-                <strong>NO ATTEMPTING TO INFLUENCE OUTCOMES</strong>
+                <strong id="6">NO ATTEMPTING TO INFLUENCE OUTCOMES</strong>
                 <p>
                     Bookies may not attempt to influence the outcome of a wager
                     in any way. Bookies must remain neutral and unbiased. This
@@ -85,7 +81,7 @@ const { addCommas } = useEconomy();
                 </p>
             </li>
             <li>
-                <strong>NO META WAGERS</strong>
+                <strong id="7">NO META WAGERS</strong>
                 <p>
                     Wagers may NOT be made about the outcome of other wagers.
                     This is to avoid the creation a game within a game, which is
@@ -95,22 +91,42 @@ const { addCommas } = useEconomy();
                 </p>
             </li>
             <li>
-                <strong
+                <strong id="8"
                     >NO WAGERS WHERE OUTCOME IS DETERMINED BY BETTORS</strong
                 >
                 <p>
-                    Wagers can not be about the actions of bettors. Wagers must
-                    be about factors outside of the control of bettors and
-                    bookies.
+                    Wagers can not be about the actions of bettors or bookies.
+                    Wagers must be about factors outside of the control of
+                    bettors and bookies. If the outcome cannot be guarenteed to
+                    be completely out of the control of bettors and bookies, it
+                    is not a valid wager.
                 </p>
             </li>
             <li>
-                <strong>RESPONSIBILITY OF ASSURING A PURE OUTCOME</strong>
+                <strong id="9"
+                    >RESPONSIBILITY OF ASSURING A PURE OUTCOME</strong
+                >
                 <p>
                     Bookies are responsible for assuring the outcome of a wager
                     is as pure as possible. This means that bookies must take
                     all necessary steps to ensure the outcome of a wager is not
                     influenced by outside forces.
+                </p>
+            </li>
+            <li>
+                <strong id="10">NO BLACK MARKET BETTING</strong>
+                <p>
+                    All wagers on this site are subject to the rules set forth
+                    in this agreement. NO EXCEPTIONS.
+                </p>
+            </li>
+            <li>
+                <strong id="11">RESPONSIBILITY OF PROOF</strong>
+                <p>
+                    All wager's outcomes must be provable at any time to any
+                    user of the site. If a wager's outcome can not be checked by
+                    a simple Google search or a record of the outcome, it is not
+                    a valid wager.
                 </p>
             </li>
         </ol>
@@ -221,6 +237,14 @@ const { addCommas } = useEconomy();
                     the spirit of it. However, only bookies are held to the
                     letter of the law and are subject to punishment for
                     violations.
+                </p>
+            </li>
+
+            <li>
+                <strong>ACCOMPLICE LIABILITY</strong>
+                <p>
+                    Bookies found to be accomplices in helping someone else
+                    break the Bookie Agreement are subject to equal punishment.
                 </p>
             </li>
         </ol>
