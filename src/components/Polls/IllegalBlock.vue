@@ -63,9 +63,9 @@ const parseMessage = (numbers: number[]): string => {
         font-size: 1.5em;
     }
     .laws {
-        margin-top: .25em;
+        margin-top: 0.25em;
         color: white;
-        padding-bottom: 3em;
+        padding-bottom: 1em;
     }
 }
 </style>

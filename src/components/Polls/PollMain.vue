@@ -158,6 +158,14 @@ const potentialPayout = computed(() => {
     return addCommas(Math.floor(payout));
 });
 
+const settleCopy = computed(() => {
+    if (!pollRef.value) return '';
+    if(pollRef.value.legalStatus?.isLegal === false) return 'SHUT DOWN';
+    if (!isPastExpiration.value) return 'BET DEADLINE';
+    if (!pollRef.value.winner) return 'SETTLE DATE';
+    return 'SETTLED';
+});
+
 onMounted(async () => {
     if (!userId) return;
     pollRef.value?.options.forEach(option => {
@@ -189,13 +197,7 @@ onMounted(async () => {
                 </div>
                 <div class="right">
                     <span
-                        ><strong>{{
-                            !isPastExpiration
-                                ? `BET DEADLINE`
-                                : !pollRef.winner
-                                ? `SETTLE DATE`
-                                : `SETTLED`
-                        }}</strong>
+                        ><strong>{{ settleCopy }}</strong>
                         {{
                             !isPastExpiration
                                 ? timeLeft

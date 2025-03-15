@@ -22,13 +22,18 @@ const openPolls = computed(() => {
 const unsettledPolls = computed(() => {
     if (!apiStore.polls.data) return [];
     return apiStore.polls.data.filter(
-        poll => !poll.winner && new Date(poll.endDate) <= new Date()
+        poll =>
+            !poll.winner &&
+            (!poll.legalStatus || poll.legalStatus?.isLegal) &&
+            new Date(poll.endDate) <= new Date()
     );
 });
 
 const completedPolls = computed(() => {
     if (!apiStore.polls.data) return [];
-    return apiStore.polls.data.filter(poll => poll.winner);
+    return apiStore.polls.data.filter(
+        poll => poll.winner || (poll.legalStatus && !poll.legalStatus.isLegal)
+    );
 });
 
 const filteredPolls = computed(() => {
