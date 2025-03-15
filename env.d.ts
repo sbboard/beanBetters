@@ -19,6 +19,10 @@ interface Poll {
     settleDate?: Date;
     title: string;
     winner: null | string;
+    legalStatus?: {
+        isLegal?: boolean
+        lawsBroken?: string[];
+    };
     _id: string;
 }
 

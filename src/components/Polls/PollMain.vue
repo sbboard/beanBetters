@@ -6,6 +6,7 @@ import { useApiStore } from '@/stores/api';
 import axios from 'axios';
 import { useEconomy } from '@/composables/useEconomy';
 import PollDescription from './PollDescription.vue';
+import IllegalBlock from './IllegalBlock.vue';
 
 const { pollId } = defineProps<{ pollId: string }>();
 const { addCommas } = useEconomy();
@@ -210,6 +211,9 @@ onMounted(async () => {
             <PollDescription :description="pollRef.description" />
         </div>
         <div class="main">
+            <IllegalBlock
+                v-if="pollRef.legalStatus && !pollRef.legalStatus.isLegal"
+            />
             <div
                 class="option"
                 v-for="pollOption in pollRef.options"
@@ -348,6 +352,7 @@ onMounted(async () => {
         padding: 10px;
         padding-top: 27px;
         border-bottom: 1px solid var(--themeColor);
+        position: relative;
     }
 
     hr {
