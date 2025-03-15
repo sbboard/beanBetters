@@ -3,6 +3,18 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/14/25</h2>
+        <ul>
+            <li>
+                I added notifications I think yesterday but I forgot to add it
+                to patch notes
+            </li>
+            <li>Added mass notification tool</li>
+            <li>Added tool for generating "house" invites</li>
+            <li>Prevent racketeers from buying bookie license</li>
+            <li>Added notifications for certain events</li>
+            <li>Added rule about private wagers</li>
+        </ul>
         <h2>3/12/25</h2>
         <ul>
             <li>

@@ -128,6 +128,20 @@ const { addCommas } = useEconomy();
                     least 5 bettors.
                 </p>
             </li>
+            <li>
+                <strong id="12">ALLOWANCE OF PRIVATE WAGERS</strong>
+                <p>
+                    Bookies are allowed to create private wagers where the rules
+                    / options are not public. However, bettors should be aware
+                    of the risks of participating in private wagers. These
+                    wagers are technically still subject to the rules of the
+                    Bookie Agreement, but enforcement is difficult due to their
+                    private nature. If a bookie gains a reputation for creating
+                    multiple unfair or rule breaking private wagers they may be
+                    subject to an investigation and possible punishment if
+                    enough evidence against them is found.
+                </p>
+            </li>
         </ol>
         <hr />
         <h2>BOOKIE BENEFITS</h2>

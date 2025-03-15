@@ -64,6 +64,13 @@ const isBuyDisabled = (item: InventoryItem) => {
     const { beans = 0, inventory = [], debt = 0 } = userStore.user || {};
     const itemPrice = ITEMS[item.name as keyof typeof ITEMS]?.price;
 
+    if (
+        item.name === 'bookie license' &&
+        userStore.user?.role === 'racketeer'
+    ) {
+        return true;
+    }
+
     return (
         beans < itemPrice ||
         inventory.some(invItem => invItem.name === item.name) ||
@@ -75,6 +82,12 @@ const buyCopy = (item: InventoryItem) => {
     const { beans = 0, inventory = [], debt = 0 } = userStore.user || {};
     const itemPrice = ITEMS[item.name as keyof typeof ITEMS]?.price;
 
+    if (
+        item.name === 'bookie license' &&
+        userStore.user?.role === 'racketeer'
+    ) {
+        return 'BANNED';
+    }
     if (inventory.some(invItem => invItem.name === item.name)) return 'OWNED';
     if (debt > 0 && item.name !== 'lotto') return 'IN DEBT';
     if (beans < itemPrice) return 'CANNOT AFFORD';
