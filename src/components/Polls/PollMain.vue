@@ -160,7 +160,7 @@ const potentialPayout = computed(() => {
 
 const settleCopy = computed(() => {
     if (!pollRef.value) return '';
-    if(pollRef.value.legalStatus?.isLegal === false) return 'SHUT DOWN';
+    if (pollRef.value.legalStatus?.isLegal === false) return 'SHUT DOWN';
     if (!isPastExpiration.value) return 'BET DEADLINE';
     if (!pollRef.value.winner) return 'SETTLE DATE';
     return 'SETTLED';
@@ -215,6 +215,7 @@ onMounted(async () => {
         <div class="main">
             <IllegalBlock
                 v-if="pollRef.legalStatus && !pollRef.legalStatus.isLegal"
+                :lawsBroken="pollRef.legalStatus.lawsBroken || []"
             />
             <div
                 class="option"

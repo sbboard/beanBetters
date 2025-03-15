@@ -1,6 +1,8 @@
 <script setup lang="ts">
-const parseMessage = (numbers: number[]): string => {
-    // Convert numbers to Roman numerals
+const { lawsBroken } = defineProps<{ lawsBroken: string[] }>();
+
+const parseMessage = (numbers: string[]): string => {
+    const laws = numbers.map(law => parseInt(law));
     const toRoman = (num: number): string => {
         const romanMap: [number, string][] = [
             [1000, 'M'],
@@ -27,22 +29,21 @@ const parseMessage = (numbers: number[]): string => {
         return result;
     };
 
-    // Convert numbers to Roman numerals and create anchor tags
-    const romanizedLaws = numbers
+    const romanizedLaws = laws
         .map((num: number) => {
             const romanNumeral = toRoman(num);
-            return `<a href="/rules#${num}" class="law-link">${romanNumeral}</a>`; // Link each Roman numeral
+            return `<a href="/rules#${num}" class="law-link">${romanNumeral}</a>`;
         })
-        .join(', '); // Join the individual law links with commas
+        .join(', ');
 
-    return `Rules Broken: ${romanizedLaws}.`; // Keep the colon after "laws"
+    return `Rules Broken: ${romanizedLaws}.`;
 };
 </script>
 
 <template>
     <div class="illegal">
         <div>WAGER SHUT DOWN</div>
-        <div class="laws" v-html="parseMessage([3, 4])"></div>
+        <div class="laws" v-html="parseMessage(lawsBroken)"></div>
     </div>
 </template>
 
