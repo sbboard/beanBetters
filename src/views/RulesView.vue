@@ -111,7 +111,7 @@ const { addCommas } = useEconomy();
                 </p>
             </li>
             <li>
-                <strong id="10">NO BLACK MARKET BETTING</strong>
+                <strong id="10">NO "BLACK MARKET" BETTING</strong>
                 <p>
                     All wagers on this site are subject to the rules set forth
                     in this agreement. NO EXCEPTIONS.
@@ -136,10 +136,10 @@ const { addCommas } = useEconomy();
                     of the risks of participating in private wagers. These
                     wagers are technically still subject to the rules of the
                     Bookie Agreement, but enforcement is difficult due to their
-                    private nature. If a bookie gains a reputation for creating
-                    multiple unfair or rule breaking private wagers they may be
-                    subject to an investigation and possible punishment if
-                    enough evidence against them is found.
+                    private nature. If a bookie is rumored to have created an
+                    unfair, rug pulling, or rule breaking private wager they
+                    may be subject to an investigation and possible punishment
+                    if enough evidence against them is found.
                 </p>
             </li>
         </ol>
