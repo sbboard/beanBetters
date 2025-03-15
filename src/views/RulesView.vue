@@ -1,7 +1,24 @@
 <script lang="ts" setup>
 import { useEconomy } from '@/composables/useEconomy';
+import { nextTick, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const { addCommas } = useEconomy();
+
+const scrollToHash = async () => {
+    await nextTick(); // Wait for DOM to render before scrolling
+    if (route.hash) {
+        const targetElement = document.getElementById(route.hash.substring(1)); // Remove #
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                block: 'start',
+            });
+        }
+    }
+};
+
+onMounted(scrollToHash);
 </script>
 
 <template>
@@ -125,7 +142,9 @@ const { addCommas } = useEconomy();
                     a simple Google search or a record of the outcome, it is not
                     a valid wager. The only exception to this rule is if the
                     bookie livestreams the event in question to a group of at
-                    least 5 bettors.
+                    least 5 bettors. The livestream must be announced and
+                    scheduled in the additional information section of the
+                    wager.
                 </p>
             </li>
             <li>
@@ -137,9 +156,9 @@ const { addCommas } = useEconomy();
                     wagers are technically still subject to the rules of the
                     Bookie Agreement, but enforcement is difficult due to their
                     private nature. If a bookie is rumored to have created an
-                    unfair, rug pulling, or rule breaking private wager they
-                    may be subject to an investigation and possible punishment
-                    if enough evidence against them is found.
+                    unfair, rug pulling, or rule breaking private wager they may
+                    be subject to an investigation and possible punishment if
+                    enough evidence against them is found.
                 </p>
             </li>
         </ol>

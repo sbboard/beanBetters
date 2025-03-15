@@ -16,6 +16,16 @@ export const useApiStore = defineStore('api', () => {
         data: <number>0,
         lastFetch: 0,
     });
+
+    function resetAPIs() {
+        winners.value.data = [];
+        winners.value.lastFetch = 0;
+        polls.value.data = [];
+        polls.value.lastFetch = 0;
+        lottoAmt.value.data = 0;
+        lottoAmt.value.lastFetch = 0;
+    }
+
     const api = import.meta.env.VITE_API;
     const fetchWinners: () => Promise<void> = async () => {
         const now = Date.now();
@@ -79,5 +89,13 @@ export const useApiStore = defineStore('api', () => {
         }
     };
 
-    return { winners, polls, lottoAmt, fetchWinners, fetchPolls, fetchLotto };
+    return {
+        winners,
+        polls,
+        lottoAmt,
+        fetchWinners,
+        fetchPolls,
+        fetchLotto,
+        resetAPIs,
+    };
 });

@@ -8,6 +8,26 @@ const api = import.meta.env.VITE_API;
 const userStore = useUserStore();
 const houseInvites = ref([]);
 
+const illegalWagerId = ref('');
+const lawsBroken = ref('');
+
+const banWager = async () => {
+    if (!illegalWagerId.value || !lawsBroken.value) return;
+    try {
+        await axios.post(`${api}/admin/make-poll-illegal`, {
+            userId: userStore.user?._id,
+            userKey: userStore.key,
+            pollId: illegalWagerId.value,
+            lawsBroken: lawsBroken.value,
+        });
+        alert('Wager banned!');
+        illegalWagerId.value = '';
+        lawsBroken.value = '';
+    } catch (error) {
+        console.error('Error banning wager:', error);
+    }
+};
+
 const sendNotification = async () => {
     if (!message.value) return;
     try {
@@ -82,6 +102,14 @@ onMounted(() => {
         <button @click="generateHouseInvite">Generate House Invite</button>
         <hr />
         <h1>Ban Wager</h1>
+        <div>
+            <input v-model="illegalWagerId" placeholder="Enter wager ID..." />
+            <input
+                v-model="lawsBroken"
+                placeholder="Enter laws broken. Separate with commas."
+            />
+            <button @click="banWager">Ban Wager</button>
+        </div>
     </div>
 </template>
 

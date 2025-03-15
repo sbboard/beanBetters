@@ -3,6 +3,16 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/15/25</h2>
+        <ul>
+            <li>
+                Fixed bug where stored API responses weren't clearing after
+                logout
+            </li>
+            <li>Added formal penalties for illegal wagers</li>
+            <li>Added admin tool for banning wagers</li>
+            <li>Added styling for banned wagers</li>
+        </ul>
         <h2>3/14/25</h2>
         <ul>
             <li>
