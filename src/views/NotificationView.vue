@@ -3,6 +3,7 @@ import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import toRoman from '../utils/toRoman';
 
 const router = useRouter();
 
@@ -38,34 +39,6 @@ const formatDate = (date: string) => {
 // Parses links in notification messages
 const parseMessage = (message: string): string => {
     const lawRegex = /laws?:?\s*(\d+(?:,\s*\d+)*)\./gi; // Allow multiple numbers separated by commas
-
-    // Convert numbers to Roman numerals
-    const toRoman = (num: number): string => {
-        const romanMap: [number, string][] = [
-            [1000, 'M'],
-            [900, 'CM'],
-            [500, 'D'],
-            [400, 'CD'],
-            [100, 'C'],
-            [90, 'XC'],
-            [50, 'L'],
-            [40, 'XL'],
-            [10, 'X'],
-            [9, 'IX'],
-            [5, 'V'],
-            [4, 'IV'],
-            [1, 'I'],
-        ];
-        let result = '';
-        for (const [value, numeral] of romanMap) {
-            while (num >= value) {
-                result += numeral;
-                num -= value;
-            }
-        }
-        return result;
-    };
-
     // Replace law references with Vue Router links (using <a> with "to" for SPA navigation)
     return message.replace(lawRegex, (_, lawNumbers: string) => {
         const lawList: string[] = lawNumbers.split(',').map(num => num.trim()); // Split by comma and trim spaces

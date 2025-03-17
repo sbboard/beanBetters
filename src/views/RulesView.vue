@@ -29,7 +29,7 @@ onMounted(scrollToHash);
             to the rules and guidelines set forth in this agreement.
         </p>
         <hr />
-        <h2>BOOKIE RULES & GUIDELINES</h2>
+        <h2>WAGER RULES & GUIDELINES</h2>
         <p>
             In order to create wagers and maintain wager creation privileges,
             bookies must follow the following rules and guidelines:

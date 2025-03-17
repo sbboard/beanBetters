@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/16/25</h2>
+        <ul>
+            <li>Change 'BOOKIE RULES & GUIDELINES' to 'WAGER RULES & GUIDELINES'</li>
+            <li>Adjust styling for shut down wagers</li>
+        </ul>
         <h2>3/15/25</h2>
         <ul>
             <li>
