@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useEconomy } from '@/composables/useEconomy';
 import PollDescription from './PollDescription.vue';
 import IllegalBlock from './IllegalBlock.vue';
+import PollInfo from './PollInfo.vue';
 
 const { pollId } = defineProps<{ pollId: string }>();
 const { addCommas } = useEconomy();
@@ -58,22 +59,6 @@ const hasVoted = computed(() => {
         option.bettors.includes(userId || '')
     );
 });
-
-const timeLeft = computed(() => {
-    if (!pollRef.value) return '';
-    const now = new Date();
-    const end = new Date(pollRef.value.endDate);
-    const diff = end.getTime() - now.getTime();
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    return `${days}d ${hours}h ${minutes}m`;
-});
-
-const formatDate = (date: string) => {
-    const d = new Date(date);
-    return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-};
 
 const totalVotes = computed(() =>
     pollRef.value?.options.reduce(
@@ -158,14 +143,6 @@ const potentialPayout = computed(() => {
     return addCommas(Math.floor(payout));
 });
 
-const settleCopy = computed(() => {
-    if (!pollRef.value) return '';
-    if (pollRef.value.legalStatus?.isLegal === false) return 'SHUT DOWN';
-    if (!isPastExpiration.value) return 'BET DEADLINE';
-    if (!pollRef.value.winner) return 'SETTLE DATE';
-    return 'SETTLED';
-});
-
 onMounted(async () => {
     if (!userId) return;
     pollRef.value?.options.forEach(option => {
@@ -182,34 +159,11 @@ onMounted(async () => {
         v-if="pollRef"
         :class="{ hasVoted, hasWinner: pollRef?.winner }"
     >
-        <h1>{{ pollRef?.title }}</h1>
+        <h1>
+            {{ pollRef?.title }}
+        </h1>
         <div class="details">
-            <div>
-                <div>
-                    <span
-                        ><strong>BOOKIE:</strong>
-                        {{ pollRef.creatorName }}</span
-                    >
-                    <span
-                        ><strong>PPS:</strong>
-                        {{ addCommas(pollRef.pricePerShare) }} BEANS</span
-                    >
-                </div>
-                <div class="right">
-                    <span
-                        ><strong>{{ settleCopy }}</strong>
-                        {{
-                            !isPastExpiration
-                                ? timeLeft
-                                : formatDate(
-                                      pollRef.settleDate
-                                          ? pollRef.settleDate.toString()
-                                          : pollRef.endDate.toString()
-                                  )
-                        }}</span
-                    >
-                </div>
-            </div>
+            <PollInfo :poll="pollRef" />
             <PollDescription :description="pollRef.description" />
         </div>
         <div class="main">
@@ -302,6 +256,9 @@ onMounted(async () => {
                     >$$$ SETTLE BET $$$</RouterLink
                 >
             </div>
+            <span class="wid"
+                >WAGER IDENTIFICATION CODE {{ pollRef?._id }}</span
+            >
         </div>
     </div>
 </template>
@@ -322,20 +279,6 @@ onMounted(async () => {
         border-bottom: 1px solid var(--themeColor);
         font-size: 0.9em;
         word-wrap: break-word;
-        span {
-            display: block;
-        }
-        strong {
-            font-weight: bold;
-        }
-        & > div {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-        .right {
-            text-align: right;
-        }
     }
     & > div {
         display: block;
@@ -466,5 +409,13 @@ onMounted(async () => {
             }
         }
     }
+}
+
+span.wid {
+    display: block;
+    font-size: 0.5em;
+    margin-top: 0.5rem;
+    text-align: right;
+    color: var(--themeColor)
 }
 </style>

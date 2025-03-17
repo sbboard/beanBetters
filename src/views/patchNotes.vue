@@ -5,8 +5,17 @@
         <h1>PATCH NOTES</h1>
         <h2>3/16/25</h2>
         <ul>
-            <li>Change 'BOOKIE RULES & GUIDELINES' to 'WAGER RULES & GUIDELINES'</li>
+            <li>
+                Change 'BOOKIE RULES & GUIDELINES' to 'WAGER RULES & GUIDELINES'
+            </li>
             <li>Adjust styling for shut down wagers</li>
+            <li>increase maximum option amount to 15</li>
+            <li>Add wager identification code to wagers</li>
+            <li>Add notification for being taxed</li>
+            <li>
+                Fix new user notification not working due to default
+                notification settings
+            </li>
         </ul>
         <h2>3/15/25</h2>
         <ul>

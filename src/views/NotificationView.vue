@@ -9,8 +9,7 @@ const router = useRouter();
 
 // Intercept clicks on law links to use Vue Router navigation
 const handleClick = (event: MouseEvent) => {
-    const target = event.target as Element; // Explicitly cast to Element
-
+    const target = event.target as Element;
     if (target.matches('.law-link')) {
         event.preventDefault();
         const href = target.getAttribute('href');
@@ -36,19 +35,17 @@ const formatDate = (date: string) => {
     }/${d.getDate()}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
 };
 
-// Parses links in notification messages
 const parseMessage = (message: string): string => {
-    const lawRegex = /laws?:?\s*(\d+(?:,\s*\d+)*)\./gi; // Allow multiple numbers separated by commas
-    // Replace law references with Vue Router links (using <a> with "to" for SPA navigation)
+    const lawRegex = /laws?:?\s*(\d+(?:,\s*\d+)*)\./gi;
     return message.replace(lawRegex, (_, lawNumbers: string) => {
-        const lawList: string[] = lawNumbers.split(',').map(num => num.trim()); // Split by comma and trim spaces
+        const lawList: string[] = lawNumbers.split(',').map(num => num.trim());
         const romanizedLaws = lawList
             .map((num: string) => {
                 const romanNumeral = toRoman(parseInt(num, 10));
-                return `<a href="/rules#${num}" class="law-link">${romanNumeral}</a>`; // Link each Roman numeral
+                return `<a href="/rules#${num}" class="law-link">${romanNumeral}</a>`;
             })
-            .join(', '); // Join the individual law links with commas
-        return `laws: ${romanizedLaws}.`; // Keep the colon after "laws"
+            .join(', ');
+        return `laws: ${romanizedLaws}.`;
     });
 };
 
