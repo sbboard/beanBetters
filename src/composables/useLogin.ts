@@ -21,10 +21,10 @@ export async function checkBeanId(id: string, key: string) {
                 'Error fetching user info:',
                 error.response?.data || error.message
             );
-            return null;
+            return useLogout();
         }
         console.error('Unexpected error:', error);
-        return null;
+        return useLogout();
     }
 }
 

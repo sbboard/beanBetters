@@ -16,6 +16,10 @@
                 Fix new user notification not working due to default
                 notification settings
             </li>
+            <li>
+                Fixed bug where users weren't being logged out when localstorage
+                was incorrect
+            </li>
         </ul>
         <h2>3/15/25</h2>
         <ul>
