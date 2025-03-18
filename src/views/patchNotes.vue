@@ -3,6 +3,15 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/17/25</h2>
+        <ul>
+            <li>
+                Fixed styling issue where notification would appear large on
+                small width displays
+            </li>
+            <li>Added 10 Day Rule</li>
+            <li>Fixed mobile styling for notifications</li>
+        </ul>
         <h2>3/16/25</h2>
         <ul>
             <li>

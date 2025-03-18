@@ -161,6 +161,17 @@ onMounted(scrollToHash);
                     enough evidence against them is found.
                 </p>
             </li>
+            <li>
+                <strong id="13">10 Day Rule</strong>
+                <p>
+                    Bookies must settle wagers within the first 10 days of the
+                    wager's outcome coming to fruition. If a bookie fails to
+                    settle a wager within 10 days of the outcome being
+                    determined, they wager will either be claimed by The House
+                    if the outcome can be decided, or shut down if the outcome
+                    can not be determined.
+                </p>
+            </li>
         </ol>
         <hr />
         <h2>BOOKIE BENEFITS</h2>

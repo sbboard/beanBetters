@@ -32,9 +32,9 @@ const hasBeanBag = computed(() => {
                 <RouterLink to="/bets" @mouseover="() => apiStore.fetchPolls()"
                     ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
-                <RouterLink to="/notifications"
-                    ><img
-                        style="height: 40px"
+                <RouterLink to="/notifications" class="notif">
+                    <img
+                        style="width: calc(90% - 0.5em)"
                         src="/assets/notif.gif"
                         alt="NOTIFICATIONS"
                     />
@@ -42,8 +42,8 @@ const hasBeanBag = computed(() => {
                         <span>{{
                             unreadNotifications > 9 ? '9+' : unreadNotifications
                         }}</span>
-                    </div></RouterLink
-                >
+                    </div>
+                </RouterLink>
                 <RouterLink to="/rules"
                     ><img src="/assets/agree.gif" alt="BOOKIE AGREEMENT"
                 /></RouterLink>
@@ -63,7 +63,6 @@ const hasBeanBag = computed(() => {
                         src="/assets/inventory.gif"
                         style="width: calc(90% - 0.5em)"
                         alt="INVENTORY"
-                        :class="{ hasBeanBag }"
                     />
                     <div v-if="hasBeanBag">
                         <img src="/assets/items/bag.png" />
@@ -107,11 +106,11 @@ const hasBeanBag = computed(() => {
             & > a {
                 min-width: 100%;
                 max-width: 100%;
-                display: block;
                 margin-bottom: 1em;
                 text-align: center;
                 display: flex;
                 flex-direction: row;
+                align-items: center;
                 &.patch {
                     justify-content: end;
                     img {
@@ -151,6 +150,9 @@ const hasBeanBag = computed(() => {
             margin-right: 10px;
         }
     }
+    .notif {
+        max-height: 40px;
+    }
 }
 
 @media (max-width: 700px) {
@@ -164,6 +166,15 @@ const hasBeanBag = computed(() => {
                 width: 250px;
                 max-width: 100%;
                 margin-bottom: 1em;
+            }
+        }
+        .notif {
+            img {
+                width: 90%;
+            }
+            div {
+                width: auto;
+                min-width: 10%;
             }
         }
     }

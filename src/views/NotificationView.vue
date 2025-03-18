@@ -95,4 +95,10 @@ th {
 td {
     padding: 0.5em;
 }
+
+@media (max-width: 700px) {
+    .date {
+        width: initial;
+    }
+}
 </style>
