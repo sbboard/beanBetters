@@ -8,6 +8,7 @@ import { useEconomy } from '@/composables/useEconomy';
 import PollDescription from './PollDescription.vue';
 import IllegalBlock from './IllegalBlock.vue';
 import PollInfo from './PollInfo.vue';
+import BeanMath from './BeanMath.vue';
 
 const { pollId } = defineProps<{ pollId: string }>();
 const { addCommas } = useEconomy();
@@ -94,55 +95,6 @@ async function placeBet() {
     }
 }
 
-const selectedOptionData = computed(
-    () =>
-        pollRef.value?.options.find(
-            option => option._id === selectedOption.value
-        ) || null
-);
-
-const usersShares = computed(
-    () =>
-        selectedOptionData.value?.bettors.filter(bettor => bettor === userId)
-            .length ?? 0
-);
-
-const potentialPayout = computed(() => {
-    if (!pollRef.value) return 0;
-    let jackpot = pollRef.value?.pot || 0;
-    const bookieTax = jackpot * 0.05;
-    let payout = 0;
-
-    if (pollRef.value.creatorName === userStore.user?.name) {
-        payout = bookieTax;
-    }
-
-    //how many people voted for the winning option
-    const winningOption = pollRef.value.options.find(
-        option => option._id === pollRef.value?.winner
-    );
-    const totalWinningShares = winningOption?.bettors.length || 0;
-    if (totalVotes.value === totalWinningShares) {
-        payout = 0; //remove bookie tax if everyone voted for the same option
-        jackpot = totalWinningShares * pollRef.value.pricePerShare;
-    }
-
-    if (
-        !selectedOptionData.value ||
-        usersShares.value === 0 ||
-        (pollRef.value.winner &&
-            selectedOptionData.value._id !== pollRef.value.winner)
-    ) {
-        return addCommas(Math.floor(payout));
-    }
-
-    const totalSharesOfWinner = selectedOptionData.value.bettors.length;
-    const percentYouOwn = usersShares.value / totalSharesOfWinner;
-    payout += (jackpot - bookieTax) * percentYouOwn;
-
-    return addCommas(Math.floor(payout));
-});
-
 onMounted(async () => {
     if (!userId) return;
     pollRef.value?.options.forEach(option => {
@@ -198,24 +150,7 @@ onMounted(async () => {
                     :price-per-share="pollRef.pricePerShare"
                 />
             </div>
-            <div class="total seed">
-                SEED BEANS: {{ addCommas(pollRef.seed || 2000000) }}
-            </div>
-            <div class="total">TOTAL BEANS: {{ addCommas(pollRef.pot) }}</div>
-            <div v-if="usersShares > 0 || isOwner" class="position">
-                <div>
-                    <strong>POSITION: </strong>
-                    {{ addCommas(usersShares * pollRef.pricePerShare) }}
-                    BEANS
-                </div>
-                <div>
-                    <strong
-                        >{{
-                            pollRef.winner ? '' : 'POTENTIAL '
-                        }}PAYOUT: </strong
-                    >{{ potentialPayout }}
-                </div>
-            </div>
+            <BeanMath :pollRef :isOwner :totalVotes />
             <hr v-if="!isPastExpiration || (isOwner && isPastSettleDate)" />
             <div v-if="!isPastExpiration" class="betControls">
                 <div class="shares" v-if="pollRef.pricePerShare < beans">
@@ -282,16 +217,6 @@ onMounted(async () => {
     }
     & > div {
         display: block;
-    }
-
-    .total {
-        text-align: right;
-        font-size: 0.9em;
-        margin-top: 5px;
-        font-weight: 600;
-        &.seed {
-            color: var(--themeColor);
-        }
     }
 
     .main {
@@ -395,20 +320,6 @@ onMounted(async () => {
             border: 1px solid transparent;
         }
     }
-    .position {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.9em;
-        font-weight: bold;
-        margin-top: 1rem;
-        div {
-            margin-right: 0.5rem;
-            &:last-of-type {
-                margin-right: 0;
-                text-align: right;
-            }
-        }
-    }
 }
 
 span.wid {
@@ -416,6 +327,6 @@ span.wid {
     font-size: 0.5em;
     margin-top: 0.5rem;
     text-align: right;
-    color: var(--themeColor)
+    color: var(--themeColor);
 }
 </style>

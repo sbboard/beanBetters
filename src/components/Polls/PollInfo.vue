@@ -57,7 +57,7 @@ onMounted(async () => {
                 ><strong>{{
                     !poll.betPerWager || poll.betPerWager < 2
                         ? 'Single Bet'
-                        : 'Multi Bet: ' + poll.betPerWager
+                        : 'Multi-Bet: ' + poll.betPerWager
                 }}</strong></span
             >
         </div>
