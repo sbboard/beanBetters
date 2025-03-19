@@ -67,6 +67,7 @@ onMounted(async () => {
     });
 });
 </script>
+
 <template>
     <div class="total seed">
         SEED BEANS: {{ addCommas(pollRef.seed || 2000000) }}

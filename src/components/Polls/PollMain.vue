@@ -8,7 +8,7 @@ import { useEconomy } from '@/composables/useEconomy';
 import PollDescription from './PollDescription.vue';
 import IllegalBlock from './IllegalBlock.vue';
 import PollInfo from './PollInfo.vue';
-import BeanMath from './BeanMath.vue';
+import BeanTotals from './BeanTotals.vue';
 
 const { pollId } = defineProps<{ pollId: string }>();
 const { addCommas } = useEconomy();
@@ -24,7 +24,8 @@ const updatePoll = (poll: Poll) => {
     apiStore.polls.data?.splice(pollIndex, 1, poll);
 };
 
-const selectedOption = ref<string | null>(null);
+const selectedOption = ref<string | null>(null); // For single choice polls
+const selectedOptions = ref<string[]>([]); // For multiple choice polls
 const userStore = useUserStore();
 const userId = userStore.user?._id;
 const shares = ref(1);
@@ -61,14 +62,26 @@ const hasVoted = computed(() => {
     );
 });
 
-const totalVotes = computed(() =>
-    pollRef.value?.options.reduce(
-        (sum, option) => sum + option.bettors.length,
-        0
-    )
+const totalVotes = computed(
+    () =>
+        pollRef.value?.options.reduce(
+            (sum, option) => sum + option.bettors.length,
+            0
+        ) || 0
 );
 const selectOption = (id: string) => {
     if (hasVoted.value) return; // Prevent re-voting
+
+    const betLimit = pollRef.value?.betPerWager;
+    if (betLimit) {
+        selectedOptions.value = selectedOptions.value.includes(id)
+            ? selectedOptions.value.filter(option => option !== id)
+            : selectedOptions.value.length < betLimit
+            ? [...selectedOptions.value, id]
+            : selectedOptions.value;
+        return;
+    }
+
     selectedOption.value = selectedOption.value === id ? null : id;
 };
 
@@ -79,15 +92,21 @@ const getPercentage = (v: number) => {
 
 const api = import.meta.env.VITE_API;
 async function placeBet() {
-    if (!selectedOption.value) return;
+    if (!selectedOption.value || !selectedOptions.value.length) return;
+
+    const body = {
+        pollId: pollRef.value?._id,
+        optionId: undefined as string | undefined,
+        optionsArray: undefined as string[] | undefined,
+        userId,
+        shares: fixedShares.value,
+    };
+
+    if (pollRef.value?.betPerWager) body.optionsArray = selectedOptions.value;
+    else body.optionId = selectedOption.value;
 
     try {
-        const response = await axios.post(`${api}/polls/bet`, {
-            pollId: pollRef.value?._id,
-            optionId: selectedOption.value,
-            userId,
-            shares: fixedShares.value,
-        });
+        const response = await axios.post(`${api}/polls/bet`, body);
         userStore.updateBeanCount(response.data.newBeanAmt);
         updatePoll(response.data.poll);
     } catch (error) {
@@ -98,9 +117,12 @@ async function placeBet() {
 onMounted(async () => {
     if (!userId) return;
     pollRef.value?.options.forEach(option => {
-        if (option.bettors.includes(userId)) {
-            selectedOption.value = option._id;
+        if (!option.bettors.includes(userId)) return;
+        if (pollRef.value?.betPerWager) {
+            selectedOptions.value.push(option._id);
+            return;
         }
+        selectedOption.value = option._id;
     });
 });
 </script>
@@ -136,10 +158,18 @@ onMounted(async () => {
                 <div
                     class="selector"
                     :class="{
-                        selected: selectedOption === pollOption._id,
+                        selected:
+                            selectedOption === pollOption._id ||
+                            selectedOptions.includes(pollOption._id),
                     }"
                 >
-                    <span v-if="selectedOption === pollOption._id">🫘</span>
+                    <span
+                        v-if="
+                            selectedOption === pollOption._id ||
+                            selectedOptions.includes(pollOption._id)
+                        "
+                        >🫘</span
+                    >
                 </div>
                 <Bars
                     :key="totalVotes"
@@ -150,7 +180,7 @@ onMounted(async () => {
                     :price-per-share="pollRef.pricePerShare"
                 />
             </div>
-            <BeanMath :pollRef :isOwner :totalVotes />
+            <BeanTotals :pollRef :isOwner :totalVotes />
             <hr v-if="!isPastExpiration || (isOwner && isPastSettleDate)" />
             <div v-if="!isPastExpiration" class="betControls">
                 <div class="shares" v-if="pollRef.pricePerShare < beans">
@@ -165,7 +195,7 @@ onMounted(async () => {
                     />
                     SHARES
                 </div>
-                <div v-if="fixedShares < 1" class="betButton noBeans">
+                <div v-if="fixedShares < 1" class="betButton disabled">
                     NO SHARES SELECTED
                 </div>
                 <div
@@ -175,9 +205,23 @@ onMounted(async () => {
                     CANNOT AFFORD BET
                 </div>
                 <div
+                    v-else-if="
+                        pollRef.betPerWager &&
+                        pollRef.betPerWager > selectedOptions.length
+                    "
+                    class="betButton disabled"
+                >
+                    SELECT {{ pollRef.betPerWager - selectedOptions.length }}
+                    MORE OPTIONS
+                </div>
+                <div
                     v-else
                     class="betButton"
-                    :class="{ disabled: !selectedOption }"
+                    :class="{
+                        disabled:
+                            !selectedOption &&
+                            selectedOptions.length !== pollRef.betPerWager,
+                    }"
                     @click="placeBet"
                 >
                     BET
