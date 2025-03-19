@@ -21,6 +21,8 @@ const maxOptions = 15;
 const userStore = useUserStore();
 const apiStore = useApiStore();
 const settleDateRef: Ref<HTMLInputElement | null> = ref(null);
+const pollType = ref('single');
+const betPerWager = ref(2);
 
 watch(pricePerShare, () => {
     if (seed.value >= pricePerShare.value) return;
@@ -134,7 +136,10 @@ const isFormValid = computed(() => {
         isEndDateValid.value &&
         isSettleDateValid.value &&
         options.value.length >= 2 &&
-        options.value.every(option => option.text.trim() !== '') // No empty option
+        options.value.every(option => option.text.trim() !== '') && // No empty option
+        (pollType.value === 'single' || betPerWager.value >= 2) &&
+        (pollType.value === 'single' ||
+            betPerWager.value <= Math.floor(options.value.length / 2))
     );
 });
 
@@ -165,7 +170,12 @@ const createPoll = async () => {
             options: options.value,
             pricePerShare: pricePerShare.value,
             seed: seed.value,
+            betPerWager: undefined as number | undefined,
         };
+
+        if (pollType.value === 'multi') {
+            pollData.betPerWager = betPerWager.value;
+        }
 
         const response = await axios.post(`${api}/polls/create`, pollData);
         message.value = response.data.message;
@@ -300,6 +310,32 @@ const createPoll = async () => {
             >
                 + Add Option
             </button>
+
+            <label for="pollType">Poll Type</label>
+            <p>
+                Choose the type of poll you want to create.<br />Add at least 4
+                options for multi bet.
+            </p>
+            <select v-model="pollType">
+                <option value="single">Single</option>
+                <option v-if="options.length > 3" value="multi">
+                    Multi Bet
+                </option>
+            </select>
+
+            <template v-if="pollType === 'multi'">
+                <label for="betPerWager">Bets Per Wager</label>
+                <p>
+                    How many bets can be made per wager. Minimum 2. Maximum is
+                    half the amount of options.
+                </p>
+                <input
+                    type="number"
+                    v-model="betPerWager"
+                    :min="2"
+                    :max="Math.floor(options.length / 2)"
+                />
+            </template>
 
             <button
                 class="submit"

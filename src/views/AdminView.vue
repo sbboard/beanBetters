@@ -2,6 +2,7 @@
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import RefundWager from '@/components/Admin/RefundWager.vue';
 
 const message = ref('');
 const api = import.meta.env.VITE_API;
@@ -110,6 +111,8 @@ onMounted(() => {
             />
             <button @click="banWager">Ban Wager</button>
         </div>
+        <hr />
+        <RefundWager />
     </div>
 </template>
 

@@ -54,8 +54,11 @@ onMounted(async () => {
         <div>
             <span><strong>BOOKIE:</strong> {{ poll.creatorName }}</span>
             <span
-                ><strong>PPS:</strong>
-                {{ addCommas(poll.pricePerShare) }} BEANS</span
+                ><strong>{{
+                    !poll.betPerWager || poll.betPerWager < 2
+                        ? 'Single Bet'
+                        : 'Multi Bet: ' + poll.betPerWager
+                }}</strong></span
             >
         </div>
         <div class="right">
@@ -71,6 +74,10 @@ onMounted(async () => {
                           )
                 }}
             </span>
+            <span
+                ><strong>PPS:</strong>
+                {{ addCommas(poll.pricePerShare) }} BEANS</span
+            >
         </div>
     </div>
 </template>

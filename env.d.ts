@@ -20,10 +20,11 @@ interface Poll {
     title: string;
     winner: null | string;
     legalStatus?: {
-        isLegal?: boolean
+        isLegal?: boolean;
         lawsBroken?: string[];
     };
     _id: string;
+    betPerWager?: number;
 }
 
 interface ShopItem {
