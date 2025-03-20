@@ -1,70 +1,71 @@
 <script setup lang="ts">
 import { useEconomy } from '@/composables/useEconomy';
 import { useUserStore } from '@/stores/user';
-import { computed, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 
-const { pollRef, isOwner, totalVotes } = defineProps<{
+const { pollRef, isOwner } = defineProps<{
     pollRef: Poll;
     isOwner: boolean;
-    totalVotes: number;
 }>();
 
 const { addCommas } = useEconomy();
 const userStore = useUserStore();
 
-const userId = userStore.user?._id;
-const selectedOption = ref<string | null>(null);
+const selectedOptions = computed(() => {
+    if (!userStore.user || !userStore.user._id) return [];
+    return pollRef.options.filter(option =>
+        option.bettors.includes(userStore.user!._id)
+    );
+});
 
-const selectedOptionData = computed(
-    () =>
-        pollRef.options.find(option => option._id === selectedOption.value) ||
-        null
-);
-
-const usersShares = computed(
-    () =>
-        selectedOptionData.value?.bettors.filter(bettor => bettor === userId)
-            .length ?? 0
+const usersShares = computed(() =>
+    selectedOptions.value.reduce(
+        (shares, option) =>
+            shares +
+            option.bettors.filter(id => id === userStore.user?._id).length,
+        0
+    )
 );
 
 const potentialPayout = computed(() => {
-    if (!pollRef) return 0;
-    let jackpot = pollRef.pot || 0;
-    const bookieTax = jackpot * 0.05;
+    const userId = userStore.user?._id;
+    if (!pollRef || !userId) return 0;
+    const bookieTax = pollRef.pot * 0.05;
     let payout = 0;
 
     if (pollRef.creatorName === userStore.user?.name) payout = bookieTax;
 
-    //how many people voted for the winning option
-    const winningOption = pollRef.options.find(
-        option => option._id === pollRef.winner
+    const losingOptions = pollRef.options.filter(
+        option =>
+            (pollRef.winner && option._id !== pollRef.winner) ||
+            !option.bettors.includes(userId)
     );
-    const totalWinningShares = winningOption?.bettors.length || 0;
-    if (totalVotes === totalWinningShares) {
-        payout = 0; //remove bookie tax if everyone voted for the same option
-        jackpot = totalWinningShares * pollRef.pricePerShare;
-    }
+    const votedForLosingOption = losingOptions.some(option =>
+        option.bettors.includes(userId)
+    );
+    if (votedForLosingOption) return addCommas(Math.floor(payout));
 
-    if (
-        !selectedOptionData.value ||
-        usersShares.value === 0 ||
-        (pollRef.winner && selectedOptionData.value._id !== pollRef.winner)
-    ) {
-        return addCommas(Math.floor(payout));
-    }
+    //////////////////////////////////////////////////////////
+    //BELOW IS ASSUMING USER VOTED FOR WINNING OPTION
+    //////////////////////////////////////////////////////////
+    //payout += (pollRef.seed || 0) - bookieTax;
 
-    const totalSharesOfWinner = selectedOptionData.value.bettors.length;
-    const percentYouOwn = usersShares.value / totalSharesOfWinner;
-    payout += (jackpot - bookieTax) * percentYouOwn;
+    const lostBeans =
+        losingOptions.reduce(
+            (shares, option) => shares + option.bettors.length,
+            0
+        ) * pollRef.pricePerShare;
+
+    const totalSharesOfSelectedPolls = selectedOptions.value.reduce(
+        (shares, option) => shares + option.bettors.length,
+        0
+    );
+    let percentYouOwn = usersShares.value / totalSharesOfSelectedPolls;
+    if (pollRef.betPerWager) percentYouOwn = 1;
+
+    payout += (lostBeans + pollRef.seed! - bookieTax) * percentYouOwn;
 
     return addCommas(Math.floor(payout));
-});
-
-onMounted(async () => {
-    pollRef.options.forEach(option => {
-        if (!option.bettors.includes(userId!)) return;
-        selectedOption.value = option._id;
-    });
 });
 </script>
 
@@ -79,8 +80,15 @@ onMounted(async () => {
             {{ addCommas(usersShares * pollRef.pricePerShare) }}
             BEANS
         </div>
-        <div>
-            <strong>{{ pollRef.winner ? '' : 'POTENTIAL ' }}PAYOUT: </strong
+        <div v-if="!pollRef.winner || !pollRef.betPerWager">
+            <strong
+                >{{
+                    pollRef.winner
+                        ? ''
+                        : pollRef.betPerWager
+                        ? 'MAX '
+                        : 'POTENTIAL '
+                }}PAYOUT: </strong
             >{{ potentialPayout }}
         </div>
     </div>

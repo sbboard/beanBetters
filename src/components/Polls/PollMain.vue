@@ -98,7 +98,6 @@ const getPercentage = (v: number) => {
 
 const api = import.meta.env.VITE_API;
 async function placeBet() {
-    console.log(selectedOptions.value.length);
     if (!selectedOption.value && !selectedOptions.value.length) return;
 
     const body = {
@@ -187,7 +186,7 @@ onMounted(async () => {
                     :pollRef
                 />
             </div>
-            <BeanTotals :pollRef :isOwner :totalVotes />
+            <BeanTotals :pollRef :isOwner />
             <hr v-if="!isPastExpiration || (isOwner && isPastSettleDate)" />
             <div v-if="!isPastExpiration" class="betControls">
                 <div class="shares" v-if="pollRef.pricePerShare < beans">
