@@ -48,14 +48,6 @@ const potentialPayout = computed(() => {
     //////////////////////////////////////////////////////////
     //BELOW IS ASSUMING USER VOTED FOR WINNING OPTION
     //////////////////////////////////////////////////////////
-    //payout += (pollRef.seed || 0) - bookieTax;
-
-    const lostBeans =
-        losingOptions.reduce(
-            (shares, option) => shares + option.bettors.length,
-            0
-        ) * pollRef.pricePerShare;
-
     const totalSharesOfSelectedPolls = selectedOptions.value.reduce(
         (shares, option) => shares + option.bettors.length,
         0
@@ -63,7 +55,7 @@ const potentialPayout = computed(() => {
     let percentYouOwn = usersShares.value / totalSharesOfSelectedPolls;
     if (pollRef.betPerWager) percentYouOwn = 1;
 
-    payout += (lostBeans + pollRef.seed! - bookieTax) * percentYouOwn;
+    payout += (pollRef.pot - bookieTax) * percentYouOwn;
 
     return addCommas(Math.floor(payout));
 });
