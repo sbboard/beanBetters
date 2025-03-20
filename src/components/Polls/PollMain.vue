@@ -43,6 +43,12 @@ const isPastExpiration = computed(() => {
     return new Date() > new Date(pollRef.value.endDate);
 });
 
+const totalPrice = computed(() => {
+    if (!pollRef.value) return 0;
+    if (!pollRef.value.betPerWager) return pollRef.value.pricePerShare;
+    return (selectedOptions.value.length || 1) * pollRef.value.pricePerShare;
+});
+
 const isPastSettleDate = computed(() => {
     if (!pollRef.value) return false;
     return (
@@ -190,7 +196,7 @@ onMounted(async () => {
                         v-model.number="shares"
                         :min="1"
                         :value="fixedShares"
-                        :max="beans / pollRef.pricePerShare"
+                        :max="beans / totalPrice"
                         type="number"
                         step="1"
                     />
@@ -214,7 +220,7 @@ onMounted(async () => {
                     @click="placeBet"
                 >
                     BET
-                    {{ addCommas(fixedShares * pollRef.pricePerShare)
+                    {{ addCommas(fixedShares * totalPrice)
                     }}{{ hasVoted ? ' MORE' : '' }}
                     BEANS
                 </div>

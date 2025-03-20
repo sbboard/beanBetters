@@ -24,8 +24,7 @@ function calculateBars() {
 }
 
 const beanCopy = () => {
-    let beans = voters.length * pollRef.pricePerShare;
-    if (pollRef.betPerWager) beans = beans / pollRef.betPerWager;
+    const beans = voters.length * pollRef.pricePerShare;
     return `BEANS: ${addCommas(Math.floor(beans))}`;
 };
 
