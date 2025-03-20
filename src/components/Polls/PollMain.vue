@@ -92,7 +92,8 @@ const getPercentage = (v: number) => {
 
 const api = import.meta.env.VITE_API;
 async function placeBet() {
-    if (!selectedOption.value || !selectedOptions.value.length) return;
+    console.log(selectedOptions.value.length);
+    if (!selectedOption.value && !selectedOptions.value.length) return;
 
     const body = {
         pollId: pollRef.value?._id,
@@ -103,7 +104,7 @@ async function placeBet() {
     };
 
     if (pollRef.value?.betPerWager) body.optionsArray = selectedOptions.value;
-    else body.optionId = selectedOption.value;
+    else body.optionId = selectedOption.value!;
 
     try {
         const response = await axios.post(`${api}/polls/bet`, body);
@@ -177,7 +178,7 @@ onMounted(async () => {
                     :option="pollOption.text"
                     :voters="pollOption.bettors"
                     :is-winner="pollRef.winner === pollOption._id"
-                    :price-per-share="pollRef.pricePerShare"
+                    :pollRef
                 />
             </div>
             <BeanTotals :pollRef :isOwner :totalVotes />
@@ -205,22 +206,10 @@ onMounted(async () => {
                     CANNOT AFFORD BET
                 </div>
                 <div
-                    v-else-if="
-                        pollRef.betPerWager &&
-                        pollRef.betPerWager > selectedOptions.length
-                    "
-                    class="betButton disabled"
-                >
-                    SELECT {{ pollRef.betPerWager - selectedOptions.length }}
-                    MORE OPTIONS
-                </div>
-                <div
                     v-else
                     class="betButton"
                     :class="{
-                        disabled:
-                            !selectedOption &&
-                            selectedOptions.length !== pollRef.betPerWager,
+                        disabled: !selectedOption && !selectedOptions.length,
                     }"
                     @click="placeBet"
                 >

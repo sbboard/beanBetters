@@ -4,12 +4,12 @@ import { useEconomy } from '@/composables/useEconomy';
 
 const { addCommas } = useEconomy();
 
-const { percent, option, isWinner, pricePerShare, voters } = defineProps<{
+const { percent, option, isWinner, pollRef, voters } = defineProps<{
     percent: number;
     option: string;
     voters: string[];
     isWinner?: boolean;
-    pricePerShare: number;
+    pollRef: Poll;
 }>();
 
 const darkInnerWidth = ref(0);
@@ -24,8 +24,9 @@ function calculateBars() {
 }
 
 const beanCopy = () => {
-    const beans = voters.length * pricePerShare;
-    return `BEANS: ${addCommas(beans)}`;
+    let beans = voters.length * pollRef.pricePerShare;
+    if (pollRef.betPerWager) beans = beans / pollRef.betPerWager;
+    return `BEANS: ${addCommas(Math.floor(beans))}`;
 };
 
 onMounted(() => {
