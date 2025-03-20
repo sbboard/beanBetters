@@ -24,9 +24,25 @@ const settleDateRef: Ref<HTMLInputElement | null> = ref(null);
 const pollType = ref('single');
 const betPerWager = ref(2);
 
+const minimumSeed = computed(() => {
+    return (
+        pricePerShare.value *
+        (pollType.value === 'single' ? 1 : betPerWager.value)
+    );
+});
+
 watch(pricePerShare, () => {
     if (seed.value >= pricePerShare.value) return;
     seed.value = pricePerShare.value;
+});
+
+watch(pollType, () => {
+    if (pollType.value === 'single') seed.value = pricePerShare.value;
+    else seed.value = pricePerShare.value * betPerWager.value;
+});
+
+watch(betPerWager, () => {
+    seed.value = pricePerShare.value * betPerWager.value;
 });
 
 // **Validation for End Date**
@@ -264,24 +280,6 @@ const createPoll = async () => {
             />
             <p>Comma Helper: {{ addCommas(pricePerShare) }} BEANS</p>
 
-            <label for="pricePerShare">Bean Seed</label>
-            <p>
-                How many beans are put in initially.<br />You must have this
-                amount of beans in your account.<br />Will be matched by the
-                Soda Enjoyer Seed Grant.<br />Minimum 500,000 beans.
-            </p>
-            <input
-                type="number"
-                v-model="seed"
-                :min="pricePerShare"
-                :max="userStore.user?.beans || PRICE_OF_WAGER"
-                :value="seed"
-            />
-            <p>Comma Helper: {{ addCommas(seed) }} BEANS</p>
-            <p v-if="seed > (userStore.user?.beans || 0)">
-                You cannot afford this seed amount!
-            </p>
-
             <label for="options">Options</label>
             <p>Between 2 and 15</p>
             <div
@@ -336,6 +334,25 @@ const createPoll = async () => {
                     :max="Math.floor(options.length / 2)"
                 />
             </template>
+
+            <label for="beanSeed">Bean Seed</label>
+            <p>
+                How many beans are put in initially.<br />You must have this
+                amount of beans in your account.<br />Will be matched by the
+                Soda Enjoyer Seed Grant.<br />Minimum is same as price per
+                share, multiplied for each bets per wager.
+            </p>
+            <input
+                type="number"
+                v-model="seed"
+                :min="minimumSeed"
+                :max="userStore.user?.beans || PRICE_OF_WAGER"
+                :value="seed"
+            />
+            <p>Comma Helper: {{ addCommas(seed) }} BEANS</p>
+            <p v-if="seed > (userStore.user?.beans || 0)">
+                You cannot afford this seed amount!
+            </p>
 
             <button
                 class="submit"
