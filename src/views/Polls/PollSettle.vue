@@ -69,7 +69,6 @@ const settleBet = async () => {
     }
 };
 
-// Fetch poll on mount
 onMounted(() => fetchPoll());
 </script>
 
