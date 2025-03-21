@@ -3,6 +3,13 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/21/25</h2>
+        <ul>
+            <li>
+                Added multi-bet wagers (this is really complicated actually but
+                it works I hope)
+            </li>
+        </ul>
         <h2>3/17/25</h2>
         <ul>
             <li>
