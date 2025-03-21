@@ -30,30 +30,62 @@ const usersShares = computed(() =>
 const potentialPayout = computed(() => {
     const userId = userStore.user?._id;
     if (!pollRef || !userId) return 0;
+
     const bookieTax = pollRef.pot * 0.05;
-    let payout = 0;
+    let payout = pollRef.creatorName === userStore.user?.name ? bookieTax : 0;
 
-    if (pollRef.creatorName === userStore.user?.name) payout = bookieTax;
+    // Determine winning options (assume user's options win if no winner exists)
+    const assumedWinningOptions = pollRef.winner
+        ? [pollRef.winner]
+        : selectedOptions.value.map(option => option._id);
 
-    const losingOptions = pollRef.options.filter(
+    // Check if user bet on a losing option
+    const votedForLosingOption = pollRef.options.some(
         option =>
-            (pollRef.winner && option._id !== pollRef.winner) ||
-            !option.bettors.includes(userId)
-    );
-    const votedForLosingOption = losingOptions.some(option =>
-        option.bettors.includes(userId)
+            option.bettors.includes(userId) &&
+            !assumedWinningOptions.includes(option._id)
     );
     if (votedForLosingOption) return addCommas(Math.floor(payout));
 
-    //////////////////////////////////////////////////////////
-    //BELOW IS ASSUMING USER VOTED FOR WINNING OPTION
-    //////////////////////////////////////////////////////////
-    const totalSharesOfSelectedPolls = selectedOptions.value.reduce(
+    // User bet on the assumed winning option
+    const totalShares = selectedOptions.value.reduce(
         (shares, option) => shares + option.bettors.length,
         0
     );
-    let percentYouOwn = usersShares.value / totalSharesOfSelectedPolls;
-    if (pollRef.betPerWager) percentYouOwn = 1;
+    let percentYouOwn = usersShares.value / totalShares;
+
+    if (pollRef.betPerWager && pollRef.betPerWager > 1) {
+        const totalSharesPerBettor = new Map();
+
+        pollRef.options.forEach(option => {
+            option.bettors.forEach(id => {
+                totalSharesPerBettor.set(
+                    id,
+                    (totalSharesPerBettor.get(id) || 0) + 1
+                );
+            });
+        });
+
+        const winningSharesPerBettor = new Map();
+        totalSharesPerBettor.forEach((shares, id) => {
+            if (
+                pollRef.options.some(
+                    option =>
+                        assumedWinningOptions.includes(option._id) &&
+                        option.bettors.includes(id)
+                )
+            ) {
+                winningSharesPerBettor.set(id, shares);
+            }
+        });
+
+        const totalWinningShares = [...winningSharesPerBettor.values()].reduce(
+            (sum, shares) => sum + shares,
+            0
+        );
+        percentYouOwn =
+            (winningSharesPerBettor.get(userId) || 0) / totalWinningShares;
+    }
 
     payout += (pollRef.pot - bookieTax) * percentYouOwn;
 
@@ -73,14 +105,7 @@ const potentialPayout = computed(() => {
             BEANS
         </div>
         <div v-if="!pollRef.winner || !pollRef.betPerWager">
-            <strong
-                >{{
-                    pollRef.winner
-                        ? ''
-                        : pollRef.betPerWager
-                        ? 'MAX '
-                        : 'POTENTIAL '
-                }}PAYOUT: </strong
+            <strong>{{ pollRef.winner ? '' : 'POTENTIAL ' }}PAYOUT: </strong
             >{{ potentialPayout }}
         </div>
     </div>

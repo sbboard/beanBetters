@@ -174,6 +174,28 @@ onMounted(scrollToHash);
             </li>
         </ol>
         <hr />
+        <h2>BET TYPE RULES</h2>
+        <p>Bookies should be aware how winners of each bet type are decided.</p>
+        <ol>
+            <li>
+                <strong id="single">SINGLES</strong>
+                <p>
+                    Whoever bets on the winning option wins a share of the pot.
+                    Percentage of the pot won is determined by the amount of
+                    shares they own.
+                </p>
+            </li>
+            <li>
+                <strong id="multi">MULTI-BET</strong>
+                <p>
+                    Whoever bets on the most winning options without getting one
+                    wrong wins a share of the pot. If multiple bettors get the
+                    same amount of options correct, the pot is split evenly
+                    between them. An incorrect bet invalids the entire wager.
+                </p>
+            </li>
+        </ol>
+        <hr />
         <h2>BOOKIE BENEFITS</h2>
         <p style="margin-bottom: 1em">
             In return for following these rules, the following benefits are

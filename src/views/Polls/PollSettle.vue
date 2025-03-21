@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { useApiStore } from '@/stores/api';
@@ -8,6 +8,7 @@ import { useUserStore } from '@/stores/user';
 const api = import.meta.env.VITE_API;
 const poll = ref<Poll | null>(null);
 const selectedOption = ref<string | null>(null);
+const selectedOptions = ref<string[]>([]); // For multiple choice polls
 const apiStore = useApiStore();
 const userStore = useUserStore();
 
@@ -16,6 +17,12 @@ const router = useRouter();
 const pollId = route.params.id as string;
 
 const selectOption = (id: string) => {
+    if (poll.value?.betPerWager && poll.value.betPerWager > 1) {
+        selectedOptions.value = selectedOptions.value.includes(id)
+            ? selectedOptions.value.filter(option => option !== id)
+            : [...selectedOptions.value, id];
+        return;
+    }
     selectedOption.value = selectedOption.value === id ? null : id;
 };
 
@@ -31,13 +38,26 @@ const fetchPoll = async () => {
     }
 };
 
+const headerCopy = computed(() => {
+    if (poll.value?.betPerWager && poll.value.betPerWager > 1) {
+        return `SELECT ALL CORRECT OPTIONS`;
+    }
+    return `SELECT MOST CORRECT OPTION`;
+});
+
 // Settle the bet by marking the winner
 const settleBet = async () => {
-    if (!selectedOption.value) return;
+    if (!selectedOption.value || !selectedOptions.value.length) return;
+
     try {
         const response = await axios.post(`${api}/polls/set-winner`, {
             pollId,
-            optionId: selectedOption.value,
+            optionId: !selectedOptions.value.length
+                ? selectedOption.value
+                : null,
+            optionsArray: selectedOptions.value.length
+                ? selectedOptions.value
+                : null,
         });
         apiStore.fetchPolls(true);
         if (response.data.user) userStore.user = response.data.user;
@@ -61,7 +81,7 @@ onMounted(() => fetchPoll());
             <p>{{ poll.description }}</p>
             <hr />
             <div v-if="poll.options.length > 0">
-                <h4>Which was correct?</h4>
+                <h4>{{ headerCopy }}</h4>
                 <ul>
                     <div
                         class="option"
@@ -73,10 +93,16 @@ onMounted(() => fetchPoll());
                         <div
                             class="selector"
                             :class="{
-                                selected: selectedOption === pollOption._id,
+                                selected:
+                                    selectedOption === pollOption._id ||
+                                    selectedOptions.includes(pollOption._id),
                             }"
                         >
-                            <span v-if="selectedOption === pollOption._id"
+                            <span
+                                v-if="
+                                    selectedOption === pollOption._id ||
+                                    selectedOptions.includes(pollOption._id)
+                                "
                                 >🫘</span
                             >
                         </div>
@@ -89,9 +115,9 @@ onMounted(() => fetchPoll());
                 <button
                     class="submit"
                     @click="settleBet"
-                    :disabled="!selectedOption"
+                    :disabled="!selectedOption && !selectedOptions.length"
                 >
-                    Settle Bet
+                    SETTLE BET!
                 </button>
             </div>
         </div>

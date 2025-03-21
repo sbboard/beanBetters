@@ -54,11 +54,20 @@ onMounted(async () => {
         <div>
             <span><strong>BOOKIE:</strong> {{ poll.creatorName }}</span>
             <span
-                ><strong>{{
-                    !poll.betPerWager || poll.betPerWager < 2
-                        ? 'Single Bet'
-                        : 'Multi-Bet: ' + poll.betPerWager
-                }}</strong></span
+                ><strong
+                    ><RouterLink
+                        :to="`/rules#${
+                            !poll.betPerWager || poll.betPerWager < 2
+                                ? 'single'
+                                : 'multi'
+                        }`"
+                        >{{
+                            !poll.betPerWager || poll.betPerWager < 2
+                                ? 'SINGLES'
+                                : 'MULTI-BET x' + poll.betPerWager
+                        }}</RouterLink
+                    ></strong
+                ></span
             >
         </div>
         <div class="right">
