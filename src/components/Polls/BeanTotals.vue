@@ -34,6 +34,8 @@ const potentialPayout = computed(() => {
     const bookieTax = pollRef.pot * 0.05;
     let payout = pollRef.creatorName === userStore.user?.name ? bookieTax : 0;
 
+    if (!selectedOptions.value.length) return addCommas(Math.floor(payout));
+
     // Determine winning options (assume user's options win if no winner exists)
     const assumedWinningOptions = pollRef.winner
         ? [pollRef.winner]

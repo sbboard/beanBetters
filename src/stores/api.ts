@@ -3,6 +3,8 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import { useUserStore } from './user';
 
+const API_TIMEOUT = 1000 * 10;
+
 export const useApiStore = defineStore('api', () => {
     const winners = ref({
         data: <User[]>[],
@@ -31,7 +33,7 @@ export const useApiStore = defineStore('api', () => {
         const now = Date.now();
         if (
             winners.value.lastFetch &&
-            winners.value.lastFetch >= now - 1000 * 30
+            winners.value.lastFetch >= now - API_TIMEOUT
         ) {
             return;
         }
@@ -51,7 +53,7 @@ export const useApiStore = defineStore('api', () => {
         if (
             !force &&
             polls.value.lastFetch &&
-            polls.value.lastFetch >= now - 1000 * 30
+            polls.value.lastFetch >= now - API_TIMEOUT
         ) {
             return;
         }
@@ -74,7 +76,7 @@ export const useApiStore = defineStore('api', () => {
         if (
             !force &&
             lottoAmt.value.lastFetch &&
-            lottoAmt.value.lastFetch >= now - 1000 * 30
+            lottoAmt.value.lastFetch >= now - API_TIMEOUT
         ) {
             return;
         }

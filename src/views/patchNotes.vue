@@ -3,6 +3,22 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/22/25</h2>
+        <ul>
+            <li>
+                Fixed bug where bookie's payout wouldnt display correctly if
+                they hadn't bet on their own wager
+            </li>
+            <li>
+                Shortened min time between API calls from 30 seconds to 10
+                seconds
+            </li>
+            <li>
+                Fixed issue with default values adjusting and not adjusting when
+                editing a multi-bet
+            </li>
+            <li>Fixed potential payout math for multi-bets (I think)</li>
+        </ul>
         <h2>3/21/25</h2>
         <ul>
             <li>

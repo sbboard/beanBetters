@@ -37,13 +37,27 @@ watch(pricePerShare, () => {
 });
 
 watch(pollType, () => {
-    if (pollType.value === 'single') seed.value = pricePerShare.value;
-    else seed.value = pricePerShare.value * betPerWager.value;
+    if (pollType.value === 'single' && seed.value < pricePerShare.value) {
+        seed.value = pricePerShare.value;
+    } else if (seed.value < pricePerShare.value * betPerWager.value) {
+        seed.value = pricePerShare.value * betPerWager.value;
+    }
 });
 
 watch(betPerWager, () => {
+    if (pricePerShare.value * betPerWager.value < seed.value) return;
     seed.value = pricePerShare.value * betPerWager.value;
 });
+
+watch(
+    () => options.value.length,
+    () => {
+        if (pollType.value === 'single') return;
+        if (options.value.length < 4) return (pollType.value = 'single');
+        if (betPerWager.value <= Math.floor(options.value.length / 2)) return;
+        betPerWager.value = Math.floor(options.value.length / 2);
+    }
+);
 
 // **Validation for End Date**
 const isEndDateValid = computed(() => {
