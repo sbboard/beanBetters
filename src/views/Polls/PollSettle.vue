@@ -47,7 +47,7 @@ const headerCopy = computed(() => {
 
 // Settle the bet by marking the winner
 const settleBet = async () => {
-    if (!selectedOption.value || !selectedOptions.value.length) return;
+    if (!selectedOption.value && !selectedOptions.value.length) return;
 
     try {
         const response = await axios.post(`${api}/polls/set-winner`, {
