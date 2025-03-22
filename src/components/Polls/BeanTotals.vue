@@ -36,20 +36,19 @@ const potentialPayout = computed(() => {
 
     if (!selectedOptions.value.length) return addCommas(Math.floor(payout));
 
-    // Determine winning options (assume user's options win if no winner exists)
     const assumedWinningOptions = pollRef.winner
         ? [pollRef.winner]
         : selectedOptions.value.map(option => option._id);
 
-    // Check if user bet on a losing option
-    const votedForLosingOption = pollRef.options.some(
-        option =>
-            option.bettors.includes(userId) &&
-            !assumedWinningOptions.includes(option._id)
-    );
-    if (votedForLosingOption) return addCommas(Math.floor(payout));
+    const losingOptionIds = pollRef.options
+        .filter(opt => !assumedWinningOptions.includes(opt._id.toString()))
+        .map(opt => opt._id.toString());
+    const losingBettors = pollRef.options
+        .filter(opt => losingOptionIds.includes(opt._id.toString()))
+        .flatMap(opt => opt.bettors);
 
-    // User bet on the assumed winning option
+    if (losingBettors.includes(userId)) return addCommas(Math.floor(payout));
+
     const totalShares = selectedOptions.value.reduce(
         (shares, option) => shares + option.bettors.length,
         0
@@ -57,36 +56,40 @@ const potentialPayout = computed(() => {
     let percentYouOwn = usersShares.value / totalShares;
 
     if (pollRef.betPerWager && pollRef.betPerWager > 1) {
-        const totalSharesPerBettor = new Map();
-
-        pollRef.options.forEach(option => {
-            option.bettors.forEach(id => {
-                totalSharesPerBettor.set(
-                    id,
-                    (totalSharesPerBettor.get(id) || 0) + 1
-                );
-            });
-        });
-
-        const winningSharesPerBettor = new Map();
-        totalSharesPerBettor.forEach((shares, id) => {
-            if (
-                pollRef.options.some(
-                    option =>
-                        assumedWinningOptions.includes(option._id) &&
-                        option.bettors.includes(id)
-                )
-            ) {
-                winningSharesPerBettor.set(id, shares);
-            }
-        });
-
-        const totalWinningShares = [...winningSharesPerBettor.values()].reduce(
-            (sum, shares) => sum + shares,
-            0
+        const winningVoters = pollRef.options.filter(opt =>
+            assumedWinningOptions.includes(opt._id.toString())
         );
-        percentYouOwn =
-            (winningSharesPerBettor.get(userId) || 0) / totalWinningShares;
+
+        const winningVotersNoLosses = winningVoters.map(opt => {
+            return opt.bettors.filter(
+                bettor => !losingBettors.includes(bettor)
+            );
+        });
+
+        const winsPerWinner: Record<string, number> = {};
+        [...new Set(winningVotersNoLosses.flat())].forEach(winner => {
+            winsPerWinner[winner] = winningVotersNoLosses.filter(arr =>
+                arr.includes(winner)
+            ).length;
+        });
+
+        const winnersWithMostWins = winningVoters
+            .map(opt =>
+                opt.bettors.filter(bettor =>
+                    Object.keys(winsPerWinner)
+                        .filter(
+                            winner =>
+                                winsPerWinner[winner] ===
+                                Math.max(...Object.values(winsPerWinner))
+                        )
+                        .includes(bettor)
+                )
+            )
+            .flat();
+
+        percentYouOwn = winnersWithMostWins.includes(userId)
+            ? usersShares.value / winnersWithMostWins.length
+            : 0;
     }
 
     payout += (pollRef.pot - bookieTax) * percentYouOwn;
