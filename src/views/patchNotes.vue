@@ -3,6 +3,16 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/24/25</h2>
+        <ul>
+            <li>Added routines for logging top 10 users every night</li>
+            <li>
+                Added routines for cleaning out duplicate / invalid wins every
+                night
+            </li>
+            <li>Split old/new notifications</li>
+            <li>Change notification time display</li>
+        </ul>
         <h2>3/23/25</h2>
         <ul>
             <li>Increases max amount of options to 20</li>

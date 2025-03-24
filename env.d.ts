@@ -44,6 +44,12 @@ interface InventoryItem {
     specialPrice?: number;
 }
 
+interface Notification {
+    text: string;
+    date: Date;
+    _id: string;
+}
+
 interface User {
     _id: string;
     beans: number;
@@ -55,6 +61,6 @@ interface User {
     wins: string[];
     registrationDate?: Date;
     lastIP?: string;
-    notifications?: { text: string; date: Date; _id: string }[];
+    notifications?: Notification[];
     notificationsLastChecked?: Date;
 }
