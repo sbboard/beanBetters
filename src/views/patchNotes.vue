@@ -3,6 +3,17 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/23/25</h2>
+        <ul>
+            <li>Increases max amount of options to 20</li>
+            <li>
+                Fixed issue where bet deadline was right aligned on certain
+                screen sizes
+            </li>
+            <li>
+                Fixed issue where multi-bets were never declared unaffordable
+            </li>
+        </ul>
         <h2>3/22/25</h2>
         <ul>
             <li>

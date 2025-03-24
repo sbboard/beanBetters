@@ -205,7 +205,7 @@ onMounted(async () => {
                     NO SHARES SELECTED
                 </div>
                 <div
-                    v-else-if="beans < pollRef.pricePerShare * shares"
+                    v-else-if="beans < fixedShares * totalPrice"
                     class="betButton noBeans"
                 >
                     CANNOT AFFORD BET

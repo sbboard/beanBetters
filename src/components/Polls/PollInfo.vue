@@ -53,7 +53,7 @@ onMounted(async () => {
     <div class="pollInfo">
         <div>
             <span><strong>BOOKIE:</strong> {{ poll.creatorName }}</span>
-            <span
+            <span class="right"
                 ><strong
                     ><RouterLink
                         :to="`/rules#${
@@ -70,7 +70,7 @@ onMounted(async () => {
                 ></span
             >
         </div>
-        <div class="right">
+        <div>
             <span
                 ><strong>{{ settleCopy }}</strong>
                 {{
@@ -83,7 +83,7 @@ onMounted(async () => {
                           )
                 }}
             </span>
-            <span
+            <span class="right"
                 ><strong>PPS:</strong>
                 {{ addCommas(poll.pricePerShare) }} BEANS</span
             >

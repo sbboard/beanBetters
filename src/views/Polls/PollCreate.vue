@@ -17,7 +17,7 @@ const seed = ref(PRICE_OF_WAGER);
 const options = ref([{ text: '' }, { text: '' }]); // Start with 2 options
 const loading = ref(false);
 const message = ref('');
-const maxOptions = 15;
+const maxOptions = 20;
 const userStore = useUserStore();
 const apiStore = useApiStore();
 const settleDateRef: Ref<HTMLInputElement | null> = ref(null);
@@ -295,7 +295,7 @@ const createPoll = async () => {
             <p>Comma Helper: {{ addCommas(pricePerShare) }} BEANS</p>
 
             <label for="options">Options</label>
-            <p>Between 2 and 15</p>
+            <p>Between 2 and {{ maxOptions }}</p>
             <div
                 class="options"
                 v-for="(option, index) in options"
@@ -314,6 +314,7 @@ const createPoll = async () => {
                     ✖
                 </button>
             </div>
+            <p>Current amount of options: {{ options.length }}</p>
 
             <button
                 class="addOption"
