@@ -74,10 +74,10 @@ onMounted(() => fetchPoll());
 
 <template>
     <div class="settle-bet">
-        <h2>SETTLE THIS BET</h2>
+        <h2>SETTLE THIS WAGER</h2>
         <div v-if="poll">
             <h3>{{ poll.title }}</h3>
-            <p>{{ poll.description }}</p>
+            <p><pre>{{ poll.description }}</pre></p>
             <hr />
             <div v-if="poll.options.length > 0">
                 <h4>{{ headerCopy }}</h4>
@@ -130,7 +130,7 @@ onMounted(() => fetchPoll());
 
 <style lang="scss" scoped>
 .settle-bet {
-    width: 400px;
+    width: 600px;
     max-width: 100%;
     margin: 0 auto;
     & > * {
@@ -178,5 +178,9 @@ onMounted(() => fetchPoll());
 
 .option .selector {
     margin-right: 10px;
+}
+
+pre{
+    text-wrap: auto;
 }
 </style>

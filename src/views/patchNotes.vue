@@ -13,6 +13,14 @@
             <li>
                 Fixed issue where multi-bets were never declared unaffordable
             </li>
+            <li>
+                Fixed issue where descriptions weren't formatting correctly on
+                wager settlement page
+            </li>
+            <li>
+                Changed h1 on settlement page from "SETTLE THIS BET" to "SETTLE
+                THIS WAGER"
+            </li>
         </ul>
         <h2>3/22/25</h2>
         <ul>
