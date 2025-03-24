@@ -12,6 +12,7 @@
             </li>
             <li>Split old/new notifications</li>
             <li>Change notification time display</li>
+            <li>Fix spacing on home icons</li>
         </ul>
         <h2>3/23/25</h2>
         <ul>

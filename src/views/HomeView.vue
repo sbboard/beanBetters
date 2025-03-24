@@ -150,9 +150,6 @@ const hasBeanBag = computed(() => {
             margin-right: 10px;
         }
     }
-    .notif {
-        max-height: 40px;
-    }
 }
 
 @media (max-width: 700px) {
