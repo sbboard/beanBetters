@@ -77,7 +77,7 @@ onMounted(() => fetchPoll());
         <h2>SETTLE THIS WAGER</h2>
         <div v-if="poll">
             <h3>{{ poll.title }}</h3>
-            <p><pre>{{ poll.description }}</pre></p>
+            <pre>{{ poll.description }}</pre>
             <hr />
             <div v-if="poll.options.length > 0">
                 <h4>{{ headerCopy }}</h4>
@@ -180,7 +180,7 @@ onMounted(() => fetchPoll());
     margin-right: 10px;
 }
 
-pre{
+pre {
     text-wrap: auto;
 }
 </style>
