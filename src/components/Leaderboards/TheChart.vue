@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Line } from 'vue-chartjs';
-import type { ChartData } from 'chart.js';
+import type { ChartData, ChartOptions } from 'chart.js';
+import ranks from '@/utils/rankInfo';
 import {
     Chart as ChartJS,
     Title,
@@ -31,13 +32,7 @@ const filteredData = computed(() => {
     return apiStore.winners.chart.map(winner => {
         return {
             date: winner.date,
-            data: winner[sort.value].map((data, i) => {
-                const value = 'beans' in data ? data.beans : 10 - i;
-                return {
-                    value,
-                    name: data.name,
-                };
-            }),
+            names: winner[sort.value],
         };
     });
 });
@@ -50,9 +45,11 @@ const labels = filteredData.value
     .reverse();
 
 const randomHex = () => {
-    const hue = Math.floor(Math.random() * 360);
-    const lightness = Math.floor(Math.random() * 20) + 50;
-    return `hsl(${hue}, 100%, ${lightness}%)`;
+    const baseHue = 72;
+    const hueVariation = Math.floor(Math.random() * 50) - 25;
+    const saturation = Math.floor(Math.random() * 40) + 60;
+    const lightness = Math.floor(Math.random() * 40) + 40;
+    return `hsl(${baseHue + hueVariation}, ${saturation}%, ${lightness}%)`;
 };
 
 const data: ComputedRef<ChartData<'line'>> = computed(() => {
@@ -63,13 +60,12 @@ const data: ComputedRef<ChartData<'line'>> = computed(() => {
             data: (number | null)[];
             borderColor: string;
             backgroundColor: string;
-            fill: boolean;
         }[],
     };
 
     const names = computed(() => {
         return filteredData.value
-            .map(data => data.data.map(data => data.name))
+            .map(data => data.names)
             .flat()
             .filter((value, index, self) => self.indexOf(value) === index);
     });
@@ -80,13 +76,12 @@ const data: ComputedRef<ChartData<'line'>> = computed(() => {
             label: name,
             data: filteredData.value
                 .map(data => {
-                    const entry = data.data.find(data => data.name === name);
-                    return entry ? entry.value : -1;
+                    return data.names.indexOf(name) + 1 || 11;
                 })
                 .reverse(),
             borderColor: color,
             backgroundColor: color,
-            fill: false,
+            pointRadius: 5,
         };
         data.datasets.push(dataset);
     });
@@ -94,42 +89,71 @@ const data: ComputedRef<ChartData<'line'>> = computed(() => {
     return data;
 });
 
-const min = computed(() => {
-    if (sort.value === 'beans') {
-        const values = filteredData.value
-            .map(data => data.data.map(data => data.value))
-            .flat();
-        return Math.min(...values);
-    }
-    return 1;
-});
-const max = computed(() => {
-    if (sort.value === 'beans') {
-        const values = filteredData.value
-            .map(data => data.data.map(data => data.value))
-            .flat();
-        return Math.max(...values);
-    }
-    return 10;
-});
-const options = computed(() => {
-    return {
-        animation: { duration: 0 },
-        responsive: true,
-        plugins: { legend: { display: false } },
-        elements: { point: { radius: 2 } },
-        scales: {
-            y: {
-                max: max.value,
-                min: min.value,
+const FONT_SIZE = 14;
+const options: ComputedRef<ChartOptions<'line'>> = computed(() => ({
+    animation: { duration: 0 },
+    responsive: true,
+    plugins: {
+        legend: { display: false },
+        tooltip: {
+            bodyAlign: 'center',
+            bodyFont: {
+                size: FONT_SIZE,
+            },
+            displayColors: false,
+            callbacks: {
+                title: () => '',
+                beforeLabel: context => {
+                    if (sort.value === 'wins') return '';
+                    else {
+                        return (
+                            ranks[context.parsed.y - 1].emoji +
+                            ranks[context.parsed.y - 1].title
+                        );
+                    }
+                },
+                label: context => {
+                    const label = context.dataset.label || '';
+                    return label ?? null;
+                },
             },
         },
-    };
-});
+    },
+    scales: {
+        y: {
+            max: 10,
+            min: 1,
+            reverse: true,
+            grid: {
+                color: '#daff3c50',
+            },
+            ticks: {
+                color: '#daff3c',
+                padding: 0,
+                font: {
+                    size: FONT_SIZE,
+                },
+            },
+            offset: true,
+        },
+        x: {
+            grid: {
+                color: '#daff3c50',
+            },
+            ticks: {
+                color: '#daff3c',
+                padding: 0,
+                font: {
+                    size: FONT_SIZE,
+                },
+            },
+        },
+    },
+}));
 </script>
 
 <template>
-    <Line :data :options />
+    <Line :data :options style="margin-bottom: 2em; margin-top: 2em;" />
 </template>
 
 <style lang="scss" scoped></style>
