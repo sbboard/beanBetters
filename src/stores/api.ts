@@ -8,6 +8,7 @@ const API_TIMEOUT = 1000 * 10;
 export const useApiStore = defineStore('api', () => {
     const winners = ref({
         data: <User[]>[],
+        chart: <ChartEntry[]>[],
         lastFetch: 0,
     });
     const polls = ref({
@@ -21,6 +22,7 @@ export const useApiStore = defineStore('api', () => {
 
     function resetAPIs() {
         winners.value.data = [];
+        winners.value.chart = [];
         winners.value.lastFetch = 0;
         polls.value.data = [];
         polls.value.lastFetch = 0;
@@ -41,6 +43,8 @@ export const useApiStore = defineStore('api', () => {
         try {
             const response = await axios.get(`${api}/user/winners`);
             winners.value.data = response.data;
+            const secondResponse = await axios.get(`${api}/user/winners-chart`);
+            winners.value.chart = secondResponse.data;
             winners.value.lastFetch = now;
         } catch (error) {
             console.error('Error fetching polls:', error);

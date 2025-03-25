@@ -64,3 +64,21 @@ interface User {
     notifications?: Notification[];
     notificationsLastChecked?: Date;
 }
+
+type BeanEntry = {
+    name: string;
+    beans: number;
+};
+
+type WinEntry = {
+    name: string;
+    wins: number;
+};
+
+type ChartEntry = {
+    date: string;
+    beans: BeanEntry[];
+    wins: WinEntry[];
+};
+
+type Chart = ChartEntry[];
