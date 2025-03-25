@@ -5,6 +5,18 @@
         <h1>PATCH NOTES</h1>
         <h2>3/24/25</h2>
         <ul>
+            <li>
+                When settling a bet replace the scheduled settle date with the
+                date of settlement
+            </li>
+            <li>
+                Include bookie tip in payout notification if you're a bookie
+            </li>
+            <li>Added a way to clear notifications</li>
+            <li>Fixed bug where win cleaner routine wasn't saving</li>
+        </ul>
+        <h2>3/24/25</h2>
+        <ul>
             <li>Added routines for logging top 10 users every night</li>
             <li>
                 Added routines for cleaning out duplicate / invalid wins every
