@@ -14,6 +14,7 @@
             </li>
             <li>Added a way to clear notifications</li>
             <li>Fixed bug where win cleaner routine wasn't saving</li>
+            <li>Added chart to leaderboard</li>
         </ul>
         <h2>3/24/25</h2>
         <ul>
