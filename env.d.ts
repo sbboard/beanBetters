@@ -64,3 +64,11 @@ interface User {
     notifications?: Notification[];
     notificationsLastChecked?: Date;
 }
+
+type ChartEntry = {
+    date: string;
+    beans: string[];
+    wins: string[];
+};
+
+type Chart = ChartEntry[];
