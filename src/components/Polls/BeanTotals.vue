@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useEconomy } from '@/composables/useEconomy';
 import { useUserStore } from '@/stores/user';
-import { computed } from 'vue';
+import { computed, type ComputedRef } from 'vue';
 
 const { pollRef, isOwner } = defineProps<{
     pollRef: Poll;
@@ -10,38 +10,84 @@ const { pollRef, isOwner } = defineProps<{
 
 const { addCommas } = useEconomy();
 const userStore = useUserStore();
+const currentUserId = userStore.user!._id;
 
-const selectedOptions = computed(() => {
-    if (!userStore.user || !userStore.user._id) return [];
-    return pollRef.options.filter(option =>
-        option.bettors.includes(userStore.user!._id)
-    );
-});
+const selectedOptions = (userId: string) =>
+    pollRef.options.filter(option => option.bettors.includes(userId));
 
-const usersShares = computed(() =>
-    selectedOptions.value.reduce(
+const usersShares = (userId: string) =>
+    selectedOptions(userId).reduce(
         (shares, option) =>
-            shares +
-            option.bettors.filter(id => id === userStore.user?._id).length,
+            shares + option.bettors.filter(id => id === userId).length,
         0
+    );
+
+const uniqueBettors = computed(
+    () =>
+        pollRef.options
+            .map(option => option.bettors)
+            .flat()
+            .filter((v, i, a) => a.indexOf(v) === i).length
+);
+
+const assumedWinningOptions = computed(() =>
+    pollRef.winner
+        ? [pollRef.winner]
+        : selectedOptions(currentUserId).map(option => option._id)
+);
+
+const winningVoters = computed(() =>
+    pollRef.options.filter(opt =>
+        assumedWinningOptions.value.includes(opt._id.toString())
     )
 );
 
-const potentialPayout = computed(() => {
-    const userId = userStore.user?._id;
-    if (!pollRef || !userId) return 0;
+interface WinnerScores {
+    name: string;
+    beans: string;
+}
 
+const winnerScores: ComputedRef<WinnerScores[]> = computed(() => {
+    const winners: string[] = [];
+    const winnerValues: WinnerScores[] = [];
+    winningVoters.value.forEach(opt => {
+        opt.bettors.forEach(bettor => {
+            if (!winners.includes(bettor)) winners.push(bettor);
+        });
+    });
+    winners.forEach(winner => {
+        let displayName = winner;
+        if (winner === currentUserId) {
+            displayName = userStore.user?.name || '';
+        }
+        if (winner === null) return;
+        winnerValues.push({
+            name: displayName,
+            beans: calculatePayout(winner),
+        });
+    });
+    //sort by bean amount
+    return winnerValues.sort((a, b) => {
+        return (
+            parseInt(b.beans.replace(',', '')) -
+            parseInt(a.beans.replace(',', ''))
+        );
+    });
+});
+
+const calculatePayout = (userId: string) => {
     const bookieTax = pollRef.pot * 0.05;
-    let payout = pollRef.creatorName === userStore.user?.name ? bookieTax : 0;
 
-    if (!selectedOptions.value.length) return addCommas(Math.floor(payout));
+    let displayName = userId;
+    if (userId === currentUserId) displayName = userStore.user?.name || '';
+    let payout = pollRef.creatorName === displayName ? bookieTax : 0;
 
-    const assumedWinningOptions = pollRef.winner
-        ? [pollRef.winner]
-        : selectedOptions.value.map(option => option._id);
+    if (!selectedOptions(userId).length) return addCommas(Math.floor(payout));
 
     const losingOptionIds = pollRef.options
-        .filter(opt => !assumedWinningOptions.includes(opt._id.toString()))
+        .filter(
+            opt => !assumedWinningOptions.value.includes(opt._id.toString())
+        )
         .map(opt => opt._id.toString());
     const losingBettors = pollRef.options
         .filter(opt => losingOptionIds.includes(opt._id.toString()))
@@ -49,22 +95,16 @@ const potentialPayout = computed(() => {
 
     if (losingBettors.includes(userId)) return addCommas(Math.floor(payout));
 
-    const totalShares = selectedOptions.value.reduce(
+    const totalShares = selectedOptions(userId).reduce(
         (shares, option) => shares + option.bettors.length,
         0
     );
-    let percentYouOwn = usersShares.value / totalShares;
+    let percentYouOwn = usersShares(userId) / totalShares;
 
     if (pollRef.betPerWager && pollRef.betPerWager > 1) {
-        const winningVoters = pollRef.options.filter(opt =>
-            assumedWinningOptions.includes(opt._id.toString())
+        const winningVotersNoLosses = winningVoters.value.map(opt =>
+            opt.bettors.filter(bettor => !losingBettors.includes(bettor))
         );
-
-        const winningVotersNoLosses = winningVoters.map(opt => {
-            return opt.bettors.filter(
-                bettor => !losingBettors.includes(bettor)
-            );
-        });
 
         const winsPerWinner: Record<string, number> = {};
         [...new Set(winningVotersNoLosses.flat())].forEach(winner => {
@@ -73,7 +113,7 @@ const potentialPayout = computed(() => {
             ).length;
         });
 
-        const winnersWithMostWins = winningVoters
+        const winnersWithMostWins = winningVoters.value
             .map(opt =>
                 opt.bettors.filter(bettor =>
                     Object.keys(winsPerWinner)
@@ -88,21 +128,14 @@ const potentialPayout = computed(() => {
             .flat();
 
         percentYouOwn = winnersWithMostWins.includes(userId)
-            ? usersShares.value / winnersWithMostWins.length
+            ? usersShares(userId) / winnersWithMostWins.length
             : 0;
     }
 
     payout += (pollRef.pot - bookieTax) * percentYouOwn;
 
     return addCommas(Math.floor(payout));
-});
-
-const uniqueBettors = computed(() => {
-    return pollRef.options
-        .map(option => option.bettors)
-        .flat()
-        .filter((v, i, a) => a.indexOf(v) === i).length;
-});
+};
 </script>
 
 <template>
@@ -115,21 +148,36 @@ const uniqueBettors = computed(() => {
         <span>TOTAL BEANS: {{ addCommas(pollRef.pot) }}</span>
     </div>
 
-    <hr v-if="!isPastExpiration || (isOwner && isPastSettleDate)" />
-    <div v-if="usersShares > 0 || isOwner" class="position">
+    <hr />
+    <div v-if="usersShares(currentUserId) > 0 || isOwner" class="position">
         <div>
             <strong>POSITION: </strong>
-            {{ addCommas(usersShares * pollRef.pricePerShare) }}
+            {{ addCommas(usersShares(currentUserId) * pollRef.pricePerShare) }}
             BEANS
         </div>
-        <div v-if="!pollRef.winner || !pollRef.betPerWager">
+        <div>
             <strong>{{ pollRef.winner ? '' : 'POTENTIAL ' }}PAYOUT: </strong
-            >{{ potentialPayout }}
+            >{{ calculatePayout(currentUserId) }}
+        </div>
+    </div>
+    <div v-if="pollRef.winner" class="winners">
+        <div>
+            <strong>WINNERS: </strong>
+            <span v-for="(winner, i) in winnerScores" :key="winner.name">
+                <strong>{{ winner.name }}</strong> ({{ winner.beans }})
+                <template v-if="i < winnerScores.length - 1"> // </template>
+            </span>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+.winners {
+    font-size: 0.9em;
+    & > div {
+        margin-top: 10px;
+    }
+}
 .total {
     display: flex;
     justify-content: space-between;

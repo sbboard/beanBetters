@@ -95,7 +95,7 @@ const getPercentage = (v: number) => {
     const mostPopularBet = pollRef.value?.options.reduce((a, b) =>
         a.bettors.length > b.bettors.length ? a : b
     ).bettors.length;
-    if (mostPopularBet === 0) return 0;
+    if (!mostPopularBet) return 0;
     return (v / mostPopularBet) * 100;
 
     //Percentage based on total votes vv
@@ -148,6 +148,9 @@ onMounted(async () => {
     >
         <h1>
             {{ pollRef?.title }}
+            <span class="wid"
+                >WAGER IDENTIFICATION CODE {{ pollRef?._id }}</span
+            >
         </h1>
         <div class="details">
             <PollInfo :poll="pollRef" />
@@ -235,9 +238,6 @@ onMounted(async () => {
                     >$$$ SETTLE BET $$$</RouterLink
                 >
             </div>
-            <span class="wid"
-                >WAGER IDENTIFICATION CODE {{ pollRef?._id }}</span
-            >
         </div>
     </div>
 </template>
@@ -364,9 +364,10 @@ onMounted(async () => {
 
 span.wid {
     display: block;
-    font-size: 0.5em;
-    margin-top: 0.5rem;
-    text-align: right;
+    font-size: 0.5rem;
+    margin-top: 0.25rem;
+    text-align: left;
+    font-weight: 400;
     color: var(--themeColor);
 }
 </style>

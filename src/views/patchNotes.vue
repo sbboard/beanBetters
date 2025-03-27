@@ -20,6 +20,8 @@
                 subsequent bars are a percentage proportional to leader
             </li>
             <li>Add total bettors count</li>
+            <li>Display winners at the bottom of poll</li>
+            <li>Move Wager identification Code</li>
         </ul>
         <h2>3/24/25</h2>
         <ul>
