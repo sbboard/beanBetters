@@ -92,8 +92,15 @@ const selectOption = (id: string) => {
 };
 
 const getPercentage = (v: number) => {
-    if (!totalVotes.value || !v) return 0;
-    return (v / totalVotes.value) * 100;
+    const mostPopularBet = pollRef.value?.options.reduce((a, b) =>
+        a.bettors.length > b.bettors.length ? a : b
+    ).bettors.length;
+    if (mostPopularBet === 0) return 0;
+    return (v / mostPopularBet) * 100;
+
+    //Percentage based on total votes vv
+    // if (!totalVotes.value || !v) return 0;
+    // return (v / totalVotes.value) * 100;
 };
 
 const api = import.meta.env.VITE_API;

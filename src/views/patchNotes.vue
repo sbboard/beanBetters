@@ -15,6 +15,10 @@
                 Added padding to rules so anchorlinks have some room when
                 scrolled to
             </li>
+            <li>
+                Change display of bars so the most popular is 100%, then
+                subsequent bars are a percentage proportional to leader
+            </li>
         </ul>
         <h2>3/24/25</h2>
         <ul>
