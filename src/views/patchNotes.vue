@@ -22,6 +22,11 @@
             <li>Add total bettors count</li>
             <li>Display winners at the bottom of poll</li>
             <li>Move Wager identification Code</li>
+            <li>
+                Added rule 15 after having to debate what "furry adjacent" meant
+                while settling 67e44828879906dbe7629e53
+            </li>
+            <li>Revise how multi-bets are paid out</li>
         </ul>
         <h2>3/24/25</h2>
         <ul>

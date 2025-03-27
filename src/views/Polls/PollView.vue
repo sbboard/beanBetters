@@ -24,6 +24,7 @@ const unsettledPolls = computed(() => {
     return apiStore.polls.data.filter(
         poll =>
             !poll.winner &&
+            !poll.winners?.length &&
             (!poll.legalStatus || poll.legalStatus?.isLegal) &&
             new Date(poll.endDate) <= new Date()
     );
@@ -32,7 +33,10 @@ const unsettledPolls = computed(() => {
 const completedPolls = computed(() => {
     if (!apiStore.polls.data) return [];
     return apiStore.polls.data.filter(
-        poll => poll.winner || (poll.legalStatus && !poll.legalStatus.isLegal)
+        poll =>
+            poll.winner ||
+            poll.winners?.length ||
+            (poll.legalStatus && !poll.legalStatus.isLegal)
     );
 });
 
