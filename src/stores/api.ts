@@ -44,7 +44,7 @@ export const useApiStore = defineStore('api', () => {
             const response = await axios.get(`${api}/user/winners`);
             winners.value.data = response.data;
             const secondResponse = await axios.get(`${api}/user/winners-chart`);
-            winners.value.chart = secondResponse.data;
+            winners.value.chart = secondResponse.data.reverse();
             winners.value.lastFetch = now;
         } catch (error) {
             console.error('Error fetching polls:', error);

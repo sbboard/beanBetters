@@ -162,7 +162,7 @@ onMounted(scrollToHash);
                 </p>
             </li>
             <li>
-                <strong id="13">10 Day Rule</strong>
+                <strong id="13">10 DAY RULE</strong>
                 <p>
                     Bookies must settle wagers within the first 10 days of the
                     wager's outcome coming to fruition. If a bookie fails to
@@ -170,6 +170,15 @@ onMounted(scrollToHash);
                     determined, they wager will either be claimed by The House
                     if the outcome can be decided, or shut down if the outcome
                     can not be determined.
+                </p>
+            </li>
+            <li>
+                <strong id="14">NO WAGERS ABOUT OTHER BETTING MARKETS</strong>
+                <p>
+                    Similar to rule 7, wagers may not be made about the outcome
+                    of other betting markets. This includes but is not limited
+                    to: sports betting, stock market betting and cryptocurrency
+                    betting.
                 </p>
             </li>
         </ol>
@@ -345,6 +354,7 @@ onMounted(scrollToHash);
         text-decoration: underline;
         margin-bottom: 0.25em;
         display: block;
+        padding-top: 1rem;
     }
     h2 {
         color: white;
@@ -354,13 +364,12 @@ onMounted(scrollToHash);
         margin: 0;
         text-align: left;
         font-size: 0.9em;
-        margin-bottom: 1em;
-    }
-    li {
-        margin-bottom: 1em;
     }
     hr {
         margin: 2em 0;
+    }
+    table {
+        margin-top: 1rem;
     }
 }
 </style>

@@ -3,6 +3,19 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>3/27/25</h2>
+        <ul>
+            <li>Fixed leaderboard graph displaying backwards</li>
+            <li>Added rule 14 to bookie agreement</li>
+            <li>
+                Changed numbers on wager creation page to increment in steps of
+                500k
+            </li>
+            <li>
+                Added padding to rules so anchorlinks have some room when
+                scrolled to
+            </li>
+        </ul>
         <h2>3/24/25</h2>
         <ul>
             <li>

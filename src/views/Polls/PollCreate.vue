@@ -291,6 +291,7 @@ const createPoll = async () => {
                 v-model="pricePerShare"
                 :minimum="PRICE_OF_WAGER"
                 :value="pricePerShare"
+                step="500000"
             />
             <p>Comma Helper: {{ addCommas(pricePerShare) }} BEANS</p>
 
@@ -363,6 +364,7 @@ const createPoll = async () => {
                 :min="minimumSeed"
                 :max="userStore.user?.beans || PRICE_OF_WAGER"
                 :value="seed"
+                step="500000"
             />
             <p>Comma Helper: {{ addCommas(seed) }} BEANS</p>
             <p v-if="seed > (userStore.user?.beans || 0)">
