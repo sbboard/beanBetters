@@ -11,6 +11,13 @@ const { pollRef, isOwner } = defineProps<{
 const { addCommas } = useEconomy();
 const userStore = useUserStore();
 const currentUserId = userStore.user!._id;
+const uniqueBettors = computed(
+    () =>
+        pollRef.options
+            .map(option => option.bettors)
+            .flat()
+            .filter((v, i, a) => a.indexOf(v) === i).length
+);
 
 const selectedOptions = (userId: string) =>
     pollRef.options.filter(option => option.bettors.includes(userId));
@@ -22,25 +29,17 @@ const usersShares = (userId: string) =>
         0
     );
 
-const uniqueBettors = computed(
-    () =>
-        pollRef.options
-            .map(option => option.bettors)
-            .flat()
-            .filter((v, i, a) => a.indexOf(v) === i).length
-);
-
-const assumedWinningOptions = computed(() =>
-    pollRef.winner
+const winningOptions = computed(() => {
+    const winningIds = pollRef.winner
         ? [pollRef.winner]
-        : selectedOptions(currentUserId).map(option => option._id)
-);
+        : pollRef.winners?.length
+        ? pollRef.winners
+        : selectedOptions(currentUserId).map(option => option._id);
 
-const winningVoters = computed(() =>
-    pollRef.options.filter(opt =>
-        assumedWinningOptions.value.includes(opt._id.toString())
-    )
-);
+    return pollRef.options.filter(opt =>
+        winningIds.includes(opt._id.toString())
+    );
+});
 
 interface WinnerScores {
     name: string;
@@ -50,16 +49,14 @@ interface WinnerScores {
 const winnerScores: ComputedRef<WinnerScores[]> = computed(() => {
     const winners: string[] = [];
     const winnerValues: WinnerScores[] = [];
-    winningVoters.value.forEach(opt => {
+    winningOptions.value.forEach(opt => {
         opt.bettors.forEach(bettor => {
             if (!winners.includes(bettor)) winners.push(bettor);
         });
     });
     winners.forEach(winner => {
         let displayName = winner;
-        if (winner === currentUserId) {
-            displayName = userStore.user?.name || '';
-        }
+        if (winner === currentUserId) displayName = userStore.user?.name || '';
         if (winner === null) return;
         winnerValues.push({
             name: displayName,
@@ -76,63 +73,21 @@ const winnerScores: ComputedRef<WinnerScores[]> = computed(() => {
 });
 
 const calculatePayout = (userId: string) => {
-    const bookieTax = pollRef.pot * 0.05;
-
+    const { pot, creatorName } = pollRef;
+    const bookieTax = pot * 0.05;
     let displayName = userId;
     if (userId === currentUserId) displayName = userStore.user?.name || '';
-    let payout = pollRef.creatorName === displayName ? bookieTax : 0;
-
+    let payout = creatorName === displayName ? bookieTax : 0;
     if (!selectedOptions(userId).length) return addCommas(Math.floor(payout));
 
-    const losingOptionIds = pollRef.options
-        .filter(
-            opt => !assumedWinningOptions.value.includes(opt._id.toString())
-        )
-        .map(opt => opt._id.toString());
-    const losingBettors = pollRef.options
-        .filter(opt => losingOptionIds.includes(opt._id.toString()))
-        .flatMap(opt => opt.bettors);
+    const optWithBets = winningOptions.value.filter(o => o.bettors.length > 0);
+    const beansPerBet = (pot - bookieTax) / optWithBets.length;
 
-    if (losingBettors.includes(userId)) return addCommas(Math.floor(payout));
-
-    const totalShares = selectedOptions(userId).reduce(
-        (shares, option) => shares + option.bettors.length,
-        0
-    );
-    let percentYouOwn = usersShares(userId) / totalShares;
-
-    if (pollRef.betPerWager && pollRef.betPerWager > 1) {
-        const winningVotersNoLosses = winningVoters.value.map(opt =>
-            opt.bettors.filter(bettor => !losingBettors.includes(bettor))
-        );
-
-        const winsPerWinner: Record<string, number> = {};
-        [...new Set(winningVotersNoLosses.flat())].forEach(winner => {
-            winsPerWinner[winner] = winningVotersNoLosses.filter(arr =>
-                arr.includes(winner)
-            ).length;
-        });
-
-        const winnersWithMostWins = winningVoters.value
-            .map(opt =>
-                opt.bettors.filter(bettor =>
-                    Object.keys(winsPerWinner)
-                        .filter(
-                            winner =>
-                                winsPerWinner[winner] ===
-                                Math.max(...Object.values(winsPerWinner))
-                        )
-                        .includes(bettor)
-                )
-            )
-            .flat();
-
-        percentYouOwn = winnersWithMostWins.includes(userId)
-            ? usersShares(userId) / winnersWithMostWins.length
-            : 0;
-    }
-
-    payout += (pollRef.pot - bookieTax) * percentYouOwn;
+    optWithBets.forEach(o => {
+        const ts = o.bettors.length; // total shares
+        const yourShares = o.bettors.filter(i => i === userId).length / ts;
+        payout += beansPerBet * yourShares;
+    });
 
     return addCommas(Math.floor(payout));
 };
@@ -156,11 +111,16 @@ const calculatePayout = (userId: string) => {
             BEANS
         </div>
         <div>
-            <strong>{{ pollRef.winner ? '' : 'POTENTIAL ' }}PAYOUT: </strong
+            <strong
+                >{{
+                    pollRef.winner || pollRef.winners?.length
+                        ? ''
+                        : 'POTENTIAL '
+                }}PAYOUT: </strong
             >{{ calculatePayout(currentUserId) }}
         </div>
     </div>
-    <div v-if="pollRef.winner" class="winners">
+    <div v-if="pollRef.winner || pollRef.winners?.length" class="winners">
         <div>
             <strong>WINNERS: </strong>
             <span v-for="(winner, i) in winnerScores" :key="winner.name">
