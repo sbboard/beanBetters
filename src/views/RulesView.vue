@@ -117,9 +117,7 @@ onMounted(scrollToHash);
                 </p>
             </li>
             <li>
-                <strong id="9"
-                    >RESPONSIBILITY OF ASSURING A PURE OUTCOME</strong
-                >
+                <strong id="9">BURDEN OF ASSURING A PURE OUTCOME</strong>
                 <p>
                     Bookies are responsible for assuring the outcome of a wager
                     is as pure as possible. This means that bookies must take
@@ -135,7 +133,7 @@ onMounted(scrollToHash);
                 </p>
             </li>
             <li>
-                <strong id="11">RESPONSIBILITY OF PROOF</strong>
+                <strong id="11">BURDEN OF PROOF</strong>
                 <p>
                     All wager's outcomes must be provable at any time to any
                     user of the site. If a wager's outcome can not be checked by
@@ -181,6 +179,22 @@ onMounted(scrollToHash);
                     betting.
                 </p>
             </li>
+            <li>
+                <strong id="15">BURDEN OF DEFINITION</strong>
+                <p>
+                    It is the bookie's responsibility to ensure each wager's
+                    bets are as clear and universally agreeable as possible. If
+                    a bet is unclear on its own, the bookie should provide mor
+                    information within a wager's additional information field.
+                    However, if a bettor is confused about a bet or does not
+                    trust the bookie's assumed definition, it is their
+                    responsibility to ask the bookie for clarification before
+                    placing a bet. Bookies may ask The House to append
+                    clarifying information into a wager's information after
+                    creation. Definition disputes must be argued before a wager
+                    has ended.
+                </p>
+            </li>
         </ol>
         <hr />
         <h2>BET TYPE RULES</h2>
@@ -197,10 +211,11 @@ onMounted(scrollToHash);
             <li>
                 <strong id="multi">MULTI-BET</strong>
                 <p>
-                    Whoever bets on the most winning options without getting one
-                    wrong wins a share of the pot. If multiple bettors get the
-                    same amount of options correct, the pot is split evenly
-                    between them. An incorrect bet invalids the entire wager.
+                    If a bettor makes at least one correct bet they are marked a
+                    winner. Each winning bet with at least one bettor is given
+                    an equal share of the pot. Each individual bet is paid out
+                    depending on the number of shares a bettor holds on that
+                    individual bet. There is no penalty for incorrect bets.
                 </p>
             </li>
         </ol>
