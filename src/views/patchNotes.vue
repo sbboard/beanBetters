@@ -19,6 +19,7 @@
                 Change display of bars so the most popular is 100%, then
                 subsequent bars are a percentage proportional to leader
             </li>
+            <li>Add total bettors count</li>
         </ul>
         <h2>3/24/25</h2>
         <ul>

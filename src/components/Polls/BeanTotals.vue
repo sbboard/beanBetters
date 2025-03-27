@@ -96,13 +96,26 @@ const potentialPayout = computed(() => {
 
     return addCommas(Math.floor(payout));
 });
+
+const uniqueBettors = computed(() => {
+    return pollRef.options
+        .map(option => option.bettors)
+        .flat()
+        .filter((v, i, a) => a.indexOf(v) === i).length;
+});
 </script>
 
 <template>
     <div class="total seed">
-        SEED BEANS: {{ addCommas(pollRef.seed || 2000000) }}
+        <span></span>
+        <span>SEED BEANS: {{ addCommas(pollRef.seed || 2000000) }}</span>
     </div>
-    <div class="total">TOTAL BEANS: {{ addCommas(pollRef.pot) }}</div>
+    <div class="total">
+        <span>TOTAL BETTORS: {{ uniqueBettors }}</span>
+        <span>TOTAL BEANS: {{ addCommas(pollRef.pot) }}</span>
+    </div>
+
+    <hr v-if="!isPastExpiration || (isOwner && isPastSettleDate)" />
     <div v-if="usersShares > 0 || isOwner" class="position">
         <div>
             <strong>POSITION: </strong>
@@ -118,7 +131,8 @@ const potentialPayout = computed(() => {
 
 <style lang="scss" scoped>
 .total {
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
     font-size: 0.9em;
     margin-top: 5px;
     font-weight: 600;
@@ -132,7 +146,7 @@ const potentialPayout = computed(() => {
     justify-content: space-between;
     font-size: 0.9em;
     font-weight: bold;
-    margin-top: 1rem;
+    margin-top: 10px;
     div {
         margin-right: 0.5rem;
         &:last-of-type {
@@ -140,5 +154,11 @@ const potentialPayout = computed(() => {
             text-align: right;
         }
     }
+}
+
+hr {
+    border: 1px solid var(--themeColor);
+    width: calc(100% + 18px);
+    margin-left: -10px;
 }
 </style>

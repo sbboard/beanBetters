@@ -194,7 +194,6 @@ onMounted(async () => {
                 />
             </div>
             <BeanTotals :pollRef :isOwner />
-            <hr v-if="!isPastExpiration || (isOwner && isPastSettleDate)" />
             <div v-if="!isPastExpiration" class="betControls">
                 <div class="shares" v-if="pollRef.pricePerShare < beans">
                     BUY
@@ -269,10 +268,6 @@ onMounted(async () => {
         padding-top: 27px;
         border-bottom: 1px solid var(--themeColor);
         position: relative;
-    }
-
-    hr {
-        border: 1px solid var(--themeColor);
     }
 
     .betButton,
