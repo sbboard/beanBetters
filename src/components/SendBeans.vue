@@ -59,6 +59,7 @@ async function sendBeans() {
                         type="number"
                         min="500000"
                         :max="userStore.user?.beans || 0"
+                        step="500000"
                         v-model="beansToSend"
                     />
                     beans to

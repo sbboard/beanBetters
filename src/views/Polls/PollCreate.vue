@@ -159,7 +159,8 @@ const isFormValid = computed(() => {
         pricePerShare.value >= PRICE_OF_WAGER &&
         seed.value >= pricePerShare.value &&
         userStore.user?.beans &&
-        seed.value <= userStore.user?.beans &&
+        (seed.value <= userStore.user?.beans ||
+            userStore.user?.role === 'admin') &&
         title.value.trim() !== '' &&
         description.value.trim() !== '' &&
         endDate.value.trim() !== '' &&
@@ -235,7 +236,10 @@ const createPoll = async () => {
             </div>
         </RouterLink>
         <div
-            v-if="(userStore.user?.beans || 0) < PRICE_OF_WAGER"
+            v-if="
+                (userStore.user?.beans || 0) < PRICE_OF_WAGER &&
+                userStore.user?.role !== 'admin'
+            "
             class="noMoney"
         >
             <p>Not enough beans for minimum seed</p>
@@ -362,12 +366,21 @@ const createPoll = async () => {
                 type="number"
                 v-model="seed"
                 :min="minimumSeed"
-                :max="userStore.user?.beans || PRICE_OF_WAGER"
+                :max="
+                    userStore.user?.role === 'admin'
+                        ? undefined
+                        : userStore.user?.beans || PRICE_OF_WAGER
+                "
                 :value="seed"
                 step="500000"
             />
             <p>Comma Helper: {{ addCommas(seed) }} BEANS</p>
-            <p v-if="seed > (userStore.user?.beans || 0)">
+            <p
+                v-if="
+                    seed > (userStore.user?.beans || 0) &&
+                    userStore.user?.role !== 'admin'
+                "
+            >
                 You cannot afford this seed amount!
             </p>
 

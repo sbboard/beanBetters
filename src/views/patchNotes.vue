@@ -3,6 +3,13 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/1/25</h2>
+        <ul>
+            <li>Fixed copy in bean win notification</li>
+            <li>Removed cost of creating wagers for admins</li>
+            <li>Added 500k bean step to bean transfer</li>
+            <li>Added wealth re-distribution</li>
+        </ul>
         <h2>3/27/25</h2>
         <ul>
             <li>Fixed leaderboard graph displaying backwards</li>

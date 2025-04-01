@@ -286,7 +286,10 @@ onMounted(scrollToHash);
                     </tbody>
                 </table>
                 <p style="margin-top: 1em">
-                    Taxes are collected every Sunday night at 8PM EST.
+                    Taxes are collected every Sunday night at 8PM EST and are
+                    redistributed to bettors with less than
+                    {{ addCommas(1000000000) }} beans who participated in wagers
+                    created in the last 7 days.
                 </p>
             </li>
         </ol>
