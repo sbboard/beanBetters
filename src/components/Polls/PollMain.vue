@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import Bars from './PollBars.vue';
 import { useUserStore } from '@/stores/user';
 import { useApiStore } from '@/stores/api';
@@ -70,6 +70,23 @@ const disableOptions = computed(() => {
     );
 });
 
+const canBet = (optId: string) => {
+    if (!pollRef.value) return false;
+    if (!pollRef.value.betPerWager || pollRef.value.betPerWager < 2) {
+        return disableOptions.value;
+    }
+
+    const selectedNotVoted = selectedOptions.value.filter(
+        option => !votedOptions.value.includes(option)
+    );
+    const totalBets = selectedNotVoted.length + votedOptions.value.length;
+    if (totalBets < pollRef.value.betPerWager) return true;
+    return (
+        votedOptions.value.indexOf(optId) > -1 ||
+        selectedOptions.value.indexOf(optId) > -1
+    );
+};
+
 const totalVotes = computed(() => {
     if (!pollRef.value) return 0;
     return pollRef.value.options.reduce((sum, option) => {
@@ -118,7 +135,7 @@ async function placeBet() {
     }
 }
 
-onMounted(async () => {
+onBeforeMount(async () => {
     if (!userId) return;
     pollRef.value?.options.forEach(option => {
         if (!option.bettors.includes(userId)) return;
@@ -156,8 +173,10 @@ onMounted(async () => {
                     isWinner:
                         pollRef.winner === pollOption._id ||
                         pollRef.winners?.includes(pollOption._id),
-                    noMoney: pollRef.pricePerShare > beans,
-                    disabled: disableOptions,
+                    disabled:
+                        pollRef.pricePerShare > beans ||
+                        disableOptions ||
+                        !canBet(pollOption._id),
                 }"
                 :key="pollOption._id"
                 @click="selectOption(pollOption._id)"
@@ -331,12 +350,6 @@ onMounted(async () => {
         }
         .betButton {
             flex: 1;
-        }
-    }
-    .noMoney {
-        pointer-events: none;
-        .selector {
-            border: 1px solid transparent;
         }
     }
 }
