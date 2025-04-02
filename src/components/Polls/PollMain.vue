@@ -73,7 +73,7 @@ const disableOptions = computed(() => {
 const canBet = (optId: string) => {
     if (!pollRef.value) return false;
     if (!pollRef.value.betPerWager || pollRef.value.betPerWager < 2) {
-        return disableOptions.value;
+        return !disableOptions.value;
     }
 
     const selectedNotVoted = selectedOptions.value.filter(
