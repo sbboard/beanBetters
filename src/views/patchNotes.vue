@@ -3,6 +3,30 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/2/25</h2>
+        <ul>
+            <li>
+                Fixed issue where numbers with more than one comma weren't being
+                ordered properly in winners list
+            </li>
+            <li>
+                Prevented test account from being taxed / appearing in winners
+                list
+            </li>
+            <li>
+                House claims 20% of tax before wealth re-distribution in an
+                attempt to curb hyper-inflation.
+            </li>
+            <li>Fixed bug where two wager options could share the same id</li>
+            <li>
+                Added ability to make more bets if you haven't for max of
+                multi-bet
+            </li>
+            <li>
+                Added ability to buy more shares of specific bets in multi-bets,
+                rather than all at once
+            </li>
+        </ul>
         <h2>4/1/25</h2>
         <ul>
             <li>Fixed copy in bean win notification</li>

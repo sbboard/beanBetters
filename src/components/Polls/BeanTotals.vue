@@ -51,6 +51,7 @@ const winnerScores: ComputedRef<WinnerScores[]> = computed(() => {
     const winnerValues: WinnerScores[] = [];
     winningOptions.value.forEach(opt => {
         opt.bettors.forEach(bettor => {
+            if (bettor === 'dupe') return;
             if (!winners.includes(bettor)) winners.push(bettor);
         });
     });
@@ -66,8 +67,8 @@ const winnerScores: ComputedRef<WinnerScores[]> = computed(() => {
     //sort by bean amount
     return winnerValues.sort((a, b) => {
         return (
-            parseInt(b.beans.replace(',', '')) -
-            parseInt(a.beans.replace(',', ''))
+            parseInt(b.beans.replaceAll(',', '')) -
+            parseInt(a.beans.replaceAll(',', ''))
         );
     });
 });

@@ -15,6 +15,7 @@ const endDate = ref('');
 const settleDate = ref('');
 const pricePerShare = ref(PRICE_OF_WAGER);
 const seed = ref(PRICE_OF_WAGER);
+const optionCount = ref(2);
 const options = ref([
     { id: 1, text: '' },
     { id: 2, text: '' },
@@ -180,7 +181,8 @@ const isFormValid = computed(() => {
 
 const addOption = () => {
     if (options.value.length >= maxOptions) return;
-    options.value.push({ id: options.value.length + 1, text: '' });
+    options.value.push({ id: optionCount.value + 1, text: '' });
+    optionCount.value++;
 };
 
 const removeOption = (index: number) => {
