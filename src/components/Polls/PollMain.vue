@@ -24,7 +24,6 @@ const updatePoll = (poll: Poll) => {
     apiStore.polls.data?.splice(pollIndex, 1, poll);
 };
 
-const selectedOption = ref<string | null>(null); // For single choice polls
 const selectedOptions = ref<string[]>([]); // For multiple choice polls
 const userStore = useUserStore();
 const userId = userStore.user?._id;
@@ -77,19 +76,12 @@ const totalVotes = computed(
         ) || 0
 );
 const selectOption = (id: string) => {
-    if (hasVoted.value) return; // Prevent re-voting
-
-    const betLimit = pollRef.value?.betPerWager;
-    if (betLimit) {
-        selectedOptions.value = selectedOptions.value.includes(id)
-            ? selectedOptions.value.filter(option => option !== id)
-            : selectedOptions.value.length < betLimit
-            ? [...selectedOptions.value, id]
-            : selectedOptions.value;
-        return;
-    }
-
-    selectedOption.value = selectedOption.value === id ? null : id;
+    const betLimit = pollRef.value?.betPerWager || 1;
+    selectedOptions.value = selectedOptions.value.includes(id)
+        ? selectedOptions.value.filter(option => option !== id)
+        : selectedOptions.value.length < betLimit
+        ? [...selectedOptions.value, id]
+        : selectedOptions.value;
 };
 
 const getPercentage = (v: number) => {
@@ -98,15 +90,11 @@ const getPercentage = (v: number) => {
     ).bettors.length;
     if (!mostPopularBet) return 0;
     return (v / mostPopularBet) * 100;
-
-    //Percentage based on total votes vv
-    // if (!totalVotes.value || !v) return 0;
-    // return (v / totalVotes.value) * 100;
 };
 
 const api = import.meta.env.VITE_API;
 async function placeBet() {
-    if (!selectedOption.value && !selectedOptions.value.length) return;
+    if (!selectedOptions.value.length) return;
 
     const body = {
         pollId: pollRef.value?._id,
@@ -117,7 +105,7 @@ async function placeBet() {
     };
 
     if (pollRef.value?.betPerWager) body.optionsArray = selectedOptions.value;
-    else body.optionId = selectedOption.value!;
+    else body.optionId = selectedOptions.value[0];
 
     try {
         const response = await axios.post(`${api}/polls/bet`, body);
@@ -132,11 +120,7 @@ onMounted(async () => {
     if (!userId) return;
     pollRef.value?.options.forEach(option => {
         if (!option.bettors.includes(userId)) return;
-        if (pollRef.value?.betPerWager) {
-            selectedOptions.value.push(option._id);
-            return;
-        }
-        selectedOption.value = option._id;
+        selectedOptions.value.push(option._id);
     });
 });
 </script>
@@ -180,16 +164,10 @@ onMounted(async () => {
                 <div
                     class="selector"
                     :class="{
-                        selected:
-                            selectedOption === pollOption._id ||
-                            selectedOptions.includes(pollOption._id),
+                        selected: selectedOptions.includes(pollOption._id),
                     }"
                 >
-                    <span
-                        v-if="
-                            selectedOption === pollOption._id ||
-                            selectedOptions.includes(pollOption._id)
-                        "
+                    <span v-if="selectedOptions.includes(pollOption._id)"
                         >🫘</span
                     >
                 </div>
@@ -232,7 +210,7 @@ onMounted(async () => {
                     v-else
                     class="betButton"
                     :class="{
-                        disabled: !selectedOption && !selectedOptions.length,
+                        disabled: !selectedOptions.length,
                     }"
                     @click="placeBet"
                 >
