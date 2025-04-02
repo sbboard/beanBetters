@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, watch, type Ref } from 'vue';
+import { ref, computed, watch, type Ref, defineAsyncComponent } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
 import { useEconomy, PRICE_OF_WAGER } from '@/composables/useEconomy';
 import { useApiStore } from '@/stores/api';
+const draggable = defineAsyncComponent(() => import('vuedraggable'));
 
 const { addCommas } = useEconomy();
 const router = useRouter();
@@ -14,7 +15,10 @@ const endDate = ref('');
 const settleDate = ref('');
 const pricePerShare = ref(PRICE_OF_WAGER);
 const seed = ref(PRICE_OF_WAGER);
-const options = ref([{ text: '' }, { text: '' }]); // Start with 2 options
+const options = ref([
+    { id: 1, text: '' },
+    { id: 2, text: '' },
+]);
 const loading = ref(false);
 const message = ref('');
 const maxOptions = 20;
@@ -176,7 +180,7 @@ const isFormValid = computed(() => {
 
 const addOption = () => {
     if (options.value.length >= maxOptions) return;
-    options.value.push({ text: '' });
+    options.value.push({ id: options.value.length + 1, text: '' });
 };
 
 const removeOption = (index: number) => {
@@ -301,26 +305,28 @@ const createPoll = async () => {
 
             <label for="options">Options</label>
             <p>Between 2 and {{ maxOptions }}</p>
-            <div
-                class="options"
-                v-for="(option, index) in options"
-                :key="index"
-            >
-                <input
-                    v-model="option.text"
-                    placeholder="Option text"
-                    maxlength="50"
-                />
-                <button
-                    tabindex="-1"
-                    @click="removeOption(index)"
-                    v-if="options.length > 2"
-                >
-                    ✖
-                </button>
-            </div>
-            <p>Current amount of options: {{ options.length }}</p>
 
+            <draggable v-model="options" item-key="id" handle=".drag">
+                <template v-slot:item="{ element, index }">
+                    <div class="options">
+                        <div class="drag">&equiv;</div>
+                        <input
+                            v-model="element.text"
+                            placeholder="Option text"
+                            maxlength="50"
+                        />
+                        <button
+                            tabindex="-1"
+                            @click="removeOption(index)"
+                            v-if="options.length > 2"
+                        >
+                            ✖
+                        </button>
+                    </div>
+                </template>
+            </draggable>
+
+            <p>Current amount of options: {{ options.length }}</p>
             <button
                 class="addOption"
                 @click="addOption"
@@ -471,9 +477,14 @@ const createPoll = async () => {
     .options {
         margin-bottom: 0.5em;
         input {
-            width: calc(100% - 20px);
+            width: calc(100% - 40px);
             display: inline-block;
             box-sizing: border-box;
+        }
+        .drag {
+            width: 20px;
+            display: inline-block;
+            cursor: move;
         }
         button {
             width: 20px;
