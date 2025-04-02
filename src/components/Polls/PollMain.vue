@@ -24,7 +24,8 @@ const updatePoll = (poll: Poll) => {
     apiStore.polls.data?.splice(pollIndex, 1, poll);
 };
 
-const selectedOptions = ref<string[]>([]); // For multiple choice polls
+const votedOptions = ref<string[]>([]); //locked in votes
+const selectedOptions = ref<string[]>([]);
 const userStore = useUserStore();
 const userId = userStore.user?._id;
 const shares = ref(1);
@@ -61,20 +62,21 @@ const isPastSettleDate = computed(() => {
     );
 });
 
-const hasVoted = computed(() => {
+const disableOptions = computed(() => {
     if (!pollRef.value || isPastExpiration.value) return true;
+    if (pollRef.value.betPerWager || 0 > 1) return false;
     return pollRef.value.options.some(option =>
         option.bettors.includes(userId || '')
     );
 });
 
-const totalVotes = computed(
-    () =>
-        pollRef.value?.options.reduce(
-            (sum, option) => sum + option.bettors.length,
-            0
-        ) || 0
-);
+const totalVotes = computed(() => {
+    if (!pollRef.value) return 0;
+    return pollRef.value.options.reduce((sum, option) => {
+        return sum + option.bettors.length;
+    }, 0);
+});
+
 const selectOption = (id: string) => {
     const betLimit = pollRef.value?.betPerWager || 1;
     selectedOptions.value = selectedOptions.value.includes(id)
@@ -120,6 +122,7 @@ onMounted(async () => {
     if (!userId) return;
     pollRef.value?.options.forEach(option => {
         if (!option.bettors.includes(userId)) return;
+        votedOptions.value.push(option._id);
         selectedOptions.value.push(option._id);
     });
 });
@@ -129,10 +132,7 @@ onMounted(async () => {
     <div
         class="poll"
         v-if="pollRef"
-        :class="{
-            hasVoted,
-            hasWinner: pollRef?.winner || pollRef.winners?.length,
-        }"
+        :class="{ hasWinner: pollRef?.winner || pollRef.winners?.length }"
     >
         <h1>
             {{ pollRef?.title }}
@@ -157,6 +157,7 @@ onMounted(async () => {
                         pollRef.winner === pollOption._id ||
                         pollRef.winners?.includes(pollOption._id),
                     noMoney: pollRef.pricePerShare > beans,
+                    disabled: disableOptions,
                 }"
                 :key="pollOption._id"
                 @click="selectOption(pollOption._id)"
@@ -216,7 +217,7 @@ onMounted(async () => {
                 >
                     BET
                     {{ addCommas(fixedShares * totalPrice)
-                    }}{{ hasVoted ? ' MORE' : '' }}
+                    }}{{ votedOptions.length ? ' MORE' : '' }}
                     BEANS
                 </div>
             </div>
@@ -296,15 +297,6 @@ onMounted(async () => {
             }
         }
     }
-    &.hasVoted {
-        .option {
-            cursor: unset;
-        }
-        .selector {
-            pointer-events: none;
-            border: 1px solid transparent;
-        }
-    }
     &.hasWinner {
         .option {
             cursor: unset;
@@ -346,6 +338,15 @@ onMounted(async () => {
         .selector {
             border: 1px solid transparent;
         }
+    }
+}
+
+.option.disabled {
+    cursor: unset;
+    pointer-events: none;
+    .selector {
+        pointer-events: none;
+        border: 1px solid transparent;
     }
 }
 
