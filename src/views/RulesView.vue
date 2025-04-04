@@ -277,18 +277,30 @@ onMounted(scrollToHash);
                         </tr>
                         <tr>
                             <td>{{ addCommas(500000000) }} Beans</td>
-                            <td>30%</td>
+                            <td>40%</td>
                         </tr>
                         <tr>
                             <td>{{ addCommas(1000000000) }} Beans</td>
-                            <td>40%</td>
+                            <td>50%</td>
+                        </tr>
+                        <tr>
+                            <td>{{ addCommas(3000000000) }} Beans</td>
+                            <td>70%</td>
+                        </tr>
+                        <tr>
+                            <td>{{ addCommas(10000000000) }} Beans</td>
+                            <td>75%</td>
+                        </tr>
+                        <tr>
+                            <td>{{ addCommas(50000000000) }} Beans</td>
+                            <td>80%</td>
                         </tr>
                     </tbody>
                 </table>
                 <p style="margin-top: 1em">
                     Taxes are collected every Sunday night at 8PM EST and are
                     redistributed to bettors with less than
-                    {{ addCommas(1000000000) }} beans who participated in wagers
+                    {{ addCommas(100000000) }} beans who participated in wagers
                     created in the last 7 days.
                 </p>
             </li>

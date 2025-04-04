@@ -3,6 +3,10 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/4/25</h2>
+        <ul>
+            <li>Increased taxes to curb ongoing inflation crisis</li>
+        </ul>
         <h2>4/2/25</h2>
         <ul>
             <li>
