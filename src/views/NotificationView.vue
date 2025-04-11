@@ -11,7 +11,7 @@ const lastCheck = ref<Date | null>(null);
 const api = import.meta.env.VITE_API;
 
 const newNotifications: ComputedRef<Notification[]> = computed(() => {
-    if (!lastCheck.value) return [];
+    if (!lastCheck.value) return userStore.user?.notifications || [];
     const clonedNotifications = userStore.user?.notifications?.slice();
     if (!clonedNotifications) return [];
     return clonedNotifications

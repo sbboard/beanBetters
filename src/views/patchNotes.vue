@@ -7,6 +7,8 @@
         <ul>
             <li>Display how much of a bet you own with a sub-bar</li>
             <li>Added a clause to rule 8</li>
+            <li>Fix weird notification display error</li>
+            <li>Fixed bug where users first notification wouldn't show up</li>
         </ul>
         <h2>4/4/25</h2>
         <ul>

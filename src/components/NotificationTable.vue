@@ -46,13 +46,17 @@ table {
         tr {
             border: 0;
             border-bottom: 1px solid var(--themeColor);
+            display: flex;
             td {
-                padding: 1em 0.5em;
+                padding: 1rem 0.5rem;
                 border: 0;
                 &.date {
                     white-space: nowrap;
                     font-size: 0.8em;
                     padding-right: 2em;
+                }
+                &.msg {
+                    flex: 1;
                 }
             }
         }
