@@ -1,31 +1,41 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useEconomy } from '@/composables/useEconomy';
 
 const { addCommas } = useEconomy();
 
-const { percent, option, isWinner, pollRef, voters } = defineProps<{
+const { percent, option, pps, voters, userId } = defineProps<{
     percent: number;
     option: string;
     voters: string[];
-    isWinner?: boolean;
-    pollRef: Poll;
+    pps: number;
+    userId: string;
 }>();
 
-const darkInnerWidth = ref(0);
-const optionInnerWidths = ref<number>(0);
+const darkInnerWidth = ref('0px');
+const optionInnerWidths = ref('0px');
 const baseLayer = ref<HTMLDivElement | null>(null);
+
+const percentOwned = computed(() => {
+    if (voters.length === 0) return '0%';
+    const userVotes = voters.filter(voter => voter === userId);
+    if (userVotes.length === 0) return '0%';
+    return (userVotes.length / voters.length) * 100 + '%';
+});
+
+const shadedBg = computed(() => {
+    return `background: linear-gradient(90deg, rgb(255 188 0) ${percentOwned.value}, #daff3c ${percentOwned.value});`;
+});
 
 function calculateBars() {
     if (!baseLayer.value) return;
     const width = baseLayer.value.getBoundingClientRect().width;
-    darkInnerWidth.value = width;
-    optionInnerWidths.value = width * (percent / 100);
+    darkInnerWidth.value = width + 'px';
+    optionInnerWidths.value = width * (percent / 100) + 'px';
 }
 
 const beanCopy = () => {
-    const beans = voters.length * pollRef.pricePerShare;
-    return `BEANS: ${addCommas(Math.floor(beans))}`;
+    return `BEANS: ${addCommas(Math.floor(voters.length * pps))}`;
 };
 
 onMounted(() => {
@@ -41,19 +51,13 @@ onUnmounted(() => {
 <template>
     <div class="barWrap">
         <div class="light-layer" ref="baseLayer">
-            <div class="title">{{ option }} {{ isWinner ? '★' : null }}</div>
-            <div class="percentage">
-                {{ beanCopy() }}
-            </div>
+            <div class="title">{{ option }}</div>
+            <div class="percentage">{{ beanCopy() }}</div>
         </div>
-        <div class="dark-layer" :style="{ width: `${optionInnerWidths}px` }">
-            <div class="inner" :style="{ width: `${darkInnerWidth}px` }">
-                <div class="title">
-                    {{ option }} {{ isWinner ? '★' : null }}
-                </div>
-                <div class="percentage">
-                    {{ beanCopy() }}
-                </div>
+        <div class="dark-layer" :style="shadedBg">
+            <div class="inner">
+                <div class="title">{{ option }}</div>
+                <div class="percentage">{{ beanCopy() }}</div>
             </div>
         </div>
     </div>
@@ -86,13 +90,14 @@ onUnmounted(() => {
         position: absolute;
         top: 0;
         overflow: hidden;
+        width: v-bind(optionInnerWidths);
         .inner {
             height: 100%;
             display: flex;
             align-items: center;
             position: relative;
-            background-color: var(--themeColor);
             color: black;
+            width: v-bind(darkInnerWidth);
             > * {
                 position: absolute;
                 font-weight: 600;

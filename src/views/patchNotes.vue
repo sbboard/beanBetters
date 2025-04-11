@@ -3,6 +3,10 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/11/25</h2>
+        <ul>
+            <li>Added a clause to rule 8</li>
+        </ul>
         <h2>4/4/25</h2>
         <ul>
             <li>Increased taxes to curb ongoing inflation crisis</li>

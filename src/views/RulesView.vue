@@ -113,7 +113,10 @@ onMounted(scrollToHash);
                     Wagers must be about factors outside of the control of
                     bettors and bookies. If the outcome cannot be guarenteed to
                     be completely out of the control of bettors and bookies, it
-                    is not a valid wager.
+                    is not a valid wager. The only exception to this rule is if
+                    at least 4 bettors have equal, opposing influence over the
+                    outcome of the wager. For example, in the case of betting on
+                    a mahjong tournament that 4 of the bettors are a part of.
                 </p>
             </li>
             <li>

@@ -196,11 +196,8 @@ onBeforeMount(async () => {
                     :percent="getPercentage(pollOption.bettors.length)"
                     :option="pollOption.text"
                     :voters="pollOption.bettors"
-                    :is-winner="
-                        pollRef.winner === pollOption._id ||
-                        pollRef.winners?.includes(pollOption._id)
-                    "
-                    :pollRef
+                    :pps="pollRef.pricePerShare"
+                    :userId="userId || ''"
                 />
             </div>
             <BeanTotals :pollRef :isOwner />
