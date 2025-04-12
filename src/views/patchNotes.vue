@@ -3,6 +3,17 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/12/25</h2>
+        <ul>
+            <li>Fixed item selling (sorry for gaslighting you Josue)</li>
+            <li>
+                Fixed bug where user role wouldnt update after placing a bet
+            </li>
+            <li>
+                Fixed bug where invite codes could be less than 4 characters
+                long
+            </li>
+        </ul>
         <h2>4/11/25</h2>
         <ul>
             <li>Display how much of a bet you own with a sub-bar</li>

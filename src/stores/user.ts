@@ -12,15 +12,10 @@ export const useUserStore = defineStore('user', () => {
         key.value = null;
     }
 
-    function updateBeanCount(count: number) {
-        if (!user.value) return;
-        user.value.beans = count;
-    }
-
     function checkItem(item: string) {
         if (!user.value) return false;
         return user.value.inventory?.some(invItem => invItem.name === item);
     }
 
-    return { user, showLogin, key, resetUser, updateBeanCount, checkItem };
+    return { user, showLogin, key, resetUser, checkItem };
 });

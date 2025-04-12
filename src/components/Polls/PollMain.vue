@@ -128,7 +128,7 @@ async function placeBet() {
 
     try {
         const response = await axios.post(`${api}/polls/bet`, body);
-        userStore.updateBeanCount(response.data.newBeanAmt);
+        userStore.user = response.data.user;
         updatePoll(response.data.poll);
     } catch (error) {
         console.error('Error placing bet:', error);
