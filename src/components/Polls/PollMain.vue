@@ -36,7 +36,6 @@ const beans = computed(() => userStore.user?.beans || 0);
 const isOwner = computed(
     () =>
         pollRef.value?.creatorName === userStore.user?.name &&
-        !pollRef.value?.winner &&
         !pollRef.value?.winners?.length
 );
 const isPastExpiration = computed(() => {
@@ -149,7 +148,7 @@ onBeforeMount(async () => {
     <div
         class="poll"
         v-if="pollRef"
-        :class="{ hasWinner: pollRef?.winner || pollRef.winners?.length }"
+        :class="{ hasWinner: pollRef.winners?.length }"
     >
         <h1>
             {{ pollRef?.title }}
@@ -170,9 +169,7 @@ onBeforeMount(async () => {
                 class="option"
                 v-for="pollOption in pollRef.options"
                 :class="{
-                    isWinner:
-                        pollRef.winner === pollOption._id ||
-                        pollRef.winners?.includes(pollOption._id),
+                    isWinner: pollRef.winners?.includes(pollOption._id),
                     disabled:
                         pollRef.pricePerShare > beans ||
                         disableOptions ||

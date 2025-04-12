@@ -30,9 +30,7 @@ const usersShares = (userId: string) =>
     );
 
 const winningOptions = computed(() => {
-    const winningIds = pollRef.winner
-        ? [pollRef.winner]
-        : pollRef.winners?.length
+    const winningIds = pollRef.winners?.length
         ? pollRef.winners
         : selectedOptions(currentUserId).map(option => option._id);
 
@@ -114,14 +112,12 @@ const calculatePayout = (userId: string) => {
         <div>
             <strong
                 >{{
-                    pollRef.winner || pollRef.winners?.length
-                        ? ''
-                        : 'POTENTIAL '
+                    pollRef.winners?.length ? '' : 'POTENTIAL '
                 }}PAYOUT: </strong
             >{{ calculatePayout(currentUserId) }}
         </div>
     </div>
-    <div v-if="pollRef.winner || pollRef.winners?.length" class="winners">
+    <div v-if="pollRef.winners?.length" class="winners">
         <div>
             <strong>WINNERS: </strong>
             <span v-for="(winner, i) in winnerScores" :key="winner.name">

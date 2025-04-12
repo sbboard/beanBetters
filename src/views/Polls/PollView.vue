@@ -15,7 +15,7 @@ const beans = computed(() => userStore.user?.beans || 0);
 
 const openPolls = computed(() => {
     if (!apiStore.polls.data) return [];
-    const noWinner = apiStore.polls.data.filter(poll => !poll.winner);
+    const noWinner = apiStore.polls.data.filter(poll => !poll.winners.length);
     return noWinner.filter(poll => new Date(poll.endDate) > new Date());
 });
 
@@ -23,7 +23,6 @@ const unsettledPolls = computed(() => {
     if (!apiStore.polls.data) return [];
     return apiStore.polls.data.filter(
         poll =>
-            !poll.winner &&
             !poll.winners?.length &&
             (!poll.legalStatus || poll.legalStatus?.isLegal) &&
             new Date(poll.endDate) <= new Date()
@@ -34,7 +33,6 @@ const completedPolls = computed(() => {
     if (!apiStore.polls.data) return [];
     return apiStore.polls.data.filter(
         poll =>
-            poll.winner ||
             poll.winners?.length ||
             (poll.legalStatus && !poll.legalStatus.isLegal)
     );
@@ -74,8 +72,8 @@ const filteredPolls = computed(() => {
         });
     }
     return filter.sort((a, b) => {
-        if (a.winner && !b.winner) return 1;
-        if (!a.winner && b.winner) return -1;
+        if (a.winners.length && !b.winners.length) return 1;
+        if (!a.winners.length && b.winners.length) return -1;
         return 0;
     });
 });

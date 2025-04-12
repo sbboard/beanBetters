@@ -18,8 +18,7 @@ interface Poll {
     seed?: number;
     settleDate?: Date;
     title: string;
-    winner: null | string;
-    winners?: string[];
+    winners: string[];
     legalStatus?: {
         isLegal?: boolean;
         lawsBroken?: string[];

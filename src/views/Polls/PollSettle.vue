@@ -52,11 +52,10 @@ const settleBet = async () => {
     try {
         const response = await axios.post(`${api}/polls/set-winner`, {
             pollId,
-            optionId: !selectedOptions.value.length
-                ? selectedOption.value
-                : null,
             optionsArray: selectedOptions.value.length
                 ? selectedOptions.value
+                : selectedOption.value
+                ? [selectedOption.value]
                 : null,
         });
         apiStore.fetchPolls(true);
@@ -85,7 +84,6 @@ onMounted(() => fetchPoll());
                     <div
                         class="option"
                         v-for="pollOption in poll.options"
-                        :class="{ isWinner: poll.winner === pollOption._id }"
                         :key="pollOption._id"
                         @click="selectOption(pollOption._id)"
                     >

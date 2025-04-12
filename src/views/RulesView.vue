@@ -198,6 +198,13 @@ onMounted(scrollToHash);
                     has ended.
                 </p>
             </li>
+            <li>
+                <strong id="16">UNUS ANNUS AGREEMENT</strong>
+                <p>
+                    Wagers must be about something that can be determined in
+                    less than 12 months.
+                </p>
+            </li>
         </ol>
         <hr />
         <h2>BET TYPE RULES</h2>
