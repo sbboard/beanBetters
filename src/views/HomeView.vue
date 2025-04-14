@@ -15,10 +15,6 @@ const unreadNotifications = computed(() => {
         0
     );
 });
-
-const hasBeanBag = computed(() => {
-    return !!userStore.user?.inventory?.find(i => i.name === 'bean bag');
-});
 </script>
 
 <template>
@@ -29,7 +25,10 @@ const hasBeanBag = computed(() => {
             </div>
             <div>
                 <!-- https://picasion.com/glitter-maker/ -->
-                <RouterLink to="/bets" @mouseover="() => apiStore.fetchPolls()"
+                <RouterLink
+                    class="bet"
+                    to="/bets"
+                    @mouseover="() => apiStore.fetchPolls()"
                     ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
                 <RouterLink to="/notifications" class="notif">
@@ -44,9 +43,6 @@ const hasBeanBag = computed(() => {
                         }}</span>
                     </div>
                 </RouterLink>
-                <RouterLink to="/rules"
-                    ><img src="/assets/agree.gif" alt="BOOKIE AGREEMENT"
-                /></RouterLink>
                 <RouterLink
                     to="/leaderboards"
                     @mouseover="() => apiStore.fetchWinners()"
@@ -59,18 +55,11 @@ const hasBeanBag = computed(() => {
                     <img src="/assets/exchange.gif" alt="BEAN EXCHANGE" />
                 </RouterLink>
                 <RouterLink to="/inventory">
-                    <img
-                        src="/assets/inventory.gif"
-                        style="width: calc(90% - 0.5em)"
-                        alt="INVENTORY"
-                    />
-                    <div v-if="hasBeanBag">
-                        <img src="/assets/items/bag.png" />
-                    </div>
+                    <img src="/assets/inventory.gif" alt="INVENTORY" />
                 </RouterLink>
-                <RouterLink to="/loan">
-                    <img src="/assets/loans.gif" alt="PERSONAL LOANS" />
-                </RouterLink>
+                <RouterLink class="rules" to="/rules"
+                    ><img src="/assets/agree.gif" alt="BOOKIE AGREEMENT"
+                /></RouterLink>
                 <RouterLink class="patch" to="/notes"
                     ><img src="/assets/patch.gif" alt="patch notes"
                 /></RouterLink>
@@ -103,25 +92,19 @@ const hasBeanBag = computed(() => {
             align-items: flex-end;
             border-radius: 10px;
             width: 700px;
+            justify-content: space-between;
             & > a {
                 min-width: 100%;
                 max-width: 100%;
-                margin-bottom: 1em;
                 text-align: center;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                &.patch {
-                    justify-content: end;
-                    img {
-                        min-width: auto;
-                        flex: 0;
-                    }
-                }
                 & > img {
                     max-width: 100%;
                     flex: 1;
                     image-rendering: pixelated;
+                    height: 100%;
                 }
                 & > div {
                     height: 100%;
@@ -141,6 +124,18 @@ const hasBeanBag = computed(() => {
                         font-size: 1.5em;
                         font-weight: bold;
                         color: black;
+                    }
+                }
+                height: 12.5%;
+                &.bet {
+                    height: 40%;
+                }
+                &.patch {
+                    justify-content: end;
+                    height: 7.5%;
+                    img {
+                        min-width: auto;
+                        flex: 0;
                     }
                 }
             }

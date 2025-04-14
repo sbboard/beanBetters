@@ -4,8 +4,10 @@ import ItemList from '@/components/ItemList.vue';
 import SendBeans from '@/components/SendBeans.vue';
 import { useEconomy } from '@/composables/useEconomy';
 import { useApiStore } from '@/stores/api';
+import { useUserStore } from '@/stores/user';
 import { computed, onMounted } from 'vue';
 
+const userStore = useUserStore();
 const apiStore = useApiStore();
 const { ITEMS, addCommas } = useEconomy();
 
@@ -36,7 +38,10 @@ onMounted(() => apiStore.fetchLotto());
             <img src="/assets/exchange.gif" alt="STORE" />
         </div>
         <ItemList :action="'buy'" :list="itemArray" />
-        <hr />
+        <RouterLink to="/loan" v-if="!userStore.checkItem('adblock')">
+            <img src="/assets/loan_ad.jpg" alt="PERSONAL LOANS" />
+        </RouterLink>
+        <hr  v-else/>
         <h1>BEAN WIRE TRANSFER</h1>
         <SendBeans />
     </div>
@@ -82,6 +87,17 @@ hr {
         img {
             height: 75px;
         }
+    }
+}
+
+a {
+    display: block;
+    width: 100%;
+    background: none !important;
+    margin-bottom: 20px;
+    img {
+        width: 100%;
+        height: 200px;
     }
 }
 </style>

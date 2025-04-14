@@ -19,6 +19,8 @@
                 Fixed bug where settle date would default to a day after end
                 date
             </li>
+            <li>Move personal loan link to bean exchange</li>
+            <li>Re-arranged home links</li>
         </ul>
         <h2>4/12/25</h2>
         <ul>

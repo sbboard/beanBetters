@@ -35,7 +35,7 @@ const settleCopy = computed(() => {
     if (!poll) return '';
     if (poll.legalStatus?.isLegal === false) return 'SHUT DOWN';
     if (!isPastExpiration.value) return 'BET DEADLINE';
-    if (!poll.winners.length) return 'BETTING CLOSED';
+    if (!poll.winners.length) return 'EXPECTED TO SETTLE';
     return 'SETTLED';
 });
 
