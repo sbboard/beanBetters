@@ -376,16 +376,16 @@ onMounted(scrollToHash);
 
 <style lang="scss" scoped>
 .notes {
+    width: 700px;
+    max-width: calc(100% - 50px);
+    margin: 0 auto;
+    padding: 25px;
     .char {
         width: 400px;
         margin: 0 auto;
         max-width: 100%;
         margin-bottom: 1em;
     }
-    width: 700px;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 10px;
     ol {
         list-style: upper-roman;
     }

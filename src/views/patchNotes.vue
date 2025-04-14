@@ -3,6 +3,23 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/13/25</h2>
+        <ul>
+            <li>
+                Fixed bean bag claiming (sorry for gaslighting you Samantha)
+            </li>
+            <li>
+                Add more padding to bookie agreement so numbers dont get cut off
+            </li>
+            <li>
+                Change settle date so it works more like a suggestion than hard
+                rule
+            </li>
+            <li>
+                Fixed bug where settle date would default to a day after end
+                date
+            </li>
+        </ul>
         <h2>4/12/25</h2>
         <ul>
             <li>Fixed item selling (sorry for gaslighting you Josue)</li>

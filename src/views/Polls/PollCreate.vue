@@ -139,9 +139,7 @@ const handleDateChange = (event: Event) => {
     if (!settleDate.value || new Date(settleDate.value) < localDate) {
         settleDate.value = localDate.toLocaleString();
         if (!settleDateRef.value) return;
-        const date = new Date(settleDate.value);
-        const formattedDate = date.toISOString().split('T')[0]; // Formats to "YYYY-MM-DD"
-        settleDateRef.value.value = formattedDate;
+        settleDateRef.value.value = input.value;
     }
 };
 
@@ -281,9 +279,9 @@ const createPoll = async () => {
 
             <label for="endDate">Settle Deadline</label>
             <p>
-                Specify what date the bet will be settled.<br />Must be the day
-                of, or within 2 months of the end date.<br />Time is based on
-                whatever time it is when you create wager.
+                Specify what date you expect the bet to be settled.<br />Must be
+                the day of, or within 2 months of the end date.<br />Time is
+                based on whatever time it is when you create wager.
             </p>
             <input
                 ref="settleDateRef"

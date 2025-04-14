@@ -49,18 +49,6 @@ const totalPrice = computed(() => {
     return (selectedOptions.value.length || 1) * pollRef.value.pricePerShare;
 });
 
-const isPastSettleDate = computed(() => {
-    if (!pollRef.value) return false;
-    return (
-        new Date() >
-        new Date(
-            pollRef.value.settleDate
-                ? pollRef.value.settleDate.toString()
-                : pollRef.value.endDate.toString()
-        )
-    );
-});
-
 const disableOptions = computed(() => {
     if (!pollRef.value || isPastExpiration.value) return true;
     if (pollRef.value.betPerWager || 0 > 1) return false;
@@ -234,7 +222,7 @@ onBeforeMount(async () => {
                     BEANS
                 </div>
             </div>
-            <div v-if="isOwner && isPastSettleDate" class="ownerOptions">
+            <div v-if="isOwner && isPastExpiration" class="ownerOptions">
                 <RouterLink :to="`/bets/settle/${pollRef._id}`"
                     >$$$ SETTLE BET $$$</RouterLink
                 >
