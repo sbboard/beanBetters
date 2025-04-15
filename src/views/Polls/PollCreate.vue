@@ -80,7 +80,7 @@ const isEndDateValid = computed(() => {
     );
 
     const maxEndDate = new Date(today);
-    maxEndDate.setMonth(today.getMonth() + 6); // Max is six months from today
+    maxEndDate.setDate(today.getDate() + 14); // Max is two weeks from today
     maxEndDate.setHours(
         today.getHours(),
         today.getMinutes(),
@@ -97,29 +97,16 @@ const isEndDateValid = computed(() => {
 const isSettleDateValid = computed(() => {
     if (!settleDate.value) return false;
 
-    //must be the same day or within 2 months of the endDate
+    // Settle date must be within 6 months from today
     const selectedDate = new Date(settleDate.value);
     const today = new Date();
-    const minSettleDate = new Date(endDate.value);
-    minSettleDate.setHours(
-        today.getHours(),
-        today.getMinutes(),
-        today.getSeconds(),
-        0
-    );
 
-    const maxSettleDate = new Date(endDate.value);
-    maxSettleDate.setMonth(minSettleDate.getMonth() + 2); // Max is two months from the end date
-    maxSettleDate.setHours(
-        today.getHours(),
-        today.getMinutes(),
-        today.getSeconds(),
-        0
-    );
+    const maxSettleDate = new Date(today);
+    maxSettleDate.setMonth(today.getMonth() + 6); // Max is six months from today
 
     // Compare timestamps (milliseconds since epoch) to avoid precision issues
     return (
-        selectedDate.getTime() >= minSettleDate.getTime() &&
+        selectedDate.getTime() >= today.getTime() &&
         selectedDate.getTime() <= maxSettleDate.getTime()
     );
 });
@@ -267,21 +254,21 @@ const createPoll = async () => {
 
             <label for="endDate">Betting Deadline</label>
             <p>
-                Specify what date betting will end.<br />End date must between
-                tomorrow and 6 months from today.<br />Time is based on whatever
+                Specify what date betting will end.<br />Must be between
+                tomorrow and 2 weeks from today.<br />Time is based on whatever
                 time it is when you create wager.
             </p>
             <input type="date" @change="handleDateChange" />
             <p v-if="!isEndDateValid && endDate">
-                Settle date is not currently between tomorrow and 6 months from
+                Settle date is not currently between tomorrow and 2 weeks from
                 today!
             </p>
 
             <label for="endDate">Settle Deadline</label>
             <p>
                 Specify what date you expect the bet to be settled.<br />Must be
-                the day of, or within 2 months of the end date.<br />Time is
-                based on whatever time it is when you create wager.
+                between tomorrow and 6 months from today.<br />Time is based on
+                whatever time it is when you create wager.
             </p>
             <input
                 ref="settleDateRef"
@@ -530,3 +517,4 @@ const createPoll = async () => {
     }
 }
 </style>
+```
