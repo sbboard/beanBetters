@@ -205,6 +205,16 @@ onMounted(scrollToHash);
                     less than 12 months.
                 </p>
             </li>
+            <li>
+                <strong id="17">NO UNPOPULAR REPEAT WAGERS</strong>
+                <p>
+                    Making multiple iterations of the same wager is allowed, but
+                    only if the last iteration of the wager recieved at least 10
+                    bets. If the last iteration of the wager did not receive at
+                    least 10 bets, the bookie must wait at least 6 weeks before
+                    creating a new iteration of the wager.
+                </p>
+            </li>
         </ol>
         <hr />
         <h2>BET TYPE RULES</h2>
