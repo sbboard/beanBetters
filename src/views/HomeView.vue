@@ -54,14 +54,14 @@ const apiStore = useApiStore();
     }
     hr {
         width: 100%;
-        margin: 5px0 50px 0;
+        margin: 5px 0 50px 0;
     }
     & > div {
         display: flex;
         justify-content: space-between;
         & > img,
         & > div {
-            max-width: 50vmin;
+            max-width: 50%;
             display: inline-flex;
             flex-direction: column;
             vertical-align: text-top;
@@ -104,7 +104,7 @@ const apiStore = useApiStore();
                 }
                 height: 12.5%;
                 &.bet {
-                    height: 40%;
+                    height: 37.5%;
                 }
                 &.patch {
                     justify-content: end;
@@ -134,6 +134,7 @@ const apiStore = useApiStore();
                 width: 250px;
                 max-width: 100%;
                 margin-bottom: 1em;
+                margin-right: 0;
             }
         }
     }

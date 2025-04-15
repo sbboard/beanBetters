@@ -3,6 +3,12 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/15/25</h2>
+        <ul>
+            <li>Moved notification to header bar</li>
+            <li>Changed main menu sizing</li>
+            <li>Change rules around end date and settle date</li>
+        </ul>
         <h2>4/13/25</h2>
         <ul>
             <li>
