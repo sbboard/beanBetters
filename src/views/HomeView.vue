@@ -62,6 +62,7 @@ const apiStore = useApiStore();
         & > img,
         & > div {
             max-width: 50%;
+            aspect-ratio: 1;
             display: inline-flex;
             flex-direction: column;
             vertical-align: text-top;
@@ -111,6 +112,7 @@ const apiStore = useApiStore();
                     height: 7.5%;
                     img {
                         min-width: auto;
+                        max-width: 50%;
                         flex: 0;
                     }
                 }
