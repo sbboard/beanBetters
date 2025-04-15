@@ -5,11 +5,9 @@ import SiteFooter from './components/SiteFooter.vue';
 import AdRoll from './components/AdRoll.vue';
 import { onMounted } from 'vue';
 import { checkBeanId } from './composables/useLogin';
-import { useLogout } from '@/composables/useLogin';
-import { useEconomy } from '@/composables/useEconomy';
+import HeaderPanel from './components/HeaderPanel.vue';
 
 const userStore = useUserStore();
-const { addCommas } = useEconomy();
 
 onMounted(async () => {
     try {
@@ -34,29 +32,7 @@ onMounted(async () => {
         </header>
         <main>
             <div class="content">
-                <div class="welcome" v-if="userStore.user">
-                    <div>
-                        Happy betting,
-                        <strong
-                            @click="
-                                () =>
-                                    userStore.user?.role === 'admin'
-                                        ? $router.push('/admin')
-                                        : null
-                            "
-                            >{{ userStore.user?.role }}
-                            {{ userStore.user?.name }}</strong
-                        ><br />
-                        Bean Bag:
-                        <strong
-                            >{{
-                                addCommas(userStore.user?.beans || 0)
-                            }}
-                            Beans</strong
-                        >
-                    </div>
-                    <div @click="useLogout()" class="logout">Logout</div>
-                </div>
+                <HeaderPanel v-if="userStore.user" />
                 <hr class="welcomeHr" v-if="userStore.user" />
                 <LoginView v-if="userStore.showLogin" />
                 <RouterView v-else-if="userStore.user" />
@@ -260,30 +236,6 @@ table {
                 top: 50%;
                 bottom: 0;
             }
-        }
-    }
-}
-
-.welcome {
-    display: flex;
-    margin-top: 10px;
-    flex-direction: row;
-    font-size: 1.1em;
-    align-items: end;
-    justify-content: space-between;
-    & > div {
-        display: block;
-        max-width: unset;
-    }
-    strong {
-        font-weight: bold;
-    }
-    .logout {
-        text-align: right;
-        width: fit-content;
-        cursor: pointer;
-        &:hover {
-            text-decoration: underline;
         }
     }
 }

@@ -1,20 +1,8 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import { useApiStore } from '@/stores/api';
-import { useUserStore } from '@/stores/user';
-import { computed } from 'vue';
 
 const apiStore = useApiStore();
-const userStore = useUserStore();
-
-const unreadNotifications = computed(() => {
-    const { notifications, notificationsLastChecked } = userStore.user || {};
-    if (!notificationsLastChecked) return notifications?.length || 0;
-    return (
-        notifications?.filter(n => n.date > notificationsLastChecked).length ||
-        0
-    );
-});
 </script>
 
 <template>
@@ -31,18 +19,6 @@ const unreadNotifications = computed(() => {
                     @mouseover="() => apiStore.fetchPolls()"
                     ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
-                <RouterLink to="/notifications" class="notif">
-                    <img
-                        style="width: calc(90% - 0.5em)"
-                        src="/assets/notif.gif"
-                        alt="NOTIFICATIONS"
-                    />
-                    <div v-if="unreadNotifications > 0">
-                        <span>{{
-                            unreadNotifications > 9 ? '9+' : unreadNotifications
-                        }}</span>
-                    </div>
-                </RouterLink>
                 <RouterLink
                     to="/leaderboards"
                     @mouseover="() => apiStore.fetchWinners()"
@@ -158,15 +134,6 @@ const unreadNotifications = computed(() => {
                 width: 250px;
                 max-width: 100%;
                 margin-bottom: 1em;
-            }
-        }
-        .notif {
-            img {
-                width: 90%;
-            }
-            div {
-                width: auto;
-                min-width: 10%;
             }
         }
     }
