@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { character, dir } = defineProps<{ character: string; dir?: string }>();
 
-const random = Math.floor(Math.random() * 10) + 1 + 'px';
+const random = Math.floor(Math.random() * 10) + 5 + 'px';
 const flipped = `-${random}`;
 
 //AI prompt
