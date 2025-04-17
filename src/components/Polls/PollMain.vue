@@ -24,6 +24,15 @@ const updatePoll = (poll: Poll) => {
     apiStore.polls.data?.splice(pollIndex, 1, poll);
 };
 
+const shareLimit = computed(() => {
+    if (!pollRef.value) return 0;
+    const allowedShares = pollRef.value.pot / pollRef.value.pricePerShare;
+    const ownedShares = pollRef.value.options.reduce((acc, option) => {
+        return acc + option.bettors.filter(b => b === userId).length;
+    }, 0);
+    return allowedShares - ownedShares * 2;
+});
+
 const votedOptions = ref<string[]>([]); //locked in votes
 const selectedOptions = ref<string[]>([]);
 const userStore = useUserStore();
@@ -193,7 +202,11 @@ onBeforeMount(async () => {
                         v-model.number="shares"
                         :min="1"
                         :value="fixedShares"
-                        :max="beans / totalPrice"
+                        :max="
+                            shareLimit > beans / totalPrice
+                                ? beans / totalPrice
+                                : shareLimit
+                        "
                         type="number"
                         step="1"
                     />
@@ -201,6 +214,12 @@ onBeforeMount(async () => {
                 </div>
                 <div v-if="fixedShares < 1" class="betButton disabled">
                     NO SHARES SELECTED
+                </div>
+                <div v-else-if="shareLimit === 0" class="betButton disabled">
+                    SHARE LIMIT HIT
+                </div>
+                <div v-else-if="shares > shareLimit" class="betButton disabled">
+                    ABOVE SHARE LIMIT
                 </div>
                 <div
                     v-else-if="beans < fixedShares * totalPrice"
