@@ -1,61 +1,40 @@
 <script setup lang="ts">
 import Poll from '@/components/Polls/PollMain.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, type Ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 import { PRICE_OF_WAGER } from '@/composables/useEconomy';
 import { useApiStore } from '@/stores/api';
 const userStore = useUserStore();
-const currentFilter = ref('open');
+const currentFilter: Ref<'open' | 'unsettled' | 'completed'> = ref('open');
 
 const apiStore = useApiStore();
 
-const changeFilter = (filter: string) => (currentFilter.value = filter);
+const changeFilter = (filter: 'open' | 'unsettled' | 'completed') => {
+    apiStore.fetchPolls(filter);
+    currentFilter.value = filter;
+};
 
 const beans = computed(() => userStore.user?.beans || 0);
-
-const openPolls = computed(() => {
-    if (!apiStore.polls.data) return [];
-    const noWinner = apiStore.polls.data.filter(poll => !poll.winners.length);
-    return noWinner.filter(poll => new Date(poll.endDate) > new Date());
-});
-
-const unsettledPolls = computed(() => {
-    if (!apiStore.polls.data) return [];
-    return apiStore.polls.data.filter(
-        poll =>
-            !poll.winners?.length &&
-            (!poll.legalStatus || poll.legalStatus?.isLegal) &&
-            new Date(poll.endDate) <= new Date()
-    );
-});
-
-const completedPolls = computed(() => {
-    if (!apiStore.polls.data) return [];
-    return apiStore.polls.data.filter(
-        poll =>
-            poll.winners?.length ||
-            (poll.legalStatus && !poll.legalStatus.isLegal)
-    );
-});
+const openPolls = computed(() => apiStore.polls.open);
+const unsettledPolls = computed(() => apiStore.polls.unsettled);
+const completedPolls = computed(() => apiStore.polls.completed);
 
 const filteredPolls = computed(() => {
-    if (!apiStore.polls.data) return null;
     let filter: Poll[] = [];
     switch (currentFilter.value) {
         case 'open':
-            filter = openPolls.value;
+            filter = openPolls.value.data;
             break;
         case 'unsettled':
-            filter = unsettledPolls.value;
+            filter = unsettledPolls.value.data;
             break;
         case 'completed':
-            filter = completedPolls.value;
+            filter = completedPolls.value.data;
             break;
         default:
             filter = [];
     }
     if (currentFilter.value === 'unsettled') {
-        //sort by settleDate
         return filter.sort((a, b) => {
             return (
                 new Date(a.settleDate || a.endDate).getTime() -
@@ -78,7 +57,7 @@ const filteredPolls = computed(() => {
     });
 });
 
-onMounted(() => apiStore.fetchPolls());
+onMounted(() => apiStore.fetchPolls('open'));
 </script>
 
 <template>
@@ -95,17 +74,19 @@ onMounted(() => apiStore.fetchPolls());
             <span
                 :class="{ selected: currentFilter === 'open' }"
                 @click="changeFilter('open')"
+                @mouseover="() => apiStore.fetchPolls('open')"
                 >OPEN</span
             >
             <span
-                v-if="unsettledPolls.length"
                 :class="{ selected: currentFilter === 'unsettled' }"
                 @click="changeFilter('unsettled')"
+                @mouseover="() => apiStore.fetchPolls('unsettled')"
                 >UNSETTLED</span
             >
             <span
                 :class="{ selected: currentFilter === 'completed' }"
                 @click="changeFilter('completed')"
+                @mouseover="() => apiStore.fetchPolls('completed')"
                 >COMPLETED</span
             >
         </div>
@@ -114,6 +95,7 @@ onMounted(() => apiStore.fetchPolls());
                 :key="poll._id"
                 v-for="poll in filteredPolls"
                 :pollId="poll._id"
+                :currentFilter
         /></template>
         <div v-else>No {{ currentFilter }} wagers</div>
     </div>

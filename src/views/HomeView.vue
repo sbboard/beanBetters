@@ -16,7 +16,7 @@ const apiStore = useApiStore();
                 <RouterLink
                     class="bet"
                     to="/bets"
-                    @mouseover="() => apiStore.fetchPolls()"
+                    @mouseover="() => apiStore.fetchPolls('open')"
                     ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
                 <RouterLink

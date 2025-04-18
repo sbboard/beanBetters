@@ -12,8 +12,18 @@ export const useApiStore = defineStore('api', () => {
         lastFetch: 0,
     });
     const polls = ref({
-        data: <Poll[]>[],
-        lastFetch: 0,
+        open: {
+            data: <Poll[]>[],
+            lastFetch: 0,
+        },
+        unsettled: {
+            data: <Poll[]>[],
+            lastFetch: 0,
+        },
+        completed: {
+            data: <Poll[]>[],
+            lastFetch: 0,
+        },
     });
     const lottoAmt = ref({
         data: <number>0,
@@ -24,8 +34,9 @@ export const useApiStore = defineStore('api', () => {
         winners.value.data = [];
         winners.value.chart = [];
         winners.value.lastFetch = 0;
-        polls.value.data = [];
-        polls.value.lastFetch = 0;
+        polls.value.open = { data: [], lastFetch: 0 };
+        polls.value.unsettled = { data: [], lastFetch: 0 };
+        polls.value.completed = { data: [], lastFetch: 0 };
         lottoAmt.value.data = 0;
         lottoAmt.value.lastFetch = 0;
     }
@@ -52,23 +63,26 @@ export const useApiStore = defineStore('api', () => {
         }
     };
 
-    const fetchPolls = async (force = false): Promise<void> => {
+    const fetchPolls = async (
+        type: 'open' | 'unsettled' | 'completed',
+        force = false
+    ): Promise<void> => {
         const now = Date.now();
         if (
             !force &&
-            polls.value.lastFetch &&
-            polls.value.lastFetch >= now - API_TIMEOUT
+            polls.value[type].lastFetch &&
+            polls.value[type].lastFetch >= now - API_TIMEOUT
         ) {
             return;
         }
-
         try {
             const userStore = useUserStore();
-            const response = await axios.get(`${api}/polls`, {
+            const response = await axios.get(`${api}/polls/type/${type}`, {
                 params: { userId: userStore.user?._id },
             });
-            polls.value.data = response.data;
-            polls.value.lastFetch = now;
+            const data = response.data as Poll[];
+            polls.value[type].data = data;
+            polls.value[type].lastFetch = now;
         } catch (error) {
             console.error('Error fetching polls:', error);
             throw error;

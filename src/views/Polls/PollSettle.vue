@@ -58,7 +58,8 @@ const settleBet = async () => {
                 ? [selectedOption.value]
                 : null,
         });
-        apiStore.fetchPolls(true);
+        apiStore.fetchPolls('unsettled', true);
+        apiStore.fetchPolls('completed', true);
         if (response.data.user) userStore.user = response.data.user;
         alert('Bet settled successfully');
         router.push({ name: 'bets' });

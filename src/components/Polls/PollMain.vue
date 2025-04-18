@@ -10,18 +10,21 @@ import IllegalBlock from './IllegalBlock.vue';
 import PollInfo from './PollInfo.vue';
 import BeanTotals from './BeanTotals.vue';
 
-const { pollId } = defineProps<{ pollId: string }>();
+const { pollId, currentFilter } = defineProps<{
+    pollId: string;
+    currentFilter: 'open' | 'unsettled' | 'completed';
+}>();
 const { addCommas } = useEconomy();
 const apiStore = useApiStore();
 const pollRef = computed(() =>
-    apiStore.polls.data?.find(poll => poll._id === pollId)
+    apiStore.polls[currentFilter].data.find(poll => poll._id === pollId)
 );
 const updatePoll = (poll: Poll) => {
-    const pollIndex = apiStore.polls.data?.findIndex(
+    const pollIndex = apiStore.polls[currentFilter].data.findIndex(
         poll => poll._id === pollId
     );
     if (!pollIndex) return;
-    apiStore.polls.data?.splice(pollIndex, 1, poll);
+    apiStore.polls[currentFilter].data.splice(pollIndex, 1, poll);
 };
 
 const shareLimit = computed(() => {

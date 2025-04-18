@@ -6,7 +6,9 @@
         <h2>4/17/25</h2>
         <ul>
             <li>Implement share limit</li>
+            <li>Split poll API calls</li>
         </ul>
+
         <h2>4/15/25</h2>
         <ul>
             <li>Moved notification to header bar</li>

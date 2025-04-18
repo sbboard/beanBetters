@@ -203,7 +203,7 @@ const createPoll = async () => {
         message.value = response.data.message;
         if (message.value === 'Poll created successfully') {
             userStore.user = response.data.user;
-            apiStore.fetchPolls(true);
+            apiStore.fetchPolls('open', true);
             router.push({ path: '/bets' });
         }
     } catch (error) {
