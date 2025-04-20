@@ -155,7 +155,6 @@ onBeforeMount(async () => {
         v-if="pollRef"
         :class="{ hasWinner: pollRef.winners?.length }"
     >
-        {{ shareLimit }}
         <h1>
             {{ pollRef?.title }}
             <span class="wid"
