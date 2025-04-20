@@ -29,11 +29,16 @@ const updatePoll = (poll: Poll) => {
 
 const shareLimit = computed(() => {
     if (!pollRef.value) return 0;
+    const numOfShares = selectedOptions.value.length || 1;
     const allowedShares = pollRef.value.pot / pollRef.value.pricePerShare;
     const ownedShares = pollRef.value.options.reduce((acc, option) => {
         return acc + option.bettors.filter(b => b === userId).length;
     }, 0);
-    return allowedShares - ownedShares * 2;
+    const shareLimitCalc = Math.floor(
+        (allowedShares - ownedShares * 2) / numOfShares
+    );
+    if (shareLimitCalc < 0) return 0;
+    return shareLimitCalc;
 });
 
 const votedOptions = ref<string[]>([]); //locked in votes
@@ -150,6 +155,7 @@ onBeforeMount(async () => {
         v-if="pollRef"
         :class="{ hasWinner: pollRef.winners?.length }"
     >
+        {{ shareLimit }}
         <h1>
             {{ pollRef?.title }}
             <span class="wid"
@@ -344,7 +350,7 @@ onBeforeMount(async () => {
                 border: 0;
                 color: var(--themeColor);
                 border-bottom: 2px solid var(--themeColor);
-                width: 1.125em;
+                width: 1.75em;
                 text-align: center;
                 font-size: 1.125em;
                 &::-webkit-inner-spin-button {

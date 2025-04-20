@@ -3,12 +3,19 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/19/25</h2>
+        <ul>
+            <li>
+                Fixed issue where share limits weren't applying correctly to
+                multi-bets
+            </li>
+            <li>Stretched out share input so it can fit 3 digits</li>
+        </ul>
         <h2>4/17/25</h2>
         <ul>
             <li>Implement share limit</li>
             <li>Split poll API calls</li>
         </ul>
-
         <h2>4/15/25</h2>
         <ul>
             <li>Moved notification to header bar</li>
