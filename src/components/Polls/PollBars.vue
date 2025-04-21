@@ -4,12 +4,13 @@ import { useEconomy } from '@/composables/useEconomy';
 
 const { addCommas } = useEconomy();
 
-const { percent, option, pps, voters, userId } = defineProps<{
+const { percent, option, pps, voters, userId, hideBeanCount } = defineProps<{
     percent: number;
     option: string;
     voters: string[];
     pps: number;
     userId: string;
+    hideBeanCount?: boolean;
 }>();
 
 const darkInnerWidth = ref('0px');
@@ -49,15 +50,17 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="barWrap">
+    <div class="barWrap" :class="{ hideBeanCount }">
         <div class="light-layer" ref="baseLayer">
             <div class="title">{{ option }}</div>
-            <div class="percentage">{{ beanCopy() }}</div>
+            <div class="percentage" v-if="!hideBeanCount">{{ beanCopy() }}</div>
         </div>
         <div class="dark-layer" :style="shadedBg">
             <div class="inner">
                 <div class="title">{{ option }}</div>
-                <div class="percentage">{{ beanCopy() }}</div>
+                <div class="percentage" v-if="!hideBeanCount">
+                    {{ beanCopy() }}
+                </div>
             </div>
         </div>
     </div>
@@ -70,6 +73,14 @@ onUnmounted(() => {
     font-size: 0.9em;
     margin-left: 0.5em;
     color: var(--themeColor);
+    &.hideBeanCount {
+        margin-left: 0;
+        .title{
+            margin: 0 !important;
+            text-align: center;
+            width: 100%;
+        }
+    }
     .light-layer {
         height: 100%;
         width: 100%;

@@ -5,7 +5,7 @@ const random = Math.floor(Math.random() * 10) + 5 + 'px';
 const flipped = `-${random}`;
 
 //AI prompt
-//a man with a normal, human body is wearing a king's robe and fedora with a kidney bean for a head is sitting on a giant pial of money. He has massive bloodshot eyes, no nose, a mouth mouth screaming with excitement, and bushy eyebrows. Beautiful woman surround him. photo realistic
+//aa man with a normal, human body is wearing a suit and a king's crown with a kidney bean for a head. He has massive bloodshot eyes, no nose, a mouth mouth screaming with excitement, and bushy eyebrows. He's looking at a large sign that reads "bets closing soon" looking worried to miss his chance. He's running to the casino holding large amounts of cash. photo realistic
 </script>
 
 <template>

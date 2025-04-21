@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
+import DonateToCause from '@/components/DonateToCause.vue';
 import { useApiStore } from '@/stores/api';
 
 const apiStore = useApiStore();
@@ -41,6 +42,7 @@ const apiStore = useApiStore();
                 /></RouterLink>
             </div>
         </div>
+        <DonateToCause />
     </div>
 </template>
 
