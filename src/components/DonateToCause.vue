@@ -23,6 +23,9 @@ const { addCommas } = useEconomy();
 const FEATURE_ID = '680685bfac986a4716b17a69';
 
 const disableDonating = computed(() => {
+    if (shares.value < 1) {
+        return 'NO SHARES';
+    }
     if ((userStore.user?.beans || 0) < (poll.value?.pricePerShare || 0)) {
         return 'TOO POOR TO DONATE';
     }
@@ -82,7 +85,7 @@ onMounted(async () => {
             <img :src="`/assets/features/${option._id}.jpg`" />
             <h1>{{ option.text }}</h1>
             <Bars
-                style="border: 1px solid var(--themeColor); padding: 0.25em"
+                style="border: 1px solid var(--themeColor); padding: 0.25em 0"
                 :percent="getFundedAmt(option) / (poll?.seed || 1)"
                 :option="`
                 ${addCommas(option.bettors.length * (poll?.pricePerShare || 0))}
@@ -92,9 +95,7 @@ onMounted(async () => {
                 :userId="userStore.user!._id"
                 :hideBeanCount="true"
             />
-            {{ getFundedAmt(option) / (poll?.seed || 1) }}
-            <div class="shares" v-if="!disableDonating">
-                BUY
+            <div class="shares">
                 <input
                     v-model.number="shares"
                     :min="1"
@@ -112,7 +113,7 @@ onMounted(async () => {
             >
                 {{
                     disableDonating ||
-                    `DONATE ${addCommas(poll!.pricePerShare)} BEANS`
+                    `DONATE ${addCommas(poll!.pricePerShare * shares)} BEANS`
                 }}
             </div>
         </div>
