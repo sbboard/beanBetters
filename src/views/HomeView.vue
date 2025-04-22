@@ -162,7 +162,6 @@ const userStore = useUserStore();
     line-height: 0;
     img {
         width: 100%;
-        height: 100px;
         filter: none;
     }
 }

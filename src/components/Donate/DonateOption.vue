@@ -43,7 +43,11 @@ const fundedAmt = computed(() => {
         <h1>{{ option.text }}</h1>
         <Bars
             v-if="userStore.user"
-            style="border: 1px solid var(--themeColor); padding: 0.25em 0"
+            style="
+                border: 1px solid var(--themeColor);
+                padding: 0.25em 0;
+                margin-top: auto;
+            "
             :key="fundedAmt"
             :percent="(fundedAmt / poll.seed!) * 100"
             :option="`
@@ -70,6 +74,8 @@ const fundedAmt = computed(() => {
 <style lang="scss" scoped>
 .singleOption {
     padding: 0 1em;
+    display: flex;
+    flex-direction: column;
     .imgWrap {
         border: 2px solid var(--themeColor);
         border-radius: 50%;
@@ -89,7 +95,7 @@ h1 {
     margin-bottom: 0.5em;
 }
 .betButton {
-    margin-top: 0.5em;
+    margin-top: .5em;
     cursor: pointer;
     display: block;
     background-color: var(--themeColor);

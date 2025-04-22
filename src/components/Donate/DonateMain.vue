@@ -81,4 +81,14 @@ h2 {
         box-sizing: border-box;
     }
 }
+
+@media (max-width: 700px) {
+    .options {
+        flex-direction: column;
+        .singleOption {
+            margin-bottom: 1em;
+            padding: 0;
+        }
+    }
+}
 </style>
