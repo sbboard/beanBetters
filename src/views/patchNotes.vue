@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/21/25</h2>
+        <ul>
+            <li>Added Concave 2025 Ad</li>
+            <li>Added Good Causes</li>
+        </ul>
         <h2>4/19/25</h2>
         <ul>
             <li>

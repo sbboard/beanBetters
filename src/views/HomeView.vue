@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
-import DonateToCause from '@/components/DonateToCause.vue';
+import DonateToCause from '@/components/Donate/DonateMain.vue';
 import { useApiStore } from '@/stores/api';
+import { useUserStore } from '@/stores/user';
 
 const apiStore = useApiStore();
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -42,6 +44,14 @@ const apiStore = useApiStore();
                 /></RouterLink>
             </div>
         </div>
+        <RouterLink
+            v-if="!userStore.checkItem('adblock')"
+            class="topAd"
+            to="/bets"
+            @mouseover="() => apiStore.fetchPolls('open')"
+            ><img src="/assets/pope.jpg" alt="BET!"
+        /></RouterLink>
+        <hr v-else />
         <DonateToCause />
     </div>
 </template>
@@ -56,7 +66,8 @@ const apiStore = useApiStore();
     }
     hr {
         width: 100%;
-        margin: 5px 0 50px 0;
+        margin: 1em 0;
+        border-color: var(--themeColor);
     }
     & > div {
         display: flex;
@@ -141,6 +152,18 @@ const apiStore = useApiStore();
                 margin-right: 0;
             }
         }
+    }
+}
+
+.topAd {
+    width: 100%;
+    margin: 1em 0;
+    display: block;
+    line-height: 0;
+    img {
+        width: 100%;
+        height: 100px;
+        filter: none;
     }
 }
 

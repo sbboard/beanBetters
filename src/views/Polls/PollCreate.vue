@@ -233,7 +233,7 @@ const createPoll = async () => {
             "
             class="noMoney"
         >
-            <p>Not enough beans for minimum seed</p>
+            <p class="error">Not enough beans for minimum seed</p>
         </div>
         <div v-else-if="!userStore.checkItem('bookie license')" class="noMoney">
             <p>You need a bookie license to create a wager</p>
@@ -259,8 +259,8 @@ const createPoll = async () => {
                 time it is when you create wager.
             </p>
             <input type="date" @change="handleDateChange" />
-            <p v-if="!isEndDateValid && endDate">
-                Settle date is not currently between tomorrow and 2 weeks from
+            <p class="error" v-if="!isEndDateValid && endDate">
+                End date is not currently between tomorrow and 2 weeks from
                 today!
             </p>
 
@@ -275,7 +275,7 @@ const createPoll = async () => {
                 type="date"
                 @change="handleSettleDateChange"
             />
-            <p v-if="!isSettleDateValid && settleDate">
+            <p v-if="!isSettleDateValid && settleDate" class="error">
                 Settle date is not currently within valid timeframe.
             </p>
 
@@ -373,6 +373,7 @@ const createPoll = async () => {
                     seed > (userStore.user?.beans || 0) &&
                     userStore.user?.role !== 'admin'
                 "
+                class="error"
             >
                 You cannot afford this seed amount!
             </p>
@@ -507,6 +508,9 @@ const createPoll = async () => {
             font-size: 2em;
             margin-right: 1rem;
         }
+    }
+    .error{
+        color: red;
     }
 }
 

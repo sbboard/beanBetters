@@ -75,9 +75,7 @@ onUnmounted(() => {
     color: var(--themeColor);
     &.hideBeanCount {
         margin-left: 0;
-        .title{
-            margin: 0 !important;
-            text-align: center;
+        .title {
             width: 100%;
         }
     }
