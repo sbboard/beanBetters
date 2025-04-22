@@ -276,7 +276,9 @@ onMounted(scrollToHash);
                 <p>
                     Bookies don't get taxed on weeks when they create wagers. By
                     maintaining a healthy habit of creating weekly wagers a
-                    smart bookie could evade taxes their entire life.
+                    smart bookie could evade taxes their entire life. As a side
+                    note, people who donate beans to sanctioned good causes are
+                    also exempt from taxes the week they donate.
                 </p>
                 <p>For those curious, here are the current tax rates:</p>
                 <table>
