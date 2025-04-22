@@ -46,7 +46,7 @@ const userStore = useUserStore();
         </div>
         <RouterLink
             v-if="!userStore.checkItem('adblock')"
-            class="topAd"
+            class="homead"
             to="/bets"
             @mouseover="() => apiStore.fetchPolls('open')"
             ><img src="/assets/pope.jpg" alt="BET!"
@@ -155,7 +155,7 @@ const userStore = useUserStore();
     }
 }
 
-.topAd {
+.homead {
     width: 100%;
     margin: 1em 0;
     display: block;
