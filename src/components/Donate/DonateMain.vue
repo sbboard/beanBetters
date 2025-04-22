@@ -41,11 +41,7 @@ async function placeBet(optionId: string) {
 </script>
 
 <template>
-    <img class="donate" src="/assets/k97G.gif" />
-    <h2>
-        Causes will be implemented as features of the site after reaching their
-        3,000,000,000 bean funding goal.
-    </h2>
+    <img class="donate" src="/assets/k97G.gif" style="margin-bottom: 1em" />
     <div class="options" v-if="poll">
         <DonateOption
             v-for="(option, index) in poll.options"
@@ -62,6 +58,9 @@ async function placeBet(optionId: string) {
     filter: sepia(1) hue-rotate(33deg) saturate(3.5) contrast(1.5);
     max-height: 2em;
     max-width: 100%;
+    text-align: center;
+    margin: 0 auto 1em auto;
+    display: block;
 }
 
 h2 {
