@@ -1,13 +1,12 @@
 <script setup lang="ts">
+import BannerAd from '@/components/BannerAd.vue';
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import ItemList from '@/components/ItemList.vue';
 import SendBeans from '@/components/SendBeans.vue';
 import { useEconomy } from '@/composables/useEconomy';
 import { useApiStore } from '@/stores/api';
-import { useUserStore } from '@/stores/user';
 import { computed, onMounted } from 'vue';
 
-const userStore = useUserStore();
 const apiStore = useApiStore();
 const { ITEMS, addCommas } = useEconomy();
 
@@ -38,10 +37,7 @@ onMounted(() => apiStore.fetchLotto());
             <img src="/assets/exchange.gif" alt="STORE" />
         </div>
         <ItemList :action="'buy'" :list="itemArray" />
-        <RouterLink to="/loan" v-if="!userStore.checkItem('adblock')">
-            <img src="/assets/loan_ad.jpg" alt="PERSONAL LOANS" />
-        </RouterLink>
-        <hr  v-else/>
+        <BannerAd to="/loan" src="/assets/loan_ad.jpg" />
         <h1>BEAN WIRE TRANSFER</h1>
         <SendBeans />
     </div>

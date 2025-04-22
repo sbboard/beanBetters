@@ -3,6 +3,12 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>4/22/25</h2>
+        <ul>
+            <li>Added glow to causes</li>
+            <li>Added sponsored content disclaimer to banner ads</li>
+            <li>Added philanthropy leaderboard</li>
+        </ul>
         <h2>4/21/25</h2>
         <ul>
             <li>Added Concave 2025 Ad</li>

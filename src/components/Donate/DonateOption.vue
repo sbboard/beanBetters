@@ -77,12 +77,11 @@ const fundedAmt = computed(() => {
     display: flex;
     flex-direction: column;
     .imgWrap {
-        border: 2px solid var(--themeColor);
         border-radius: 50%;
-        max-width: 80%;
+        max-width: 50%;
         overflow: hidden;
-        margin: 0 auto;
-        margin-bottom: 1rem;
+        margin: 1rem auto 2rem auto;
+        animation: glow 2s ease-in-out infinite alternate;
         img {
             width: 100%;
             display: block;
@@ -90,12 +89,26 @@ const fundedAmt = computed(() => {
         }
     }
 }
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 calc(60px / 5) calc(30px / 5) #fff,
+            0 0 calc(100px / 5) calc(60px / 5) var(--themeColor),
+            0 0 calc(140px / 5) calc(90px / 5) rgb(238, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 calc(60px / 4) calc(30px / 4) #fff,
+            0 0 calc(100px / 4) calc(60px / 4) var(--themeColor),
+            0 0 calc(140px / 4) calc(90px / 4) rgb(200, 255, 0);
+    }
+}
+
 h1 {
     font-size: 1em;
     margin-bottom: 0.5em;
 }
 .betButton {
-    margin-top: .5em;
+    margin-top: 0.5em;
     cursor: pointer;
     display: block;
     background-color: var(--themeColor);

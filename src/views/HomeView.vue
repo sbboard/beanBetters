@@ -1,11 +1,10 @@
 <script setup lang="ts">
+import BannerAd from '@/components/BannerAd.vue';
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import DonateToCause from '@/components/Donate/DonateMain.vue';
 import { useApiStore } from '@/stores/api';
-import { useUserStore } from '@/stores/user';
 
 const apiStore = useApiStore();
-const userStore = useUserStore();
 </script>
 
 <template>
@@ -44,14 +43,7 @@ const userStore = useUserStore();
                 /></RouterLink>
             </div>
         </div>
-        <RouterLink
-            v-if="!userStore.checkItem('adblock')"
-            class="homead"
-            to="/bets"
-            @mouseover="() => apiStore.fetchPolls('open')"
-            ><img src="/assets/pope.jpg" alt="BET!"
-        /></RouterLink>
-        <hr v-else />
+        <BannerAd to="/bets" src="/assets/pope.jpg" />
         <DonateToCause />
     </div>
 </template>
@@ -152,17 +144,6 @@ const userStore = useUserStore();
                 margin-right: 0;
             }
         }
-    }
-}
-
-.homead {
-    width: 100%;
-    margin: 1em 0;
-    display: block;
-    line-height: 0;
-    img {
-        width: 100%;
-        filter: none;
     }
 }
 

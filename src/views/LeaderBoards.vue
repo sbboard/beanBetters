@@ -3,11 +3,31 @@ import { useApiStore } from '@/stores/api';
 import TheChart from '@/components/Leaderboards/TheChart.vue';
 import MasterList from '@/components/Leaderboards/MasterList.vue';
 import { onMounted, ref, type Ref } from 'vue';
+import axios from 'axios';
 
 const apiStore = useApiStore();
-const sort: Ref<'beans' | 'wins'> = ref('beans');
+const sort: Ref<'beans' | 'wins' | 'donate'> = ref('beans');
+const poll: Ref<Poll | null> = ref(null);
 
-onMounted(() => apiStore.fetchWinners());
+const api = import.meta.env.VITE_API;
+const fetchPoll = async () => {
+    try {
+        const response = await axios.get(
+            `${api}/polls/680685bfac986a4716b17a69`,
+            {
+                params: { userId: 'dummy' },
+            }
+        );
+        poll.value = response.data;
+    } catch (error) {
+        console.error('Error fetching poll:', error);
+    }
+};
+
+onMounted(async () => {
+    apiStore.fetchWinners();
+    await fetchPoll();
+});
 </script>
 
 <template>
@@ -31,16 +51,24 @@ onMounted(() => apiStore.fetchWinners());
             <span
                 :class="{ selected: sort === 'beans' }"
                 @click="() => (sort = 'beans')"
-                >SORT BY BEANS</span
+                >BEANS</span
             >
             <span
                 :class="{ selected: sort === 'wins' }"
                 @click="() => (sort = 'wins')"
-                >SORT BY WINS</span
+                >WINS</span
+            >
+            <span
+                :class="{ selected: sort === 'donate' }"
+                @click="() => (sort = 'donate')"
+                >PHILANTHROPY</span
             >
         </div>
-        <TheChart v-if="apiStore.winners.chart.length" :sort></TheChart>
-        <MasterList :sort></MasterList>
+        <TheChart
+            v-if="apiStore.winners.chart.length && sort !== 'donate'"
+            :sort
+        ></TheChart>
+        <MasterList :sort :poll></MasterList>
     </div>
 </template>
 

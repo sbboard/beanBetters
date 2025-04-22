@@ -6,9 +6,34 @@ import ranks from '@/utils/rankInfo';
 
 const apiStore = useApiStore();
 const { addCommas } = useEconomy();
-const { sort } = defineProps<{ sort: 'beans' | 'wins' }>();
+const { sort, poll } = defineProps<{
+    sort: 'beans' | 'wins' | 'donate';
+    poll: Poll | null;
+}>();
 
 const sortedUsers = computed(() => {
+    if (sort === 'donate') {
+        if (!poll) return [];
+        //get unique bettors from all options of poll
+        const bettors = poll.options.flatMap(option => option.bettors);
+        console.log(bettors);
+        //get unique bettors
+        const uniqueBettors = Array.from(
+            new Set(bettors.map(bettor => bettor))
+        );
+        const winnerArray: Partial<User>[] = [];
+        uniqueBettors.forEach(bettor => {
+            //count how many times bettor appears in bettors
+            const count = bettors.filter(b => b === bettor).length;
+            winnerArray.push({
+                name: bettor,
+                beans: count * poll.pricePerShare,
+            });
+        });
+        return winnerArray.sort((a, b) => {
+            return (b.beans || 0) - (a.beans || 0);
+        });
+    }
     if (!apiStore.winners.data) return [];
     const virtualUsers = [...apiStore.winners.data];
     if (sort === 'wins') {
@@ -40,7 +65,7 @@ const sortedUsers = computed(() => {
                     <th v-if="sort === 'beans'">Rank</th>
                     <th>Bettor</th>
                     <th v-if="sort === 'wins'">Wins</th>
-                    <th v-if="sort === 'beans'">Beans</th>
+                    <th v-if="sort === 'beans' || sort === 'donate'">Beans</th>
                 </tr>
             </thead>
             <tbody class="ranks">
@@ -54,10 +79,15 @@ const sortedUsers = computed(() => {
                     </td>
                     <td>{{ user.name }}</td>
                     <td class="wins" v-if="sort === 'wins'">
-                        {{ user.wins.length }}
+                        {{ user.wins?.length }}
                     </td>
-                    <td class="wins" v-if="sort === 'beans'">
-                        {{ addCommas(user.beans - (user.debt || 0) || 0) }}
+                    <td
+                        class="wins"
+                        v-if="sort === 'beans' || sort === 'donate'"
+                    >
+                        {{
+                            addCommas((user.beans || 0) - (user.debt || 0) || 0)
+                        }}
                     </td>
                 </tr>
             </tbody>
@@ -72,7 +102,8 @@ table {
         text-align: right;
         overflow-wrap: anywhere;
     }
-    &.wins {
+    &.wins,
+    &.donate {
         tr {
             border-bottom: 1px solid var(--themeColor) !important;
         }

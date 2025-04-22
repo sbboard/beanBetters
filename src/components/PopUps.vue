@@ -38,16 +38,6 @@ onMounted(() => {
             text-align: center;
             font-size: 0.6em;
             margin-bottom: 0.5em;
-            &.close {
-                border-left: 1px solid var(--themeColor);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 2em;
-                margin-left: auto;
-                font-size: 1rem;
-                height: 100%;
-            }
         }
     }
     img {
