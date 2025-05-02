@@ -15,9 +15,10 @@ let timeout: ReturnType<typeof setTimeout>;
 //a man with a normal, human body is wearing a suit and a king's crown with a kidney bean for a head. He has massive bloodshot eyes, no nose, a mouth mouth screaming with excitement, and bushy eyebrows. He's looking at a large sign that reads "bets closing soon" looking worried to miss his chance. He's running to the casino holding large amounts of cash. photo realistic
 
 const toggleThunder = () => {
+    clearTimeout(timeout);
     if (extra.value) extra.value = '';
     else extra.value = 'empty';
-    timeout = setTimeout(toggleThunder, Math.floor(Math.random() * 195) + 5);
+    timeout = setTimeout(toggleThunder, Math.floor(Math.random() * 95) + 5);
 };
 
 watch(

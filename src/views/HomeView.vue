@@ -10,7 +10,6 @@ const apiStore = useApiStore();
 
 <template>
     <div class="home">
-        <ThursdayBonus />
         <div>
             <div class="left">
                 <CharacterPortraits character="king" />
@@ -45,6 +44,7 @@ const apiStore = useApiStore();
                 /></RouterLink>
             </div>
         </div>
+        <ThursdayBonus />
         <BannerAd to="/bets" src="/assets/jackpot.jpg" />
         <DonateToCause />
     </div>
