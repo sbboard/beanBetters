@@ -43,7 +43,7 @@ const apiStore = useApiStore();
                 /></RouterLink>
             </div>
         </div>
-        <BannerAd to="/bets" src="/assets/pope.jpg" />
+        <BannerAd to="/bets" src="/assets/jackpot.jpg" />
         <DonateToCause />
     </div>
 </template>

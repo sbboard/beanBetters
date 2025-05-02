@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>5/2/25</h2>
+        <ul>
+            <li>Fixed width of good cause bars</li>
+            <li>Changed pope ad to more generic gambling ad</li>
+        </ul>
         <h2>4/22/25</h2>
         <ul>
             <li>Added glow to causes</li>

@@ -40,8 +40,8 @@ const beanCopy = () => {
 };
 
 onMounted(() => {
-    calculateBars();
     addEventListener('resize', calculateBars);
+    requestAnimationFrame(() => calculateBars());
 });
 
 onUnmounted(() => {
