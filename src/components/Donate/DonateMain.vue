@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import DonateOption from './DonateOption.vue';
 
 const api = import.meta.env.VITE_API;
@@ -20,8 +20,6 @@ const fetchPoll = async () => {
     }
 };
 
-onMounted(async () => await fetchPoll());
-
 async function placeBet(optionId: string) {
     const body = {
         pollId: FEATURE_ID,
@@ -38,13 +36,27 @@ async function placeBet(optionId: string) {
         console.error('Error placing bet:', error);
     }
 }
+
+const options = computed(() => {
+    if (!poll.value) return [];
+    const betsNeeded = (poll.value.seed || 0) / poll.value.pricePerShare;
+    const bets: PollOption[] = [];
+    poll.value.options.forEach(option => {
+        if (option.bettors.length < betsNeeded) {
+            bets.push(option);
+        }
+    });
+    return bets;
+});
+
+onMounted(async () => await fetchPoll());
 </script>
 
 <template>
     <img class="donate" src="/assets/k97G.gif" style="margin-bottom: 1em" />
     <div class="options" v-if="poll">
         <DonateOption
-            v-for="(option, index) in poll.options"
+            v-for="(option, index) in options"
             :key="index"
             :poll
             :option
