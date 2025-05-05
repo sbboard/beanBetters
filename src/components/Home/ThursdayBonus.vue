@@ -1,20 +1,44 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import CharacterPortraits from '../CharacterPortraits.vue';
+import axios from 'axios';
+import { useUserStore } from '@/stores/user';
 
 //if today is thursday, show the banner
-const isThursday = ref(false);
-const claimed = ref(false);
+const api = import.meta.env.VITE_API;
+const userStore = useUserStore();
+const userId = userStore.user?._id;
 
-const claim = () => {
+const isThursday = ref(false);
+
+const claim = async () => {
     if (!isThursday.value || claimed.value) return;
-    claimed.value = true;
+    const response = await axios.post(`${api}/user/bonus`, {
+        userId,
+    });
+    userStore.user = response.data.user;
 };
+
+const claimed = computed(() => {
+    const user = userStore.user;
+    if (!user) return false;
+    const lastBonusDate = user.lastBonusClaimed
+        ? new Date(user.lastBonusClaimed)
+        : null;
+    const today = new Date();
+    const startOfToday = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+    );
+
+    return !!lastBonusDate && lastBonusDate >= startOfToday;
+});
 
 onMounted(() => {
     const today = new Date();
     const day = today.getDay();
-    isThursday.value = day === 5; // 0 = Sunday, 1 = Monday, ..., 4 = Thursday
+    isThursday.value = day === 4; // 0 = Sunday, 1 = Monday, ..., 4 = Thursday
 });
 </script>
 
@@ -100,6 +124,14 @@ onMounted(() => {
 @media (max-width: 700px) {
     .bonus .thor {
         margin-right: 0;
+        border-right: 0;
+        margin-top: 0.5rem;
+    }
+    .info {
+        width: 100%;
+        button {
+            width: 100%;
+        }
     }
 }
 </style>
