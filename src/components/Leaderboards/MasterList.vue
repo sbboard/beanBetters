@@ -16,7 +16,6 @@ const sortedUsers = computed(() => {
         if (!poll) return [];
         //get unique bettors from all options of poll
         const bettors = poll.options.flatMap(option => option.bettors);
-        console.log(bettors);
         //get unique bettors
         const uniqueBettors = Array.from(
             new Set(bettors.map(bettor => bettor))
