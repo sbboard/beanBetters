@@ -10,9 +10,10 @@ const userStore = useUserStore();
 const userId = userStore.user?._id;
 
 const isThursday = ref(false);
+const canClaim = computed(() => isThursday.value && !claimed.value);
 
 const claim = async () => {
-    if (!isThursday.value || claimed.value) return;
+    if (!canClaim.value) return;
     const response = await axios.post(`${api}/user/bonus`, {
         userId,
     });
@@ -43,7 +44,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="bonus">
+    <div class="bonus" :class="{ disabled: !canClaim }">
         <CharacterPortraits
             :character="isThursday && !claimed ? 'thor' : 'thorempty'"
             class="thor"
@@ -72,6 +73,10 @@ onMounted(() => {
 .bonus {
     margin: 1em 0 1em 0;
     border: 1px solid var(--themeColor);
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
     .thor {
         max-width: 100px;
         border-right: 1px solid var(--themeColor);
@@ -114,7 +119,6 @@ onMounted(() => {
                 border: 1px solid var(--themeColor);
                 color: var(--themeColor);
                 cursor: not-allowed;
-                opacity: 0.5;
                 font-weight: 400;
             }
         }
