@@ -80,7 +80,8 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
                     placeholder="Invite Code"
                     v-model="newUser.inviteCode"
                     required
-                    maxlength="5"
+                    maxlength="4"
+                    @input="newUser.inviteCode = newUser.inviteCode.toUpperCase()"
                 />
                 <button type="submit">REGISTER!! WIN BIG!</button>
             </form>
