@@ -3,6 +3,12 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>5/9/25</h2>
+        <ul>
+            <li>Adjusted disabled Thursday Bonus styles</li>
+            <li>Fixed bug where first wager wasnt updated after betting</li>
+            <li>Force all invite codes to uppercase</li>
+        </ul>
         <h2>5/5/25</h2>
         <ul>
             <li>Adjusted tax rates</li>
