@@ -23,7 +23,7 @@ const updatePoll = (poll: Poll) => {
     const pollIndex = apiStore.polls[currentFilter].data.findIndex(
         poll => poll._id === pollId
     );
-    if (!pollIndex) return;
+    if (pollIndex < 0) return;
     apiStore.polls[currentFilter].data.splice(pollIndex, 1, poll);
 };
 
@@ -132,6 +132,7 @@ async function placeBet() {
 
     try {
         const response = await axios.post(`${api}/polls/bet`, body);
+        console.log(response);
         userStore.user = response.data.user;
         updatePoll(response.data.poll);
     } catch (error) {
