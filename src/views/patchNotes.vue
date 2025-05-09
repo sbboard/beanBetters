@@ -3,6 +3,12 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>5/5/25</h2>
+        <ul>
+            <li>Adjusted tax rates</li>
+            <li>Added spoiler good cause</li>
+            <li>Added thursday login bonus</li>
+        </ul>
         <h2>5/2/25</h2>
         <ul>
             <li>Fixed width of good cause bars</li>

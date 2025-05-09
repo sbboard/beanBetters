@@ -63,6 +63,7 @@ interface User {
     lastIP?: string;
     notifications?: Notification[];
     notificationsLastChecked?: Date;
+    lastBonusClaimed?: Date;
 }
 
 type ChartEntry = {

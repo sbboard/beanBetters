@@ -76,6 +76,7 @@ const fundedAmt = computed(() => {
     padding: 0 1em;
     display: flex;
     flex-direction: column;
+    width: 100%;
     .imgWrap {
         border-radius: 50%;
         max-width: 50%;

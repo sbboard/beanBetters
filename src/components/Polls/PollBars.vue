@@ -30,9 +30,12 @@ const shadedBg = computed(() => {
 
 function calculateBars() {
     if (!baseLayer.value) return;
+    let changed = false;
     const width = baseLayer.value.getBoundingClientRect().width;
+    if (width + 'px' !== darkInnerWidth.value) changed = true;
     darkInnerWidth.value = width + 'px';
     optionInnerWidths.value = width * (percent / 100) + 'px';
+    if (changed) requestAnimationFrame(() => calculateBars());
 }
 
 const beanCopy = () => {
