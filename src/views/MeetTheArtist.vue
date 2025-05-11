@@ -17,7 +17,7 @@ const story = [
     },
     {
         title: `Q: Where do you feel art and gambling intersect?`,
-        text: `A: I think that art and gambling are two sides of the same coin. Anyways - in the video the woman doesn't want to poison her husband at first but then Mr Beast says "Okay well if you don't then I'm going to give the money to someone else." And then she does it it's crazy. I showed the video to my girlfriend and I asked her if she would poison me for $85,000,000. She said "No way." I said "What if I gave you $85,000,001?" She said "Okay maybe." So I guess the answer is that art and gambling are both about taking risks and making choices. And also about getting high off caffeine.`,
+        text: `A: I think that art and gambling are two sides of the same coin. Anyways - in the video the woman doesn't want to poison her husband at first but then Mr Beast says "Okay well if you don't then I'm going to give the money to someone else." And then she does it it's crazy. I showed the video to my girlfriend and I asked her if she would poison me for $85,000,000. She said "No way." I said "What if I gave you $85,000,001?" She said "Okay maybe." So we broke up for like 2 weeks but then I got her back. I think she was just mad that I didn't give her the money.`,
         img: '/assets/meetTheArtist/4.jpg',
     },
     {
