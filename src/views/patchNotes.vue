@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>5/10/25</h2>
+        <ul>
+            <li>Adjust colors on leaderboard so they're more varied</li>
+            <li>Meet the artist</li>
+        </ul>
         <h2>5/9/25</h2>
         <ul>
             <li>Adjusted disabled Thursday Bonus styles</li>

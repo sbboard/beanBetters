@@ -12,6 +12,7 @@ import Loan from '@/views/LoanView.vue';
 import Store from '@/views/StoreView.vue';
 import AdminView from '@/views/AdminView.vue';
 import NotificationView from '@/views/NotificationView.vue';
+import MeetTheArtist from '@/views/MeetTheArtist.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -81,7 +82,18 @@ const router = createRouter({
             name: 'admin',
             component: AdminView,
         },
+        {
+            path: '/artist',
+            name: 'artist',
+            component: MeetTheArtist,
+        },
     ],
+});
+
+// Navigation guard to scroll to top on each route change
+router.beforeEach((to, from, next) => {
+    window.scrollTo(0, 0);
+    next();
 });
 
 export default router;

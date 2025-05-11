@@ -44,12 +44,21 @@ const labels = filteredData.value
     })
     .reverse();
 
-const randomHex = () => {
-    const baseHue = 72;
-    const hueVariation = Math.floor(Math.random() * 50) - 25;
-    const saturation = Math.floor(Math.random() * 40) + 60;
-    const lightness = Math.floor(Math.random() * 40) + 40;
-    return `hsl(${baseHue + hueVariation}, ${saturation}%, ${lightness}%)`;
+//evenly distribute colors for the chart
+const getColor = (index: number) => {
+    const colors = [
+        '#ff0000',
+        '#00ff00',
+        '#0000ff',
+        '#ffff00',
+        '#ff00ff',
+        '#00ffff',
+        '#ff8000',
+        '#8000ff',
+        '#f080ff',
+        '#ffffff',
+    ];
+    return colors[index % colors.length];
 };
 
 const data: ComputedRef<ChartData<'line'>> = computed(() => {
@@ -70,8 +79,8 @@ const data: ComputedRef<ChartData<'line'>> = computed(() => {
             .filter((value, index, self) => self.indexOf(value) === index);
     });
 
-    names.value.forEach(name => {
-        const color = randomHex();
+    names.value.forEach((name, i) => {
+        const color = getColor(i);
         const dataset = {
             label: name,
             data: filteredData.value
@@ -153,7 +162,7 @@ const options: ComputedRef<ChartOptions<'line'>> = computed(() => ({
 </script>
 
 <template>
-    <Line :data :options style="margin-bottom: 2em; margin-top: 2em;" />
+    <Line :data :options style="margin-bottom: 2em; margin-top: 2em" />
 </template>
 
 <style lang="scss" scoped></style>
