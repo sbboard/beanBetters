@@ -2,19 +2,17 @@
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
-
-//banner ads are 960x100
-const ads = [
-    { to: '/loan', src: '/assets/bannerAds/apply.jpg' },
-    { to: '/artist', src: '/assets/meetTheArtist/ad.jpg' },
-];
+const ads = ['loan', 'artist'];
 const randomIndex = Math.floor(Math.random() * ads.length);
 const ad = ads[randomIndex];
 </script>
 
 <template>
     <div v-if="!userStore.checkItem('adblock')" class="banner">
-        <RouterLink :to="ad.to"><img :src="ad.src" /> </RouterLink>
+        <RouterLink :to="`/${ad}`">
+            <!-- banner ads are 960x100 -->
+            <img :src="`/assets/bannerAds/${ad}.jpg`" />
+        </RouterLink>
         <span>SPONSORED CONTENT HELPS SUPPORT THE SODA ENJOYER SEED FUND</span>
     </div>
     <hr v-else />

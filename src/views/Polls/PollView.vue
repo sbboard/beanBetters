@@ -97,7 +97,7 @@ onMounted(() => apiStore.fetchPolls('open'));
                 :pollId="poll._id"
                 :currentFilter
         /></template>
-        <div v-else>No {{ currentFilter }} wagers</div>
+        <div v-else>Loading {{ currentFilter }} wagers</div>
     </div>
 </template>
 

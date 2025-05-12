@@ -102,7 +102,7 @@ const calculatePayout = (userId: string) => {
         <span>TOTAL BEANS: {{ addCommas(pollRef.pot) }}</span>
     </div>
 
-    <hr />
+    <hr v-if="usersShares(currentUserId) > 0 || isOwner" />
     <div v-if="usersShares(currentUserId) > 0 || isOwner" class="position">
         <div>
             <strong>POSITION: </strong>
