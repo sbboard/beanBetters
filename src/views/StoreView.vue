@@ -37,7 +37,7 @@ onMounted(() => apiStore.fetchLotto());
             <img src="/assets/exchange.gif" alt="STORE" />
         </div>
         <ItemList :action="'buy'" :list="itemArray" />
-        <BannerAd to="/loan" src="/assets/loan_ad.jpg" />
+        <BannerAd />
         <h1>BEAN WIRE TRANSFER</h1>
         <SendBeans />
     </div>
