@@ -11,7 +11,7 @@ const ad = ads[randomIndex];
     <div v-if="!userStore.checkItem('adblock')" class="banner">
         <RouterLink :to="`/${ad}`">
             <!-- banner ads are 960x100 -->
-            <img :src="`/assets/bannerAds/${ad}.jpg`" />
+            <img :src="`/assets/banners/${ad}.jpg`" />
         </RouterLink>
         <span>SPONSORED CONTENT HELPS SUPPORT THE SODA ENJOYER SEED FUND</span>
     </div>
