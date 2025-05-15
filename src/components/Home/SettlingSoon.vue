@@ -32,20 +32,23 @@ onMounted(() => apiStore.fetchPolls('unsettled', true));
         <div class="info">
             <h1>WAGERS SETTLING SOON</h1>
             <div>
-                <template v-for="poll in polls" :key="poll._id">
-                    <strong>{{
-                        formatDate(poll.settleDate?.toString() || '')
-                    }}</strong>
-                    -
-                    {{ poll.title }} ||
+                <template v-if="polls.length">
+                    <template v-for="poll in polls" :key="poll._id">
+                        <strong>{{
+                            formatDate(poll.settleDate?.toString() || '')
+                        }}</strong>
+                        -
+                        {{ poll.title }} ||
+                    </template>
+                    <template v-for="poll in polls" :key="poll._id">
+                        <strong>{{
+                            formatDate(poll.settleDate?.toString() || '')
+                        }}</strong>
+                        -
+                        {{ poll.title }} ||
+                    </template>
                 </template>
-                <template v-for="poll in polls" :key="poll._id">
-                    <strong>{{
-                        formatDate(poll.settleDate?.toString() || '')
-                    }}</strong>
-                    -
-                    {{ poll.title }} ||
-                </template>
+                <template v-else>{{ "loading || ".repeat(20) }}</template>
             </div>
         </div>
     </div>
@@ -61,6 +64,7 @@ onMounted(() => apiStore.fetchPolls('unsettled', true));
         box-sizing: border-box;
     }
     .info {
+        width: 100%;
         h1 {
             margin-bottom: 0em;
             text-align: left;
@@ -68,12 +72,14 @@ onMounted(() => apiStore.fetchPolls('unsettled', true));
             font-weight: 400;
         }
         div {
-            padding: .25em 0;
+            padding: 0.25em 0;
             font-size: 0.9em;
             white-space: nowrap;
             animation: scroll 10s linear infinite;
             background-color: var(--themeColor);
             color: black;
+            width: fit-content;
+            min-width: 200%;
         }
     }
 }
