@@ -2,6 +2,7 @@
 import BannerAd from '@/components/BannerAd.vue';
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
 import DonateToCause from '@/components/Donate/DonateMain.vue';
+import SettlingSoon from '@/components/Home/SettlingSoon.vue';
 import ThursdayBonus from '@/components/Home/ThursdayBonus.vue';
 import { useApiStore } from '@/stores/api';
 
@@ -10,6 +11,7 @@ const apiStore = useApiStore();
 
 <template>
     <div class="home">
+        <SettlingSoon />
         <div>
             <div class="left">
                 <CharacterPortraits character="king" />

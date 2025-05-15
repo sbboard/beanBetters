@@ -33,7 +33,7 @@ div {
     z-index: 0;
     left: 0;
     white-space: nowrap;
-    animation: scroll 30s linear infinite;
+    animation: scroll 30s linear infinite reverse;
     display: inline;
     backdrop-filter: none;
     margin: unset;
@@ -42,7 +42,7 @@ div {
         height: 50px;
     }
     &.alt {
-        animation: scroll 30s linear infinite reverse;
+        animation: scroll 30s linear infinite;
     }
 }
 

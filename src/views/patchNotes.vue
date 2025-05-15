@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>5/15/25</h2>
+        <ul>
+            <li>Added wagers setting soon ticker</li>
+            <li>Reverse ad scroll direction</li>
+        </ul>
         <h2>5/12/25</h2>
         <ul>
             <li>Standardize / Randomize banner ads</li>
