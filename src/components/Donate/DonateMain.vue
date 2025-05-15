@@ -46,6 +46,20 @@ const options = computed(() => {
             bets.push(option);
         }
     });
+    if (bets.length < 3) {
+        const over: PollOption[] = [];
+        poll.value.options.forEach(option => {
+            if (option.bettors.length >= betsNeeded) {
+                over.push(option);
+            }
+        });
+        //add the last options to bets array until there's 3
+        while (bets.length < 3 && over.length > 0) {
+            const randomIndex = Math.floor(Math.random() * over.length);
+            bets.push(over[randomIndex]);
+            over.splice(randomIndex, 1);
+        }
+    }
     return bets;
 });
 
