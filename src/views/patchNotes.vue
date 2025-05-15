@@ -7,6 +7,7 @@
         <ul>
             <li>Added wagers setting soon ticker</li>
             <li>Reverse ad scroll direction</li>
+            <li>Adjust settling soon ticker's styles (post-launch)</li>
         </ul>
         <h2>5/12/25</h2>
         <ul>

@@ -30,25 +30,21 @@ onMounted(() => apiStore.fetchPolls('unsettled', true));
 <template>
     <div class="settling">
         <div class="info">
-            <h1>WAGERS SETTLING SOON</h1>
+            <h1>$$$ WAGERS SETTLING SOON $$$</h1>
             <div>
                 <template v-if="polls.length">
                     <template v-for="poll in polls" :key="poll._id">
-                        <strong>{{
-                            formatDate(poll.settleDate?.toString() || '')
-                        }}</strong>
-                        -
-                        {{ poll.title }} ||
+                        <strong>{{ poll.title.trim().toUpperCase() }}:</strong>
+                        {{ formatDate(poll.settleDate?.toString() || '') }}
+                        ||
                     </template>
                     <template v-for="poll in polls" :key="poll._id">
-                        <strong>{{
-                            formatDate(poll.settleDate?.toString() || '')
-                        }}</strong>
-                        -
-                        {{ poll.title }} ||
+                        <strong>{{ poll.title.trim().toUpperCase() }}:</strong>
+                        {{ formatDate(poll.settleDate?.toString() || '') }}
+                        ||
                     </template>
                 </template>
-                <template v-else>{{ "loading || ".repeat(20) }}</template>
+                <template v-else>{{ 'loading || '.repeat(20) }}</template>
             </div>
         </div>
     </div>
@@ -57,7 +53,8 @@ onMounted(() => apiStore.fetchPolls('unsettled', true));
 <style lang="scss" scoped>
 .settling {
     margin: 0 0 1em 0;
-    color: var(--themeColor);
+    background-color: var(--themeColor);
+    color: black !important;
     overflow: hidden;
     box-sizing: border-box;
     * {
@@ -69,15 +66,15 @@ onMounted(() => apiStore.fetchPolls('unsettled', true));
             margin-bottom: 0em;
             text-align: left;
             font-size: 0.8rem;
-            font-weight: 400;
+            color: black !important;
+            padding-top: 0.25em;
+            padding-left: 0.25em;
+            border-bottom: 2px solid black;
         }
         div {
             padding: 0.25em 0;
-            font-size: 0.9em;
             white-space: nowrap;
-            animation: scroll 10s linear infinite;
-            background-color: var(--themeColor);
-            color: black;
+            animation: scroll 15s linear infinite;
             width: fit-content;
             min-width: 200%;
         }
