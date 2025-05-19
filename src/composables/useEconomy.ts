@@ -20,15 +20,6 @@ export function useEconomy() {
             price: 0,
             maintainsValue: true,
         },
-        adblock: {
-            displayName: 'Ad Block',
-            price: 1000000,
-            icon: 'adblock.png',
-            description:
-                'Removes the ads brought to you by the Soda Enjoyer Seed Grant',
-            maintainsValue: false,
-            hideFromStore: false,
-        },
         'bookie license': {
             price: 11000000,
             displayName: 'Bookie License',
@@ -46,9 +37,34 @@ export function useEconomy() {
             maintainsValue: false,
             hideFromStore: false,
         },
+        'club membership': {
+            icon: '100M.png',
+            price: 100000000,
+            displayName: '100M Club Membership',
+            description: 'A membership to the exclusive 100M Club.',
+            maintainsValue: false,
+            hideFromStore: false,
+        },
+        adblock: {
+            displayName: 'Ad Block',
+            price: 1000000,
+            icon: 'adblock.png',
+            description:
+                'Removes the ads brought to you by the Soda Enjoyer Seed Grant',
+            maintainsValue: false,
+            hideFromStore: false,
+        },
+        'memory gem': {
+            icon: 'time.png',
+            price: 1000000,
+            displayName: 'Memory Wipe Gem',
+            description: 'A gem that allows you to undo a bet. Use wisely.',
+            maintainsValue: true,
+            hideFromStore: false,
+        },
         cigs: {
             icon: 'camel2.png',
-            price: 10000000,
+            price: 20000000,
             displayName: 'Camel Blues (20)',
             description:
                 'A delicious pack of 20 cigarettes. Smokeable in the 100M Club.',
@@ -60,7 +76,7 @@ export function useEconomy() {
             price: 50000000,
             displayName: 'Lighter',
             description:
-                'A lighter used for lighting cigarettes. Usable in the 100M Club.',
+                'A lighter used for lighting cigarettes.',
             maintainsValue: false,
             hideFromStore: false,
         },
