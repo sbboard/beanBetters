@@ -7,6 +7,9 @@
         <ul>
             <li>Added sold old items to store</li>
             <li>Changed descriptions of some store items</li>
+            <li>Added banner ads to loan and meet the artist page</li>
+            <li>Added cigarette ad</li>
+            <li>Made hr in banner ad optional</li>
         </ul>
         <h2>5/15/25</h2>
         <ul>

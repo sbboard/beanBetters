@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user';
+import { useRoute } from 'vue-router';
 
+const { disableHr } = defineProps<{
+    disableHr?: 'true';
+}>();
+
+const route = useRoute();
 const userStore = useUserStore();
-const ads = ['loan', 'artist'];
+const currentPath = route.path.replace('/', '');
+const ads = ['loan', 'artist', 'store'].filter(ad => ad !== currentPath);
 const randomIndex = Math.floor(Math.random() * ads.length);
 const ad = ads[randomIndex];
 </script>
@@ -15,7 +22,7 @@ const ad = ads[randomIndex];
         </RouterLink>
         <span>SPONSORED CONTENT HELPS SUPPORT THE SODA ENJOYER SEED FUND</span>
     </div>
-    <hr v-else />
+    <hr v-else-if="!disableHr" />
 </template>
 
 <style lang="scss" scoped>
