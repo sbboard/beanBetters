@@ -46,6 +46,24 @@ export function useEconomy() {
             maintainsValue: false,
             hideFromStore: false,
         },
+        cigs: {
+            icon: 'camel2.png',
+            price: 10000000,
+            displayName: 'Camel Blues (20)',
+            description:
+                'A delicious pack of 20 cigarettes. Smokeable in the 100M Club.',
+            maintainsValue: false,
+            hideFromStore: false,
+        },
+        lighter: {
+            icon: 'lighter4.png',
+            price: 50000000,
+            displayName: 'Lighter',
+            description:
+                'A lighter used for lighting cigarettes. Usable in the 100M Club.',
+            maintainsValue: false,
+            hideFromStore: false,
+        },
         'magic beans': {
             icon: 'beans.png',
             price: 100000000,
