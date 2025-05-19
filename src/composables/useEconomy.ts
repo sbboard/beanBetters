@@ -9,76 +9,63 @@ export function useEconomy() {
             icon: 'lotto.png',
             description:
                 'Enter the lottery for a chance to win big! Current jackpot:',
-            maintainsValue: false,
-            hideFromStore: false,
         },
         'bean bag': {
             displayName: 'Bean Bag',
             icon: 'bag.png',
-            hideFromStore: true,
             description: '',
             price: 0,
+            hideFromStore: true,
             maintainsValue: true,
         },
         'bookie license': {
             price: 11000000,
             displayName: 'Bookie License',
             icon: 'license.png',
-            description: 'Allows you to become a bookie and create wagers',
-            maintainsValue: false,
-            hideFromStore: false,
+            description: 'Allows you to become a bookie and create wagers.',
         },
         invite: {
             icon: 'invite.png',
             price: 20000000,
             displayName: 'Invite',
             description:
-                'Get an invite code (seen in inventory) to share the gift of betting with a friend',
-            maintainsValue: false,
-            hideFromStore: false,
+                'Get an invite code (seen in inventory) to share the gift of betting with a friend.',
         },
         'club membership': {
             icon: '100M.png',
             price: 100000000,
             displayName: '100M Club Membership',
             description: 'A membership to the exclusive 100M Club.',
-            maintainsValue: false,
-            hideFromStore: false,
+            disabled: true,
         },
         adblock: {
             displayName: 'Ad Block',
             price: 1000000,
             icon: 'adblock.png',
             description:
-                'Removes the ads brought to you by the Soda Enjoyer Seed Grant',
-            maintainsValue: false,
-            hideFromStore: false,
+                'Removes the ads provided by the Soda Enjoyer Seed Grant.',
         },
         'memory gem': {
             icon: 'time.png',
             price: 1000000,
             displayName: 'Memory Wipe Gem',
             description: 'A gem that allows you to undo a bet. Use wisely.',
-            maintainsValue: true,
-            hideFromStore: false,
+            disabled: true,
         },
         cigs: {
             icon: 'camel2.png',
             price: 20000000,
-            displayName: 'Camel Blues (20)',
+            displayName: 'Camel Blues',
             description:
-                'A delicious pack of 20 cigarettes. Smokeable in the 100M Club.',
-            maintainsValue: false,
-            hideFromStore: false,
+                'A delicious pack of 20 cigarettes.',
+            disabled: true,
         },
         lighter: {
             icon: 'lighter4.png',
             price: 50000000,
             displayName: 'Lighter',
-            description:
-                'A lighter used for lighting cigarettes.',
-            maintainsValue: false,
-            hideFromStore: false,
+            description: 'A lighter used for lighting cigarettes.',
+            disabled: true,
         },
         'magic beans': {
             icon: 'beans.png',
@@ -86,7 +73,6 @@ export function useEconomy() {
             displayName: 'Magic Beans',
             description: 'The famous magic beans. Maintains their value.',
             maintainsValue: true,
-            hideFromStore: false,
         },
         'shield of turin': {
             icon: 'turin.png',
@@ -95,7 +81,6 @@ export function useEconomy() {
             description:
                 'A plate with a familiar face on it. Maintains its value.',
             maintainsValue: true,
-            hideFromStore: false,
         },
         head: {
             icon: 'head.png',
@@ -103,7 +88,6 @@ export function useEconomy() {
             displayName: "Amenhotep's Head",
             description: 'The head of Amenhotep III. Maintains its value.',
             maintainsValue: true,
-            hideFromStore: false,
         },
         demon: {
             icon: 'demon.png',
@@ -111,7 +95,6 @@ export function useEconomy() {
             displayName: 'Bottled Demon',
             description: 'A real life actual demon. Maintains its value.',
             maintainsValue: true,
-            hideFromStore: false,
         },
     };
 

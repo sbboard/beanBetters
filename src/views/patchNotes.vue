@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>5/19/25</h2>
+        <ul>
+            <li>Added sold old items to store</li>
+            <li>Changed descriptions of some store items</li>
+        </ul>
         <h2>5/15/25</h2>
         <ul>
             <li>Added wagers setting soon ticker</li>
