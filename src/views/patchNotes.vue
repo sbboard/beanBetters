@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>5/22/25</h2>
+        <ul>
+            <li>Fixed "CLAM BEANS" typo</li>
+            <li>Added No Cussing Club banner ad</li>
+        </ul>
         <h2>5/19/25</h2>
         <ul>
             <li>Added sold old items to store</li>
