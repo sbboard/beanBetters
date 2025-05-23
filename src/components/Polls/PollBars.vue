@@ -103,6 +103,7 @@ onUnmounted(() => {
         top: 0;
         overflow: hidden;
         width: v-bind(optionInnerWidths);
+        pointer-events: none;
         .inner {
             height: 100%;
             display: flex;
