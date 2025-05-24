@@ -34,12 +34,12 @@ const story = [
 </script>
 
 <template>
+    <img
+        src="/assets/meetTheArtist/ad.jpg"
+        alt="Joey Papernut"
+        style="margin-bottom: 1em"
+    />
     <div class="meetArtist">
-        <img
-            src="/assets/meetTheArtist/ad.jpg"
-            alt="Joey Papernut"
-            style="margin-bottom: 1em"
-        />
         <p style="margin-bottom: 1em">
             Big Bean Bettors is famous for it's addictive gambling and betting
             for families. But what about the people behind the scenes? Meet Joey
@@ -79,6 +79,10 @@ p {
     font-size: 1rem;
     line-height: 1.5rem;
     text-align: left;
+}
+.meetArtist {
+    max-width: 700px;
+    margin: 0 auto;
 }
 .block {
     display: flex;
