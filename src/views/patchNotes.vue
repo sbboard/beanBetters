@@ -7,6 +7,7 @@
         <ul>
             <li>Fixed "CLAM BEANS" typo</li>
             <li>Added No Cussing Club banner ad</li>
+            <li>Added support for display names</li>
         </ul>
         <h2>5/19/25</h2>
         <ul>
