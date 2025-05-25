@@ -291,11 +291,15 @@ onMounted(scrollToHash);
                     <tbody>
                         <tr>
                             <td>{{ addCommas(100000000) }} Beans</td>
-                            <td>10%</td>
+                            <td>15%</td>
                         </tr>
                         <tr>
-                            <td>{{ addCommas(250000000) }} Beans</td>
+                            <td>{{ addCommas(150000000) }} Beans</td>
                             <td>25%</td>
+                        </tr>
+                        <tr>
+                            <td>{{ addCommas(200000000) }} Beans</td>
+                            <td>30%</td>
                         </tr>
                         <tr>
                             <td>{{ addCommas(500000000) }} Beans</td>

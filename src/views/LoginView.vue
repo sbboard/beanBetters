@@ -81,8 +81,17 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
                     v-model="newUser.inviteCode"
                     required
                     maxlength="4"
-                    @input="newUser.inviteCode = newUser.inviteCode.toUpperCase()"
+                    @input="
+                        newUser.inviteCode = newUser.inviteCode.toUpperCase()
+                    "
                 />
+
+                <p>
+                    NOTE: Due to a controversial new law promoting
+                    family-friendly gambling, inappropriate language in
+                    usernames is prohibited. Staff may change how your username
+                    is displayed if it violates this rule.
+                </p>
                 <button type="submit">REGISTER!! WIN BIG!</button>
             </form>
 
