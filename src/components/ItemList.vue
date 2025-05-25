@@ -63,7 +63,7 @@ async function sellItem(item: InventoryItem) {
 const isBuyDisabled = (item: InventoryItem) => {
     const { beans = 0, inventory = [], debt = 0 } = userStore.user || {};
     const itemPrice = ITEMS[item.name as keyof typeof ITEMS]?.price;
-
+    if (ITEMS[item.name as keyof typeof ITEMS]?.disabled) return true;
     if (
         item.name === 'bookie license' &&
         userStore.user?.role === 'racketeer'
@@ -81,7 +81,7 @@ const isBuyDisabled = (item: InventoryItem) => {
 const buyCopy = (item: InventoryItem) => {
     const { beans = 0, inventory = [], debt = 0 } = userStore.user || {};
     const itemPrice = ITEMS[item.name as keyof typeof ITEMS]?.price;
-
+    if(ITEMS[item.name as keyof typeof ITEMS]?.disabled) return 'SOLD OUT';
     if (
         item.name === 'bookie license' &&
         userStore.user?.role === 'racketeer'

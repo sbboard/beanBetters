@@ -24,6 +24,9 @@ const apiStore = useApiStore();
                     @mouseover="() => apiStore.fetchPolls('open')"
                     ><img src="/assets/bet.gif" alt="BET!"
                 /></RouterLink>
+                <RouterLink class="rules" to="/rules"
+                    ><img src="/assets/agree.gif" alt="BOOKIE AGREEMENT"
+                /></RouterLink>
                 <RouterLink
                     to="/leaderboards"
                     @mouseover="() => apiStore.fetchWinners()"
@@ -38,16 +41,13 @@ const apiStore = useApiStore();
                 <RouterLink to="/inventory">
                     <img src="/assets/inventory.gif" alt="INVENTORY" />
                 </RouterLink>
-                <RouterLink class="rules" to="/rules"
-                    ><img src="/assets/agree.gif" alt="BOOKIE AGREEMENT"
-                /></RouterLink>
                 <RouterLink class="patch" to="/notes"
                     ><img src="/assets/patch.gif" alt="patch notes"
                 /></RouterLink>
             </div>
         </div>
         <ThursdayBonus />
-        <BannerAd />
+        <BannerAd disable-hr="true" />
         <DonateToCause />
     </div>
 </template>

@@ -32,8 +32,9 @@ interface ShopItem {
     displayName: string;
     icon: string;
     description: string;
-    maintainsValue: boolean;
-    hideFromStore: boolean;
+    maintainsValue?: boolean;
+    hideFromStore?: boolean;
+    disabled?: boolean;
 }
 
 interface InventoryItem {

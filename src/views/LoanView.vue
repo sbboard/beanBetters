@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
+import BannerAd from '@/components/BannerAd.vue';
 import { useEconomy, MIN_DEBT } from '@/composables/useEconomy';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
@@ -166,6 +167,7 @@ const payOffLoan = async () => {
                 </p>
             </div>
         </div>
+        <BannerAd disable-hr="true" />
         <div class="apply" v-if="(userStore.user?.debt || 0) === 0">
             <h1>Apply For Loan</h1>
             <div v-if="!isEligable">

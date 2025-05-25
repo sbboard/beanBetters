@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import BannerAd from '@/components/BannerAd.vue';
+
 const story = [
     {
         title: 'Q: How did you get into art?',
@@ -69,6 +71,7 @@ const story = [
             enjoyed it! Happy betting!
         </p>
     </div>
+    <BannerAd disable-hr="true" />
 </template>
 
 <style lang="scss" scoped>
@@ -105,9 +108,9 @@ p {
 }
 
 @media (max-width: 700px) {
-    .block{
+    .block {
         flex-direction: column !important;
-        img{
+        img {
             width: 100%;
         }
     }

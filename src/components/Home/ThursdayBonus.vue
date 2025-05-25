@@ -61,7 +61,7 @@ onMounted(() => {
                     isThursday
                         ? claimed
                             ? 'BEANS CLAIMED'
-                            : 'CLAM YOUR BEANS NOW!!!'
+                            : 'CLAIM YOUR BEANS NOW!!!'
                         : 'COME BACK THURSDAY'
                 }}
             </button>
