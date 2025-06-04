@@ -260,7 +260,7 @@ const createPoll = async () => {
             </p>
             <input type="date" @change="handleDateChange" />
             <p class="error" v-if="!isEndDateValid && endDate">
-                End date is not currently between tomorrow and 2 weeks from
+                End date is not currently between tomorrow and 1 month from
                 today!
             </p>
 
