@@ -80,7 +80,7 @@ const isEndDateValid = computed(() => {
     );
 
     const maxEndDate = new Date(today);
-    maxEndDate.setDate(today.getDate() + 14); // Max is two weeks from today
+    maxEndDate.setMonth(today.getMonth() + 1); // Max is one month from today
     maxEndDate.setHours(
         today.getHours(),
         today.getMinutes(),
@@ -255,7 +255,7 @@ const createPoll = async () => {
             <label for="endDate">Betting Deadline</label>
             <p>
                 Specify what date betting will end.<br />Must be between
-                tomorrow and 2 weeks from today.<br />Time is based on whatever
+                tomorrow and 1 month from today.<br />Time is based on whatever
                 time it is when you create wager.
             </p>
             <input type="date" @change="handleDateChange" />
@@ -509,7 +509,7 @@ const createPoll = async () => {
             margin-right: 1rem;
         }
     }
-    .error{
+    .error {
         color: red;
     }
 }

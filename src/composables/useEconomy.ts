@@ -35,7 +35,15 @@ export function useEconomy() {
             icon: '100M.png',
             price: 100000000,
             displayName: '100M Club Membership',
-            description: 'A membership to the exclusive 100M Club.',
+            description: 'Membership to the exclusive 100M Club.',
+            disabled: true,
+        },
+        joesEye: {
+            displayName: "Joey's Left Eye",
+            price: 10000,
+            icon: 'eye.png',
+            description:
+                'Allows you to see the art on the site how its creator saw it.',
             disabled: true,
         },
         adblock: {
@@ -45,19 +53,18 @@ export function useEconomy() {
             description:
                 'Removes the ads provided by the Soda Enjoyer Seed Grant.',
         },
-        'memory gem': {
-            icon: 'time.png',
-            price: 1000000,
-            displayName: 'Memory Wipe Gem',
-            description: 'A gem that allows you to undo a bet. Use wisely.',
-            disabled: true,
-        },
+        // 'memory gem': {
+        //     icon: 'time.png',
+        //     price: 1000000,
+        //     displayName: 'Memory Wipe Gem',
+        //     description: 'A gem that allows you to undo a bet. Use wisely.',
+        //     disabled: true,
+        // },
         cigs: {
             icon: 'camel2.png',
             price: 20000000,
             displayName: 'Camel Blues',
-            description:
-                'A delicious pack of 20 cigarettes.',
+            description: 'A delicious pack of 20 cigarettes.',
             disabled: true,
         },
         lighter: {

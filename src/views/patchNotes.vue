@@ -3,6 +3,11 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>6/4/25</h2>
+        <ul>
+            <li>Replace memory gem item with Joey's Left Eye</li>
+            <li>Changed soonest endDate to 1 month</li>
+        </ul>
         <h2>5/22/25</h2>
         <ul>
             <li>Fixed "CLAM BEANS" typo</li>
