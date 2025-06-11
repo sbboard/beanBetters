@@ -12,7 +12,7 @@ import Loan from '@/views/LoanView.vue';
 import Store from '@/views/StoreView.vue';
 import AdminView from '@/views/AdminView.vue';
 import NotificationView from '@/views/NotificationView.vue';
-import MeetTheArtist from '@/views/MeetTheArtist.vue';
+import MeetTheArtist from '@/views/Articles/MeetTheArtist.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
