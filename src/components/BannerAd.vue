@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const { disableHr } = defineProps<{
@@ -12,13 +13,14 @@ const currentPath = route.path.replace('/', '');
 const ads = ['loan', 'artist', 'store'].filter(ad => ad !== currentPath);
 const randomIndex = Math.floor(Math.random() * ads.length);
 const ad = ads[randomIndex];
+const hasEye = computed(() => true);
 </script>
 
 <template>
     <div v-if="!userStore.checkItem('adblock')" class="banner">
         <RouterLink :to="`/${ad}`">
             <!-- banner ads are 960x100 -->
-            <img :src="`/assets/banners/${ad}.jpg`" />
+            <img :src="`/assets/banners/${ad}${hasEye ? '_nojoe' : ''}.jpg`" />
         </RouterLink>
         <span>SPONSORED CONTENT HELPS SUPPORT THE SODA ENJOYER SEED FUND</span>
     </div>

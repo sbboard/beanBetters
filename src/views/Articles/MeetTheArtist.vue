@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import BannerAd from '@/components/BannerAd.vue';
+import { computed } from 'vue';
+const hasEye = computed(() => true);
 
 const story = [
     {
@@ -33,11 +35,46 @@ const story = [
         img: '/assets/meetTheArtist/6.jpg',
     },
 ];
+
+const story_nojoe = [
+    {
+        title: 'Q: How did you get into art?',
+        text: `A: When I joined Big Bean Bettors there was no art on the site. I said to the people running the site - "Hey lets get some JPEGs in here." They said "No, we don't want any JPEGs." I said "What if I made the JPEGs?" They said "Okay, but only if you make them really good." I had never drawn before but it's actually really easy. So yeah, I started drawing and now I'm the best artist in the world. It was a great experience up until I lost my eye in a freak accident involving a can of soda and a sharpie. Now my life is a horrible. It was already pretty bad before, but now it's just unbearable.`,
+        img: '/assets/meetTheArtist/nojoe/1.jpg',
+    },
+    {
+        title: `Q: What's your art process like?`,
+        text: `A: I haven't really been able to draw since I lost my eye. I mean, I can still draw, but I've been spending all my time trying to get my eye back. When it first fell out I was keeping it in a jar of soda, but then I lost the jar. I think my girlfriend threw it away. I hope no one found it and sold it on the black market or something.`,
+        img: '/assets/meetTheArtist/nojoe/2.jpg',
+    },
+    {
+        title: `Q: What inspired your unique art style that has become so iconic to the betting community?`,
+        text: `A: Have you seen my eye? Please help me find it.`,
+        img: '/assets/meetTheArtist/nojoe/3.jpg',
+    },
+    {
+        title: `Q: Where do you feel art and gambling intersect?`,
+        text: `A: I don't know. I'm not really thinking about art or gambling right now. I'm just trying to find my eye. I mean, I guess art and gambling are both about taking risks, but right now I'm just trying to get my eye back. It's been really hard without it. I can't even draw anymore. I just sit around all day and think about how much I miss my eye.`,
+        img: '/assets/meetTheArtist/nojoe/4.jpg',
+    },
+    {
+        title: `Q: In 2013 you were arrested for assaulting a police officer. How did that affect your career?`,
+        text: `A: Maybe it's the reason God is punshing me. I used to think I was saved by the grace of God because I was circumsized as a teenager and a minister told me I was a good guy. But now I think maybe God is punishing me for my former crimes.`,
+        img: '/assets/meetTheArtist/nojoe/5.jpg',
+    },
+    {
+        title: `Q: What is the solution to the rising threat of fascism in the world?`,
+        text: `A: I'll tell you what if you find my eye I'll solve the rising threat of fascism in the world. I'll do anything to get my eye back. If someone got a hold of it... it would be a disaster. I have an extremely twisted mind, and if someone was able to see what I see... it would be like living in hell. I wouldn't wish that on anyone - not even the police officer I assaulted.`,
+        img: '/assets/meetTheArtist/nojoe/6.jpg',
+    },
+];
+
+const storyToUse = computed(() => (hasEye.value ? story_nojoe : story));
 </script>
 
 <template>
     <img
-        src="/assets/meetTheArtist/ad.jpg"
+        :src="`/assets/banners/artist${hasEye ? '_nojoe' : ''}.jpg`"
         alt="Joey Papernut"
         style="margin-bottom: 1em"
     />
@@ -51,7 +88,7 @@ const story = [
         </p>
         <div
             class="block"
-            v-for="(item, index) in story"
+            v-for="(item, index) in storyToUse"
             :key="index"
             :class="{ right: index % 2 === 0 }"
         >

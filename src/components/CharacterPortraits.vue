@@ -10,7 +10,7 @@ const random = Math.floor(Math.random() * 10) + 5 + 'px';
 const flipped = `-${random}`;
 const extra = ref('');
 let timeout: ReturnType<typeof setTimeout>;
-const hasEye = computed(() => false);
+const hasEye = computed(() => true);
 
 function msg(): string {
     switch (Math.floor(Math.random() * 3)) {
