@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-const NUMBER_OF_IMAGES = 14;
+const NUMBER_OF_IMAGES = 15;
 const getNumber = () => Math.floor(Math.random() * NUMBER_OF_IMAGES) + 1;
 const random = ref(getNumber());
 
@@ -27,6 +27,7 @@ onMounted(() => (random.value = getNumber()));
     max-width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
+    caret-color: transparent;
     .header {
         display: block;
         line-height: 1;

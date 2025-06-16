@@ -120,10 +120,6 @@ p {
     line-height: 1.5rem;
     text-align: left;
 }
-.meetArtist {
-    max-width: 700px;
-    margin: 0 auto;
-}
 .block {
     display: flex;
     justify-content: space-between;

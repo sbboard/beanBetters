@@ -13,6 +13,7 @@ let timeout: ReturnType<typeof setTimeout>;
 const hasEye = computed(() => true);
 
 function msg(): string {
+    if (character.indexOf('thor') === 0) return '';
     switch (Math.floor(Math.random() * 3)) {
         case 0:
             return 'kill me';
@@ -61,7 +62,11 @@ onUnmounted(() => clearTimeout(timeout));
             />
         </div>
         <div class="bg">
-            <img :src="`/assets/characters/${character}${extra}_bg.jpg`" />
+            <img
+                :src="`/assets/characters/${character}${extra}_bg${
+                    hasEye ? '_nojoe' : ''
+                }.jpg`"
+            />
         </div>
     </div>
 </template>
@@ -125,11 +130,15 @@ onUnmounted(() => clearTimeout(timeout));
             animation: fadeIn 60s infinite alternate linear;
         }
         div.bean {
+            animation: mover 1s infinite alternate ease-in-out;
+            img {
+                animation: joeMover 1.75s infinite alternate ease-in-out;
+                image-rendering: pixelated;
+            }
             &.vert {
-                animation: moverVert 1s infinite alternate linear;
+                animation: moverVert 1s infinite alternate ease-in-out;
                 img {
-                    animation: joeMoverVert 0.75s infinite alternate linear;
-                    image-rendering: pixelated;
+                    animation: joeMoverVert 1.75s infinite alternate ease-in-out;
                 }
             }
         }
@@ -152,12 +161,20 @@ onUnmounted(() => clearTimeout(timeout));
         transform: translateY(v-bind(random));
     }
 }
-@keyframes joeMoverVert {
+@keyframes joeMover {
     0% {
-        transform: scaleX(1) scaleY(1.2) skewX(-5deg);
+        transform: scaleY(1) scaleX(1.1) skewX(-1deg) skewY(0deg);
     }
     100% {
-        transform: scaleX(1.2) scaleY(1) skewX(5deg);
+        transform: scaleY(1.1) scaleX(1) skewX(1deg) skewY(-1deg);
+    }
+}
+@keyframes joeMoverVert {
+    0% {
+        transform: scaleX(1) scaleY(1.1) skewX(-5deg);
+    }
+    100% {
+        transform: scaleX(1.1) scaleY(1) skewX(5deg);
     }
 }
 @keyframes fadeIn {

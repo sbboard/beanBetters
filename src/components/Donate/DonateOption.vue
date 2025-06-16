@@ -13,6 +13,7 @@ const { option, poll, betFunction } = defineProps<{
 }>();
 
 const { addCommas } = useEconomy();
+const hasEye = computed(() => true);
 
 const disableDonating = computed(() => {
     const sharesNeeded = poll.seed! / poll.pricePerShare;
@@ -38,7 +39,11 @@ const fundedAmt = computed(() => {
 <template>
     <div class="singleOption">
         <div class="imgWrap">
-            <img :src="`/assets/features/${option._id}.jpg`" />
+            <img
+                :src="`/assets/features/${option._id}${
+                    hasEye ? '_nojoe' : ''
+                }.jpg`"
+            />
         </div>
         <h1>{{ option.text }}</h1>
         <Bars
