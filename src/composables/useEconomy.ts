@@ -38,13 +38,12 @@ export function useEconomy() {
             description: 'Membership to the exclusive 100M Club.',
             disabled: true,
         },
-        joesEye: {
+        'joes eye': {
             displayName: "Joey's Left Eye",
             price: 10000,
             icon: 'eye.png',
             description:
                 'Allows you to see the art on the site how its creator saw it.',
-            disabled: true,
         },
         adblock: {
             displayName: 'Ad Block',

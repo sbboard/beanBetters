@@ -1,30 +1,19 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from 'vue';
+import { useUserStore } from '@/stores/user';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 
 const { character, dir } = defineProps<{
     character: string;
     dir?: 'vert' | 'none';
 }>();
 
+const userStore = useUserStore();
 const random = Math.floor(Math.random() * 10) + 5 + 'px';
 const flipped = `-${random}`;
 const extra = ref('');
 let timeout: ReturnType<typeof setTimeout>;
-const hasEye = computed(() => true);
-
-function msg(): string {
-    if (character.indexOf('thor') === 0) return '';
-    switch (Math.floor(Math.random() * 3)) {
-        case 0:
-            return 'kill me';
-        case 1:
-            return 'it hurts';
-        case 2:
-            return 'why';
-        default:
-            return '';
-    }
-}
+const hasEye = computed(() => userStore.checkItem('joes eye'));
+const msg = ref('');
 
 //AI prompt
 //a man with a normal, human body is wearing a suit and a king's crown with a kidney bean for a head. He has massive bloodshot eyes, no nose, a mouth mouth screaming with excitement, and bushy eyebrows. He's looking at a large sign that reads "bets closing soon" looking worried to miss his chance. He's running to the casino holding large amounts of cash. photo realistic
@@ -48,12 +37,26 @@ watch(
     { immediate: true }
 );
 
+onMounted(() => {
+    if (character.indexOf('thor') === 0) return;
+    switch (Math.floor(Math.random() * 3)) {
+        case 0:
+            return (msg.value = 'kill me');
+        case 1:
+            return (msg.value = 'it hurts');
+        case 2:
+            return (msg.value = 'why');
+        default:
+            return;
+    }
+});
+
 onUnmounted(() => clearTimeout(timeout));
 </script>
 
 <template>
     <div class="character" :class="[character, { joe: hasEye }]">
-        <div class="msg" v-if="hasEye">"{{ msg() }}"</div>
+        <div class="msg" v-if="hasEye && msg.length > 0">"{{ msg }}"</div>
         <div class="bean" :class="[dir]">
             <img
                 :src="`/assets/characters/${character}_fg${

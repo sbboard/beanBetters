@@ -13,7 +13,7 @@ const { option, poll, betFunction } = defineProps<{
 }>();
 
 const { addCommas } = useEconomy();
-const hasEye = computed(() => true);
+const hasEye = computed(() => userStore.checkItem('joes eye'));
 
 const disableDonating = computed(() => {
     const sharesNeeded = poll.seed! / poll.pricePerShare;

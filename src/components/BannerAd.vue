@@ -13,7 +13,7 @@ const currentPath = route.path.replace('/', '');
 const ads = ['loan', 'artist', 'store'].filter(ad => ad !== currentPath);
 const randomIndex = Math.floor(Math.random() * ads.length);
 const ad = ads[randomIndex];
-const hasEye = computed(() => true);
+const hasEye = computed(() => userStore.checkItem('joes eye'));
 </script>
 
 <template>

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import BannerAd from '@/components/BannerAd.vue';
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
 import { computed } from 'vue';
-const hasEye = computed(() => true);
+const hasEye = computed(() => userStore.checkItem('joes eye'));
 
 const story = [
     {
