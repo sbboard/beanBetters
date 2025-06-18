@@ -8,7 +8,7 @@ const api = import.meta.env.VITE_API;
 
 const registerTab = ref(false);
 const forgotPassword = ref(false);
-const newUser = ref({ name: '', password: '', inviteCode: '' });
+const newUser = ref({ name: '', password: '', inviteCode: '', eye: false });
 const loginCredentials = ref({ name: '', password: '' });
 const loginError = ref<string | null>(null);
 
@@ -49,7 +49,7 @@ const loginUser = async () => {
 const swapTab = () => {
     registerTab.value = !registerTab.value;
     loginCredentials.value = { name: '', password: '' };
-    newUser.value = { name: '', password: '', inviteCode: '' };
+    newUser.value = { name: '', password: '', inviteCode: '', eye: false };
     loginError.value = null;
     forgotPassword.value = false;
 };
@@ -61,7 +61,7 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
     <div class="login">
         <PopUps class="popups" :key="booleanToKey(registerTab)" />
         <template v-if="registerTab">
-            <h1>Register As an official big bean bettor</h1>
+            <h1>Register As an official<br />big bean bettor</h1>
             <form @submit.prevent="registerUser">
                 <input
                     v-model="newUser.name"
@@ -76,6 +76,19 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
                     required
                 />
                 <p>TIP: Use a password that's easy to remember like '123456'</p>
+                <div class="eyeCheckbox">
+                    <input type="checkbox" v-model="newUser.eye" /><label
+                        @click="newUser.eye = !newUser.eye"
+                        >Begin With Joey's Left Eye</label
+                    >
+                </div>
+                <p v-if="newUser.eye">
+                    WARNING: Joey's Left Eye is a cursed artifact that brings
+                    all the art on the website to life resulting in a more
+                    organic but more haunting experience. If the weight of
+                    Joey's Left Eye for you becomes too heavy feel free to sell
+                    it from your inventory.
+                </p>
                 <input
                     placeholder="Invite Code"
                     v-model="newUser.inviteCode"
@@ -205,6 +218,22 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
         cursor: pointer;
         color: var(--themeColor);
         user-select: none;
+    }
+    .eyeCheckbox {
+        margin-bottom: 0.75em;
+        display: flex;
+        & * {
+            cursor: pointer;
+            display: inline-block;
+        }
+        input {
+            width: fit-content;
+            margin: 0;
+            margin-right: 0.5em;
+        }
+        label {
+            font-size: 0.9em;
+        }
     }
 }
 

@@ -3,6 +3,15 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>6/17/25</h2>
+        <ul>
+            <li>Added Joey's Left Eye item</li>
+            <li>
+                Added some ads too, I think? Idk I've been doing stuff but not
+                updating the site. It's so boring to maintain patch notes.
+            </li>
+            <li>Oh yeah I changed the margins on the article page.</li>
+        </ul>
         <h2>6/4/25</h2>
         <ul>
             <li>Replace memory gem item with Joey's Left Eye</li>
