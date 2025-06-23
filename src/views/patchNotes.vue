@@ -3,6 +3,13 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>6/22/25</h2>
+        <ul>
+            <li>
+                Fixed bug where you could bet on more than the maximum bets per
+                wager
+            </li>
+        </ul>
         <h2>6/17/25</h2>
         <ul>
             <li>Added Joey's Left Eye item</li>
