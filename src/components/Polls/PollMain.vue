@@ -134,6 +134,7 @@ async function placeBet() {
         const response = await axios.post(`${api}/polls/bet`, body);
         userStore.user = response.data.user;
         updatePoll(response.data.poll);
+        votedOptions.value = [...votedOptions.value, ...selectedOptions.value];
     } catch (error) {
         console.error('Error placing bet:', error);
     }
