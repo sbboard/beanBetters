@@ -64,7 +64,8 @@ onMounted(() => apiStore.fetchPolls('open'));
     <div>
         <RouterLink
             v-if="
-                beans >= PRICE_OF_WAGER && userStore.checkItem('bookie license')
+                (beans >= PRICE_OF_WAGER || userStore.user?.role === 'admin') &&
+                userStore.checkItem('bookie license')
             "
             to="/bets/create"
             :title="'Create a new wager'"

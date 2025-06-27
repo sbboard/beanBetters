@@ -6,6 +6,12 @@ interface PollOption {
     bettors: string[];
 }
 
+interface WriteIns {
+    _id: string;
+    text: string;
+    bettor: string;
+}
+
 interface Poll {
     contentType: 'poll';
     creationDate: Date;
@@ -25,6 +31,8 @@ interface Poll {
     };
     _id: string;
     betPerWager?: number;
+    writeInsEnabled?: boolean;
+    writeIns?: WriteIns[];
 }
 
 interface ShopItem {
