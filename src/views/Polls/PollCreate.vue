@@ -22,12 +22,13 @@ const options = ref([
 ]);
 const loading = ref(false);
 const message = ref('');
-const maxOptions = 20;
+const maxOptions = computed(() => (writeInsEnabled.value ? 10 : 20));
 const userStore = useUserStore();
 const apiStore = useApiStore();
 const settleDateRef: Ref<HTMLInputElement | null> = ref(null);
 const pollType = ref('single');
 const betPerWager = ref(2);
+const writeInsEnabled = ref(false);
 
 const minimumSeed = computed(() => {
     return (
@@ -157,6 +158,8 @@ const isFormValid = computed(() => {
         isEndDateValid.value &&
         isSettleDateValid.value &&
         options.value.length >= 2 &&
+        (!writeInsEnabled.value ||
+            (pollType.value === 'multi' && options.value.length <= 10)) &&
         options.value.every(option => option.text.trim() !== '') && // No empty option
         (pollType.value === 'single' || betPerWager.value >= 2) &&
         (pollType.value === 'single' ||
@@ -165,7 +168,7 @@ const isFormValid = computed(() => {
 });
 
 const addOption = () => {
-    if (options.value.length >= maxOptions) return;
+    if (options.value.length >= maxOptions.value) return;
     options.value.push({ id: optionCount.value + 1, text: '' });
     optionCount.value++;
 };
@@ -193,10 +196,12 @@ const createPoll = async () => {
             pricePerShare: pricePerShare.value,
             seed: seed.value,
             betPerWager: undefined as number | undefined,
+            writeInsEnabled: undefined as boolean | undefined,
         };
 
         if (pollType.value === 'multi') {
             pollData.betPerWager = betPerWager.value;
+            pollData.writeInsEnabled = writeInsEnabled.value;
         }
 
         const response = await axios.post(`${api}/polls/create`, pollData);
@@ -346,6 +351,23 @@ const createPoll = async () => {
                     :min="2"
                     :max="Math.floor(options.length / 2)"
                 />
+            </template>
+
+            <template v-if="pollType === 'multi' && options.length <= 10">
+                <label for="writeIns">Write-In Bets</label>
+                <p>
+                    Allow bettors to write in their own bets.<br />Each write-in
+                    bet must be approved by the bookie.<br />
+                    Wagers must have less than 10 bets per wager to allow
+                    write-ins.<br />Write-ins cost twice the amount of a normal
+                    bet, but pay out 5x.
+                </p>
+                <div class="writeInBox">
+                    <input type="checkbox" v-model="writeInsEnabled" />
+                    <span @click="() => (writeInsEnabled = !writeInsEnabled)"
+                        >Allow Write-In Bets</span
+                    >
+                </div>
             </template>
 
             <label for="beanSeed">Bean Seed</label>
@@ -518,6 +540,19 @@ const createPoll = async () => {
     margin-top: 2em;
     p {
         text-align: center;
+    }
+}
+
+.writeInBox {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 0.5em;
+    cursor: pointer;
+    user-select: none;
+    input {
+        width: auto;
+        margin-right: 0.5em;
     }
 }
 </style>
