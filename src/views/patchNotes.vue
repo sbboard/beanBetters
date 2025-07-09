@@ -3,6 +3,10 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>7/9/25</h2>
+        <ul>
+            <li>Changed the registration page. You don't care you're already registered.</li>
+        </ul>
         <h2>6/22/25</h2>
         <ul>
             <li>
