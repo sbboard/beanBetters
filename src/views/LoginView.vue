@@ -113,9 +113,11 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
                     v-model="newUser.promoCode"
                     @input="newUser.promoCode = newUser.promoCode.toUpperCase()"
                 />
+                <p style="margin-top: 1em; margin-bottom: 0em">Invite Code:</p>
                 <input
-                    placeholder="Invite Code"
+                    placeholder="----"
                     class="invite"
+                    :class="{ full: newUser.inviteCode.length === 4 }"
                     v-model="newUser.inviteCode"
                     required
                     maxlength="4"
@@ -199,8 +201,44 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
     input {
         display: block;
         &.invite {
-            margin-top: 1rem;
-            font-size: 1.5em;
+            margin: 0 0 1rem 0;
+            outline: none;
+            background-color: transparent;
+            border: 0;
+            padding: 0;
+            padding-left: 7px;
+            --fontSize: 50px;
+            --spacingSize: 40px;
+            letter-spacing: 32px;
+
+            color: var(--themeColor);
+            font-size: var(--fontSize);
+            font-family: monospace;
+            background-image: linear-gradient(
+                to right,
+                var(--themeColor) calc(var(--spacingSize) * 0),
+                var(--themeColor) calc(var(--spacingSize) * 1),
+                transparent calc(var(--spacingSize) * 1),
+                transparent calc(var(--spacingSize) * 1.5),
+                var(--themeColor) calc(var(--spacingSize) * 1.5),
+                var(--themeColor) calc(var(--spacingSize) * 2.5),
+                transparent calc(var(--spacingSize) * 2.5),
+                transparent calc(var(--spacingSize) * 3),
+                var(--themeColor) calc(var(--spacingSize) * 3),
+                var(--themeColor) calc(var(--spacingSize) * 4),
+                transparent calc(var(--spacingSize) * 4),
+                transparent calc(var(--spacingSize) * 4.5),
+                var(--themeColor) calc(var(--spacingSize) * 4.5),
+                var(--themeColor) calc(var(--spacingSize) * 5.5),
+                transparent calc(var(--spacingSize) * 5.5)
+            );
+            background-position: bottom left;
+            background-size: calc(var(--fontSize) * 6) 1px;
+            background-repeat: no-repeat;
+            background-position-x: 0;
+            &.full{
+                caret-color: transparent;
+            }
         }
     }
     .forgot {
