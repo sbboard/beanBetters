@@ -8,7 +8,13 @@ const api = import.meta.env.VITE_API;
 
 const registerTab = ref(false);
 const forgotPassword = ref(false);
-const newUser = ref({ name: '', password: '', inviteCode: '', eye: false });
+const newUser = ref({
+    name: '',
+    password: '',
+    inviteCode: '',
+    eye: false,
+    promoCode: '',
+});
 const loginCredentials = ref({ name: '', password: '' });
 const loginError = ref<string | null>(null);
 
@@ -49,7 +55,13 @@ const loginUser = async () => {
 const swapTab = () => {
     registerTab.value = !registerTab.value;
     loginCredentials.value = { name: '', password: '' };
-    newUser.value = { name: '', password: '', inviteCode: '', eye: false };
+    newUser.value = {
+        name: '',
+        password: '',
+        inviteCode: '',
+        eye: false,
+        promoCode: '',
+    };
     loginError.value = null;
     forgotPassword.value = false;
 };
@@ -61,7 +73,7 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
     <div class="login">
         <PopUps class="popups" :key="booleanToKey(registerTab)" />
         <template v-if="registerTab">
-            <h1>Register As an official<br />big bean bettor</h1>
+            <h1>Become a big bean bettor</h1>
             <form @submit.prevent="registerUser">
                 <input
                     v-model="newUser.name"
@@ -69,6 +81,12 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
                     placeholder="Username"
                     required
                 />
+                <p>
+                    NOTE: Due to a controversial new law promoting
+                    family-friendly gambling, inappropriate language in
+                    usernames is prohibited. Staff may change how your username
+                    is displayed if it violates this rule.
+                </p>
                 <input
                     type="password"
                     v-model="newUser.password"
@@ -90,7 +108,14 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
                     it from your inventory.
                 </p>
                 <input
+                    name="promoCode"
+                    placeholder="Promo Code (optional)"
+                    v-model="newUser.promoCode"
+                    @input="newUser.promoCode = newUser.promoCode.toUpperCase()"
+                />
+                <input
                     placeholder="Invite Code"
+                    class="invite"
                     v-model="newUser.inviteCode"
                     required
                     maxlength="4"
@@ -98,13 +123,6 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
                         newUser.inviteCode = newUser.inviteCode.toUpperCase()
                     "
                 />
-
-                <p>
-                    NOTE: Due to a controversial new law promoting
-                    family-friendly gambling, inappropriate language in
-                    usernames is prohibited. Staff may change how your username
-                    is displayed if it violates this rule.
-                </p>
                 <button type="submit">REGISTER!! WIN BIG!</button>
             </form>
 
@@ -114,7 +132,7 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
         </template>
 
         <template v-else>
-            <h1>Login To Continue Your Betting Journey</h1>
+            <h1>RESUME Your Betting Journey</h1>
             <form @submit.prevent="loginUser">
                 <input
                     v-model="loginCredentials.name"
@@ -164,8 +182,7 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
     max-width: 100%;
     flex: 1;
     .popups {
-        margin-top: 1em;
-        margin-bottom: 3em;
+        margin: 1em 0;
     }
     p {
         font-size: 0.8em;
@@ -181,6 +198,10 @@ const booleanToKey = (bool: boolean) => (bool ? 0 : 1);
     }
     input {
         display: block;
+        &.invite {
+            margin-top: 1rem;
+            font-size: 1.5em;
+        }
     }
     .forgot {
         font-size: 0.75em;

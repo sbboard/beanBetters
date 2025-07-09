@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-const NUMBER_OF_IMAGES = 15;
+const NUMBER_OF_IMAGES = 14;
 const getNumber = () => Math.floor(Math.random() * NUMBER_OF_IMAGES) + 1;
 const random = ref(getNumber());
 
