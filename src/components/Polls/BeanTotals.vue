@@ -45,21 +45,20 @@ interface WinnerScores {
 }
 
 const winnerScores: ComputedRef<WinnerScores[]> = computed(() => {
-    const winners: string[] = [];
+    const bettors: string[] = [];
     const winnerValues: WinnerScores[] = [];
-    winningOptions.value.forEach(opt => {
+    pollRef.options.forEach(opt => {
         opt.bettors.forEach(bettor => {
             if (bettor === 'dupe') return;
-            if (!winners.includes(bettor)) winners.push(bettor);
+            if (!bettors.includes(bettor)) bettors.push(bettor);
         });
     });
-    winners.forEach(winner => {
-        let displayName = winner;
-        if (winner === currentUserId) displayName = userStore.user?.name || '';
-        if (winner === null) return;
+    bettors.forEach(bettor => {
+        let displayName = bettor;
+        if (bettor === currentUserId) displayName = userStore.user?.name || '';
         winnerValues.push({
             name: displayName,
-            beans: calculatePayout(winner),
+            beans: calculatePayout(bettor, true),
         });
     });
     //sort by bean amount
@@ -71,13 +70,14 @@ const winnerScores: ComputedRef<WinnerScores[]> = computed(() => {
     });
 });
 
-const calculatePayout = (userId: string) => {
+const calculatePayout = (userId: string, net = false) => {
     const { pot, creatorName } = pollRef;
+
+    // Add bookie tax
     const bookieTax = pot * 0.05;
     let displayName = userId;
     if (userId === currentUserId) displayName = userStore.user?.name || '';
     let payout = creatorName === displayName ? bookieTax : 0;
-    if (!selectedOptions(userId).length) return addCommas(Math.floor(payout));
 
     const optWithBets = winningOptions.value.filter(o => o.bettors.length > 0);
     const beansPerBet = (pot - bookieTax) / optWithBets.length;
@@ -87,6 +87,11 @@ const calculatePayout = (userId: string) => {
         const yourShares = o.bettors.filter(i => i === userId).length / ts;
         payout += beansPerBet * yourShares;
     });
+
+    const sharesOwned = usersShares(userId);
+    if (net) {
+        payout -= sharesOwned * pollRef.pricePerShare;
+    }
 
     return addCommas(Math.floor(payout));
 };
@@ -119,7 +124,7 @@ const calculatePayout = (userId: string) => {
     </div>
     <div v-if="pollRef.winners?.length" class="winners">
         <div>
-            <strong>WINNERS: </strong>
+            <strong>NET WINNINGS: </strong>
             <span v-for="(winner, i) in winnerScores" :key="winner.name">
                 <strong>{{ winner.name }}</strong> ({{ winner.beans }})
                 <template v-if="i < winnerScores.length - 1"> // </template>

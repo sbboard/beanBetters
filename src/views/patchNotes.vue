@@ -3,9 +3,16 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>7/26/25</h2>
+        <ul>
+            <li>Changed winners to net winnings on poll results</li>
+        </ul>
         <h2>7/9/25</h2>
         <ul>
-            <li>Changed the registration page. You don't care you're already registered.</li>
+            <li>
+                Changed the registration page. You don't care you're already
+                registered.
+            </li>
         </ul>
         <h2>6/22/25</h2>
         <ul>
