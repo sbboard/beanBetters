@@ -19,6 +19,19 @@ const openPolls = computed(() => apiStore.polls.open);
 const unsettledPolls = computed(() => apiStore.polls.unsettled);
 const completedPolls = computed(() => apiStore.polls.completed);
 
+const lastFetched = computed(() => {
+    switch (currentFilter.value) {
+        case 'open':
+            return openPolls.value.lastFetch;
+        case 'unsettled':
+            return unsettledPolls.value.lastFetch;
+        case 'completed':
+            return completedPolls.value.lastFetch;
+        default:
+            return 0;
+    }
+});
+
 const filteredPolls = computed(() => {
     let filter: Poll[] = [];
     switch (currentFilter.value) {
@@ -97,6 +110,9 @@ onMounted(() => apiStore.fetchPolls('open'));
                 :pollId="poll._id"
                 :currentFilter
         /></template>
+        <div v-else-if="lastFetched">
+            NO {{ currentFilter.toUpperCase() }} WAGERS
+        </div>
         <div v-else>Loading {{ currentFilter }} wagers</div>
     </div>
 </template>

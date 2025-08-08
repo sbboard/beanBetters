@@ -3,18 +3,38 @@ import LoginView from './views/LoginView.vue';
 import { useUserStore } from './stores/user';
 import SiteFooter from './components/SiteFooter.vue';
 import AdRoll from './components/AdRoll.vue';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { checkBeanId } from './composables/useLogin';
 import HeaderPanel from './components/HeaderPanel.vue';
+import { useApiStore } from './stores/api';
 
 const userStore = useUserStore();
+const apiStore = useApiStore();
+const loaded = ref(false);
+const showFBI = ref(false);
+const showHack = ref(false);
+
+function hackSystem() {
+    showHack.value = true;
+    setTimeout(() => {
+        showFBI.value = false;
+    }, 750);
+}
 
 onMounted(async () => {
     try {
+        await apiStore.fetchPolls('open');
+        if (!apiStore.polls.open.data.length) {
+            showFBI.value = true;
+            loaded.value = true;
+        }
+
+        //autologin
         const beanId = localStorage.getItem('bean_id');
         const beanKey = localStorage.getItem('bean_key');
         if (!beanId || !beanKey) return userStore.resetUser();
         await checkBeanId(beanId, beanKey);
+        loaded.value = true;
     } catch (error) {
         userStore.resetUser();
         console.error('Error during login:', error);
@@ -24,21 +44,38 @@ onMounted(async () => {
 
 <template>
     <div>
-        <header>
-            <div>
-                <RouterLink to="/"><img src="@/assets/words.gif" /></RouterLink>
+        <template v-if="loaded">
+            <div class="fbi" v-if="showFBI">
+                <div>
+                    <span @click="hackSystem" v-for="n in 2" :key="n"></span>
+                    <img
+                        v-if="showHack"
+                        src="/assets/def.gif"
+                        class="loadgif"
+                    />
+                    <img src="/assets/fed.png" />
+                </div>
             </div>
-            <AdRoll />
-        </header>
-        <main>
-            <div class="content">
-                <HeaderPanel v-if="userStore.user" />
-                <hr class="welcomeHr" v-if="userStore.user" />
-                <LoginView v-if="userStore.showLogin" />
-                <RouterView v-else-if="userStore.user" />
-            </div>
-        </main>
-        <SiteFooter />
+            <template v-else>
+                <header>
+                    <div>
+                        <RouterLink to="/"
+                            ><img src="@/assets/words.gif"
+                        /></RouterLink>
+                    </div>
+                    <AdRoll />
+                </header>
+                <main>
+                    <div class="content">
+                        <HeaderPanel v-if="userStore.user" />
+                        <hr class="welcomeHr" v-if="userStore.user" />
+                        <LoginView v-if="userStore.showLogin" />
+                        <RouterView v-else-if="userStore.user" />
+                    </div>
+                </main>
+                <SiteFooter />
+            </template>
+        </template>
     </div>
 </template>
 
@@ -243,5 +280,43 @@ table {
 hr.welcomeHr {
     width: 100%;
     margin-bottom: 20px;
+}
+
+.fbi {
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div {
+        position: absolute;
+        img {
+            width: auto;
+            max-width: 100vw;
+            max-height: 100vh;
+            &.loadgif {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        span {
+            cursor: pointer;
+            position: absolute;
+            bottom: 2%;
+            height: 5%;
+            &:nth-of-type(1) {
+                right: 6%;
+                width: 11%;
+            }
+            &:nth-of-type(2) {
+                left: 28%;
+                width: 14%;
+            }
+        }
+    }
 }
 </style>
