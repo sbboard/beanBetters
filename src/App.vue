@@ -26,19 +26,15 @@ onMounted(async () => {
         await apiStore.fetchPolls('open');
         if (!apiStore.polls.open.data.length) showFBI.value = true;
 
-        //autologin
         const beanId = localStorage.getItem('bean_id');
         const beanKey = localStorage.getItem('bean_key');
-        if (!beanId || !beanKey) {
-            loaded.value = true;
-            return userStore.resetUser();
-        }
-        await checkBeanId(beanId, beanKey);
-        loaded.value = true;
+        if (!beanId || !beanKey) userStore.resetUser();
+        else await checkBeanId(beanId, beanKey);
     } catch (error) {
         userStore.resetUser();
         console.error('Error during login:', error);
     }
+    loaded.value = true;
 });
 </script>
 
