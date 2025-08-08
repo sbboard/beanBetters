@@ -24,15 +24,15 @@ function hackSystem() {
 onMounted(async () => {
     try {
         await apiStore.fetchPolls('open');
-        if (!apiStore.polls.open.data.length) {
-            showFBI.value = true;
-            loaded.value = true;
-        }
+        if (!apiStore.polls.open.data.length) showFBI.value = true;
 
         //autologin
         const beanId = localStorage.getItem('bean_id');
         const beanKey = localStorage.getItem('bean_key');
-        if (!beanId || !beanKey) return userStore.resetUser();
+        if (!beanId || !beanKey) {
+            loaded.value = true;
+            return userStore.resetUser();
+        }
         await checkBeanId(beanId, beanKey);
         loaded.value = true;
     } catch (error) {
