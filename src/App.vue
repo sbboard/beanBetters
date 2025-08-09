@@ -23,13 +23,14 @@ function hackSystem() {
 
 onMounted(async () => {
     try {
-        await apiStore.fetchPolls('open');
-        if (!apiStore.polls.open.data.length) showFBI.value = true;
-
         const beanId = localStorage.getItem('bean_id');
         const beanKey = localStorage.getItem('bean_key');
         if (!beanId || !beanKey) userStore.resetUser();
         else await checkBeanId(beanId, beanKey);
+
+        await apiStore.fetchPolls('open');
+        if (!apiStore.polls.open.data.length) showFBI.value = true;
+        if (!userStore.user) apiStore.resetAPIs();
     } catch (error) {
         userStore.resetUser();
         console.error('Error during login:', error);
