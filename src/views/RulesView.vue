@@ -291,19 +291,19 @@ onMounted(scrollToHash);
                     <tbody>
                         <tr>
                             <td>{{ addCommas(100000000) }} Beans</td>
-                            <td>15%</td>
+                            <td><s>15%</s> 0%</td>
                         </tr>
                         <tr>
                             <td>{{ addCommas(150000000) }} Beans</td>
-                            <td>25%</td>
+                            <td><s>25%</s> 0%</td>
                         </tr>
                         <tr>
                             <td>{{ addCommas(200000000) }} Beans</td>
-                            <td>30%</td>
+                            <td><s>30%</s> 0%</td>
                         </tr>
                         <tr>
                             <td>{{ addCommas(500000000) }} Beans</td>
-                            <td>50%</td>
+                            <td><s>50%</s> 0%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -312,6 +312,11 @@ onMounted(scrollToHash);
                     redistributed to bettors with less than
                     {{ addCommas(100000000) }} beans who participated in wagers
                     created in the last 7 days.
+                </p>
+                <p style="margin-top: 1em">
+                    Note 8/15/25: Due to the current health of the bean economy
+                    tax collection has ceased. In the case of a future
+                    hyper-inflation crisis, tax collection will resume.
                 </p>
             </li>
         </ol>
@@ -410,6 +415,9 @@ onMounted(scrollToHash);
     }
     table {
         margin-top: 1rem;
+    }
+    s {
+        text-decoration: line-through;
     }
 }
 </style>

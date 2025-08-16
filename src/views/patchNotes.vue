@@ -5,6 +5,10 @@
         <h1>PATCH NOTES</h1>
         <h2>7/26/25</h2>
         <ul>
+            <li>Ended taxation</li>
+            <li>I did some other stuff but I forgot</li>
+        </ul>
+        <ul>
             <li>Changed winners to net winnings on poll results</li>
         </ul>
         <h2>7/9/25</h2>
