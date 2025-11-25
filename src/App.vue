@@ -139,7 +139,7 @@ main {
         box-sizing: border-box;
         flex-direction: column;
         padding: 20px;
-        backdrop-filter: brightness(0.5) blur(8px);
+        background-color: #00000095;
         height: auto;
         min-height: inherit;
     }

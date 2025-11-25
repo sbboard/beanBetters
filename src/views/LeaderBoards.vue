@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useApiStore } from '@/stores/api';
-import TheChart from '@/components/Leaderboards/TheChart.vue';
 import MasterList from '@/components/Leaderboards/MasterList.vue';
 import { onMounted, ref, type Ref } from 'vue';
 import axios from 'axios';
@@ -64,10 +63,10 @@ onMounted(async () => {
                 >PHILANTHROPY</span
             >
         </div>
-        <TheChart
+        <!-- <TheChart
             v-if="apiStore.winners.chart.length && sort !== 'donate'"
             :sort
-        ></TheChart>
+        ></TheChart> -->
         <MasterList :sort :poll></MasterList>
     </div>
 </template>

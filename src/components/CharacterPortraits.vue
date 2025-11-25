@@ -96,7 +96,6 @@ onUnmounted(() => clearTimeout(timeout));
             width: auto;
             height: 100%;
             position: absolute;
-            z-index: -1;
         }
         &.bean {
             position: absolute;

@@ -3,6 +3,12 @@
 <template>
     <div class="notes">
         <h1>PATCH NOTES</h1>
+        <h2>11/25/25</h2>
+        <ul>
+            <li>Remove leaderboard charts</li>
+            <li>Fix background issues</li>
+            <li>Remove donation portion</li>
+        </ul>
         <h2>7/26/25</h2>
         <ul>
             <li>Ended taxation</li>

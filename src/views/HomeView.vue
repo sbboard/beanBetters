@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import BannerAd from '@/components/BannerAd.vue';
 import CharacterPortraits from '@/components/CharacterPortraits.vue';
-import DonateToCause from '@/components/Donate/DonateMain.vue';
 import SettlingSoon from '@/components/Home/SettlingSoon.vue';
 import ThursdayBonus from '@/components/Home/ThursdayBonus.vue';
 import { useApiStore } from '@/stores/api';
@@ -47,8 +45,8 @@ const apiStore = useApiStore();
             </div>
         </div>
         <ThursdayBonus />
-        <BannerAd disable-hr="true" />
-        <DonateToCause />
+        <!-- <BannerAd disable-hr="true" />
+        <DonateToCause /> -->
     </div>
 </template>
 
